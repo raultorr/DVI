@@ -8,6 +8,6 @@ export default class Main extends Phaser.Scene {
   create() {
   }
 
-  update() {    
+  update(time, delta) {    
   }
 }

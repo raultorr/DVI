@@ -1,7 +1,8 @@
-# Plantilla para juegos en Phaser
+#<GameName>
 
-Plantilla básica para juegos en Phaser. Hace falta un servidor web para que se ejecute. Por ejemplo:
+###Descripción:
 
-```bash
-npx http-server
-```
+###¿Cómo puedo jugar?
+	Puedes acceder a <GameName> a través de la siguiente dirección:
+	https://raultorr.github.io/DVI/
+###Enlace a Pivotal/Trello:

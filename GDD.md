@@ -1,4 +1,4 @@
-# GDD
+# GDD 📃
 ### Título: 
 Tyranny (nombre temporal)
 ### Estudio/Diseñadores:  

@@ -14,26 +14,26 @@ Tyranny se desarrolla en un futuro distópico, un duro régimen que controla una
 Plataformas/Rompecabezas/Sigilo 
 ### Mecánica:
   * Mecánicas de movimiento: 
-      * Movimientos laterales
-      * Salto 
-      * Correr
+      * Movimientos laterales.
+      * Salto.
+      * Correr.
   * Mecánicas de sigilo:
-      * Andar (sin hacer ruido)
-      * Agacharse
-      * Ocultarse en la sombra para no ser visto
-      * Esquivar las cámaras de seguridad
+      * Andar (sin hacer ruido).
+      * Agacharse.
+      * Ocultarse en la sombra para no ser visto.
+      * Esquivar las cámaras de seguridad.
   * Mecánicas de gadgets especiales. El jugador podrá manejar diversos gadgets con los que podrá equipar al personaje:
-      * Pistola gancho. Permite colgarse en una pared
+      * Pistola gancho. Permite colgarse en una pared.
       * Botas de salto. Aumentan la capacidad de salto para llegar a plataformas elevadas.
-      * Herramienta de distracción: Incluye una mecánica para distraer a un enemigo patrulla, alertándolo y asi haciendole andar hacia el señuelo o realizar otro tipo de acción
+      * Herramienta de distracción: Incluye una mecánica para distraer a un enemigo patrulla, alertándolo y asi haciéndole andar hacia el señuelo o realizar otro tipo de acción.
   * Mecánicas de puzzle:
-      * Interruptores que abren puertas
-      * Temporizadores
+      * Interruptores que abren puertas.
+      * Temporizadores.
   * Mecánicas de esquiva:
-      * Habrá que evitar rayos láser y otro tipo de obstáculos
+      * Habrá que evitar rayos láser y otro tipo de obstáculos.
    * Tipos de enemigos:
-      * Patrol (tipo patrulla). Disparan al descubrir al jugador y matan instantáneamente
-      * Ataque. No disparan pero corren,
+      * Patrol (tipo patrulla). Disparan al descubrir al jugador y matan instantáneamente.
+      * Ataque. No disparan pero corren a por el jugador, hay que huir o esquivarles.
 ### Licencia:
 Tipo MIT
 ### Tecnología: 

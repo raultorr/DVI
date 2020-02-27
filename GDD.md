@@ -7,7 +7,7 @@ Tyranny (nombre temporal)
 ## Plataforma: 
 PC (navegadores web)
 ### Versión GDD: 
-0.0.1
+0.0.2
 ### Sinopsis de Jugabilidad y Contenido: 
 Tyranny se desarrolla en un futuro distópico, un duro régimen que controla una sociedad reprimida que para castigar a los presos utiliza un complejo mecanismo de castigo basado en un macabro reality show en el que el sujeto se enfrenta a una serie de pruebas mortales ante la atenta mirada de miles de espectadores que esperan expectantes el fatal desenlace.
 ### Categoría: 
@@ -37,6 +37,7 @@ Plataformas/Rompecabezas/Sigilo
 ### Licencia:
 Tipo MIT
 ### Tecnología: 
-Hacer una lista que hardware y software se requiere para producir el juego. Desde lenguaje de programación hasta editor de sonidos.
+Requisitos que se necesitan para reproducir el juego:
+Un ordenador con un navegador web instalado que permita javascript. Es un juego en javascript utilizando la librería Phaser.
 ### Público: 
 PEGI:16

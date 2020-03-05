@@ -1,87 +1,81 @@
 export default class Game extends Phaser.Scene {
-  function preload ()
-{
-	this.load.setBaseURL('http://labs.phaser.io');
 
-	this.load.image('sky', '/assets/skies/sky1.png');
-    this.load.image('ground', 'src/games/firstgame/assets/platform.png');
-    this.load.image('star', 'src/games/firstgame/assets/star.png');
-    this.load.image('bomb', 'src/games/firstgame/assets/bomb.png');
-    this.load.spritesheet('dude', 
-        'src/games/firstgame/assets/dude.png',
-        { frameWidth: 32, frameHeight: 48 });
-}
-var platforms;
-function create ()
-{
-	this.add.image(400, 300, 'sky');
+	constructor(configGame) {
+	   	super({ key: 'main' });
 
-	platforms = this.physics.add.staticGroup();
+	}
+	preload() {  
+		this.load.image('backGround', '../assets/backGround.png');
+		this.load.spritesheet('run', '../assets/sprites/runAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.image('ground', '../assets/platform.png');
+	}
+	create() {
 
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+	this.platforms = this.physics.add.staticGroup();
 
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
+    this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+
+    this.platforms.create(600, 400, 'ground');
+    this.platforms.create(50, 400, 'ground');
+    this.platforms.create(800, 220, 'ground');
 
 
-    player = this.physics.add.sprite(100, 450, 'dude');
 
-    this.physics.add.collider(player, platforms);
+    this.player = this.physics.add.sprite(100, 450, 'run');
 
-	player.setBounce(0.2);
-	player.setCollideWorldBounds(true);
+    this.physics.add.collider(this.player, this.platforms);
 
-	player.body.setGravityY(100);
+	this.player.setBounce(0.2);
+	this.player.setCollideWorldBounds(true);
+	
+	this.player.body.setGravityY(50);
 	this.anims.create({
 	    key: 'left',
-	    frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+	    frames: this.anims.generateFrameNumbers('run', { start: 6, end: 10 }),
 	    frameRate: 10,
 	    repeat: -1
 	});
 
 	this.anims.create({
 	    key: 'turn',
-	    frames: [ { key: 'dude', frame: 4 } ],
-	    frameRate: 20
+	    frames: [ { key: 'run', frame: 5 } ],
+	    frameRate: 1
 	});
 
 	this.anims.create({
 	    key: 'right',
-	    frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+	    frames: this.anims.generateFrameNumbers('run', { start: 0, end: 4 }),
 	    frameRate: 10,
 	    repeat: -1
 	});
 
 
-	cursors = this.input.keyboard.createCursorKeys();
-	 }
+	this.cursors = this.input.keyboard.createCursorKeys();
+}
 
-function update ()
-{
-
-	if (cursors.left.isDown)
+update(time, delta) {   
+	if (this.cursors.left.isDown)
 	{
-	    player.setVelocityX(-60);
+	    this.player.setVelocityX(-160);
 
-	    player.anims.play('left', true);
+	    this.player.anims.play('left', true);
 	}
-	else if (cursors.right.isDown)
+	else if (this.cursors.right.isDown)
 	{
-	    player.setVelocityX(160);
+	    this.player.setVelocityX(160);
 
-	    player.anims.play('right', true);
+	    this.player.anims.play('right', true);
 	}
 	else
 	{
-	    player.setVelocityX(0);
+	    this.player.setVelocityX(0);
 
-	    player.anims.play('turn');
+	   this.player.anims.play('turn');
 	}
 
-	if (cursors.up.isDown && player.body.touching.down)
+	if (this.cursors.up.isDown && this.player.body.touching.down)
 	{
-	    player.setVelocityY(-330);
+	    this.player.setVelocityY(-330);
 	}
 }
 }

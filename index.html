@@ -3,37 +3,39 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="src/favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="assets/favicon.png" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=2.0">
     <link rel="stylesheet" href="src/game.css">
     <script src="src/phaser.min.js"></script>
 
-    <title>¡Juego con Phaser!</title>
+    <title>Tyranny</title>
 </head>
 
 <body>
-    <h1>Juego 1</h1>
+    <h1>Tyranny</h1>
     <script type="module">
         import Game from './src/game.js';
 
+        var platforms;
+        var player;
+        var controls;
+
         var config = {
             type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 300 },
-            debug: false
-        }
-    },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    }
+            width: 1400,
+            height: 800,
+            pixelArt: true,
+            input: {
+                gamepad: true
+            },
+            scale: {
+                mode: Phaser.Scale.FIT,
+                autoCenter: Phaser.Scale.CENTER_BOTH
+            },
+            scene: [ Game ],
+            physics: { default: 'arcade', arcade: { gravity: { y: 400 }, debug: false } }
         };
-        var game = new Phaser.Game(config);
+        new Phaser.Game(config);
     </script>
 </body>
 

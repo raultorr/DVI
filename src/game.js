@@ -5,13 +5,54 @@ export default class Game extends Phaser.Scene {
 
 	}
 	preload() {  
-		this.load.image('backGround', '../assets/backGround.png');
-		this.load.spritesheet('run', '../assets/sprites/runAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
-		this.load.image('ground', '../assets/platform.png');
+		//this.load.image('backGround', 'assets/backGround.png');
+		this.load.spritesheet('run', 'assets/sprites/runAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
+		//this.load.image('ground', 'assets/platform.png');
+		/*this.load.image("tiles", "assets/Assets.png");
+  		this.load.tilemapTiledJSON("map", "Maps/PruebaJson.json");*/
+  		this.load.image("tiles", "Maps/Assets.png");
+  		this.load.tilemapTiledJSON("map", "Maps/PJson.json");
+  		/*this.load.image("tiles", "https://www.mikewesthad.com/phaser-3-tilemap-blog-posts/post-1/assets/tilesets/tuxmon-sample-32px-extruded.png");
+  this.load.tilemapTiledJSON("map", "https://www.mikewesthad.com/phaser-3-tilemap-blog-posts/post-1/assets/tilemaps/tuxemon-town.json");*/
 	}
 	create() {
+		/*
+		const backGround = map.createStaticLayer("Capa de patrones 2", tileset , 0 , 0);
+		 */
+		const map = this.make.tilemap({ key: "map" });
 
-	this.platforms = this.physics.add.staticGroup();
+		const tileset = map.addTilesetImage("Assets2", "tiles");
+
+
+		const backGround = map.createStaticLayer("Capa de patrones 2", tileset , 0 , 0);
+		const worldLayer = map.createStaticLayer("Capa de patrones 1", tileset , 0 , 0);
+		
+
+
+		worldLayer.setCollisionByProperty({ collides: true });
+
+
+
+
+
+
+		/*const debugGraphics = this.add.graphics().setAlpha(0.75);
+		worldLayer.renderDebug(debugGraphics, {
+		  tileColor: null, // Color of non-colliding tiles
+		  collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+		  faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+		});*/
+		 //const map = this.make.tilemap({ key: "map" });
+
+  // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
+  // Phaser's cache (i.e. the name you used in preload)
+  //const tileset = map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
+
+  // Parameters: layer name (or index) from Tiled, tileset, x, y
+ /* const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
+  const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
+  const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);*/
+	/*this.platforms = this.physics.add.staticGroup();
 
     this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
 
@@ -20,10 +61,12 @@ export default class Game extends Phaser.Scene {
     this.platforms.create(800, 220, 'ground');
 
 
+*/
+    this.player = this.physics.add.sprite(200, 450, 'run');
 
-    this.player = this.physics.add.sprite(100, 450, 'run');
+    //this.physics.add.collider(this.player, this.worldLayer);
+    this.physics.add.collider(this.player, worldLayer);
 
-    this.physics.add.collider(this.player, this.platforms);
 
 	this.player.setBounce(0.2);
 	this.player.setCollideWorldBounds(true);

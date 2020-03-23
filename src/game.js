@@ -6,12 +6,12 @@ export default class Game extends Phaser.Scene {
 	}
 	preload() {  
 		//this.load.image('backGround', 'assets/backGround.png');
-		this.load.spritesheet('run', 'assets/sprites/runAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('run', '../assets/sprites/runAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
 		//this.load.image('ground', 'assets/platform.png');
 		/*this.load.image("tiles", "assets/Assets.png");
   		this.load.tilemapTiledJSON("map", "Maps/PruebaJson.json");*/
-  		this.load.image("tiles", "Maps/Assets.png");
-  		this.load.tilemapTiledJSON("map", "Maps/PJson.json");
+  		this.load.image("tiles", "../Maps/Assets.png");
+  		this.load.tilemapTiledJSON("map", "../Maps/PJson.json");
   		/*this.load.image("tiles", "https://www.mikewesthad.com/phaser-3-tilemap-blog-posts/post-1/assets/tilesets/tuxmon-sample-32px-extruded.png");
   this.load.tilemapTiledJSON("map", "https://www.mikewesthad.com/phaser-3-tilemap-blog-posts/post-1/assets/tilemaps/tuxemon-town.json");*/
 	}

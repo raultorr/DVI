@@ -5,7 +5,7 @@ export default class Game extends Phaser.Scene {
 
 	}
 	preload() {  
-		this.load.spritesheet('run', '../DVI/assets/sprites/runAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('run', '../DVI/assets/sprites/RunAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
   		this.load.image("tiles", "../DVI/Maps/Assets.png");
   		this.load.tilemapTiledJSON("map", "../DVI/Maps/PJson.json");
 	}

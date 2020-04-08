@@ -15,6 +15,7 @@
     <h1>Tyranny</h1>
     <script type="module">
         import Game from './src/game.js';
+        import Menu from './src/menu.js';
 
         var platforms;
         var player;
@@ -32,10 +33,14 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            scene: [ Game ],
+            scene: [ Menu ,Game ],
             physics: { default: 'arcade', arcade: { gravity: { y: 400 }, debug: false } }
         };
         new Phaser.Game(config);
+       // config.scene.start(Menu);
+       /* let menu  = new Menu(config);
+
+        menu;*/
     </script>
 </body>
 

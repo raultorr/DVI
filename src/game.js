@@ -7,6 +7,7 @@ export default class Game extends Phaser.Scene {
 	preload() {  
 		this.load.spritesheet('run', 'assets/sprites/RunAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
 		this.load.spritesheet('jump', 'assets/sprites/RunAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('crouch', 'assets/sprites/RunAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });
   		this.load.image("tiles", "Maps/Assets.png");
   		this.load.tilemapTiledJSON("map", "Maps/PJson.json");
 
@@ -57,6 +58,7 @@ export default class Game extends Phaser.Scene {
 		    frameRate: 10,
 		    repeat: -1
 		});
+		
 		this.anims.create({
 		key: 'rightJump',
 		frames: this.anims.generateFrameNumbers('jump', {start: 0, end: 4}),
@@ -66,6 +68,20 @@ export default class Game extends Phaser.Scene {
 		this.anims.create({
 			key: 'leftJump',
 			frames: this.anims.generateFrameNumbers('jump', {start: 6, end: 10}),
+			frameRate: 5,
+			repeat: -1
+		});
+
+		this.anims.create({
+			key: 'leftCrouch',
+			frames: this.anims.generateFrameNumbers('crouch', {start: 5, end: 9}),
+			frameRate: 5,
+			repeat: -1
+		});
+
+		this.anims.create({
+			key: 'rightCrouch',
+			frames: this.anims.generateFrameNumbers('crouch', {start: 0, end: 4}),
 			frameRate: 5,
 			repeat: -1
 		});
@@ -90,6 +106,20 @@ export default class Game extends Phaser.Scene {
 			this.player.setVelocityX(-160);
 
 		    this.player.anims.play('leftJump', true);
+		}
+
+		if(this.cursors.down.isDown && this.cursors.right.isDown)
+		{
+			if(this.player.body.onFloor())
+				this.player.setVelocityX(80);
+
+		    this.player.anims.play('rightCrouch', true);
+		}else if(this.cursors.down.isDown && this.cursors.left.isDown)
+		{
+			if(this.player.body.onFloor())
+				this.player.setVelocityX(-80);
+
+		    this.player.anims.play('leftCrouch', true);
 		}
 
 

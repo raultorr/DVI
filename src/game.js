@@ -25,8 +25,7 @@ export default class Game extends Phaser.Scene {
 
 		const backGround = map.createStaticLayer("Capa de patrones 2", tileset , 0 , 0);
 		const worldLayer = map.createStaticLayer("Capa de patrones 1", tileset , 0 , 0);
-		
-
+	
 
 		worldLayer.setCollisionByProperty({ collides: true });
 
@@ -86,11 +85,13 @@ export default class Game extends Phaser.Scene {
 			repeat: -1
 		});
 
+
 		this.cursors = this.input.keyboard.createCursorKeys();
 	}
 
 	update(time, delta) {
-
+		this.player.setSize(16, 32);
+		this.player.setOffset(0, 0);
 		if(this.cursors.up.isDown && this.cursors.right.isDown)
 		{
 			if(this.player.body.onFloor())
@@ -109,13 +110,19 @@ export default class Game extends Phaser.Scene {
 		}
 
 		if(this.cursors.down.isDown && this.cursors.right.isDown)
+		
 		{
+			this.player.setSize(16, 25);
+			this.player.setOffset(0, 0);
 			if(this.player.body.onFloor())
 				this.player.setVelocityX(80);
 
 		    this.player.anims.play('rightCrouch', true);
 		}else if(this.cursors.down.isDown && this.cursors.left.isDown)
+		
 		{
+			this.player.setSize(16, 25);
+			this.player.setOffset(0, 0);
 			if(this.player.body.onFloor())
 				this.player.setVelocityX(-80);
 

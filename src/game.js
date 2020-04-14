@@ -112,8 +112,8 @@ export default class Game extends Phaser.Scene {
 		if(this.cursors.down.isDown && this.cursors.right.isDown)
 		
 		{
-			this.player.setSize(16, 25);
-			this.player.setOffset(0, 0);
+			this.player.setSize(16, 20);
+			this.player.setOffset(0,5 );
 			if(this.player.body.onFloor())
 				this.player.setVelocityX(80);
 
@@ -121,8 +121,8 @@ export default class Game extends Phaser.Scene {
 		}else if(this.cursors.down.isDown && this.cursors.left.isDown)
 		
 		{
-			this.player.setSize(16, 25);
-			this.player.setOffset(0, 0);
+			this.player.setSize(16, 20);
+			this.player.setOffset(0, 5);
 			if(this.player.body.onFloor())
 				this.player.setVelocityX(-80);
 

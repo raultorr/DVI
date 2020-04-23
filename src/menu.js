@@ -5,13 +5,13 @@ export default class Game extends Phaser.Scene {
 
   }
   preload() {  
-      this.load.image("backGround", "assets/backGround.png");
-      this.load.image("tv", "assets/menuTV.png");
-      this.load.image("tvButton", "assets/prueba.png");
-      this.load.image("play", "assets/play_button.png");
-      this.load.image("options", "assets/options_button.png");
-      this.load.image("cursor", "assets/cursor.png");
-      this.load.image("bg", "assets/static.png");
+      //this.load.image("backGround", "assets/backGround.png");
+      this.load.image("tv", "assets/Menu/menuTV.png");
+      this.load.image("tvButton", "assets/Menu/buttonTV.png");
+      this.load.image("play", "assets/Menu/play_button.png");
+      this.load.image("options", "assets/Menu/options_button.png");
+      this.load.image("cursor", "assets/Menu/cursor.png");
+      this.load.image("bg", "assets/Menu/static.png");
   }
   create() {
   this.add.image(this.scale.width / 2, this.scale.height / 2 ,'bg').setScale(3);

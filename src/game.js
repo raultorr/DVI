@@ -32,7 +32,8 @@ export default class Game extends Phaser.Scene {
 		const tileset = map.addTilesetImage("Assets2", "tiles");
 
 
-		const backGround = map.createStaticLayer("Capa de patrones 2", tileset , 0 , 0).setPipeline('Light2D');
+		const backGround = map.createStaticLayer("Capa de patrones 2", tileset , 0 , 0);
+		const backGround2 = map.createStaticLayer("Fondo 2", tileset , 0 , 0);
 		const worldLayer = map.createStaticLayer("Capa de patrones 1", tileset , 0 , 0);
 		
 

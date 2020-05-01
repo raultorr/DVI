@@ -7,13 +7,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         this.render = this.scene.add.graphics();
 
-        this.body.colliderWorldBounds = true;
+        this.body.colliderWorldBounds = false;
 
 
         this.loadsprites();
         this.createPlayerAnimations();
 
-        
 
         this.health = 3;
         this.isDeath = false;
@@ -26,7 +25,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-
+		
+		this.body.setSize(16, 32);
+		this.body.setOffset(0, 0);
 
 		if(this.scene.cursors.up.isDown && this.scene.cursors.right.isDown)
 		{
@@ -52,7 +53,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.body.setVelocityX(80);
 
 		    this.anims.play('rightCrouch', true);
-		    this.body.setOffset(0, 10);
 		}
 		else if(this.scene.cursors.down.isDown && this.scene.cursors.left.isDown)
 		{
@@ -62,7 +62,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.body.setVelocityX(-80);
 
 		    this.anims.play('leftCrouch', true);
-		    this.body.setOffset(0, 10);
 		}
 
 		else if(this.scene.cursors.left.isDown)

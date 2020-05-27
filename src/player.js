@@ -1,4 +1,3 @@
-
 export default class Player extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y) {
         super(scene, x, y, 'player', 0);
@@ -16,8 +15,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         this.health = 3;
         this.isDeath = false;
-        this.speed = 200;
-        this.jumpSpeed = -400;
+        this.speed = 110;
+        this.speedCrouch = 80;
+        this.jumpSpeed = -200;
+        this.facingR = true;
 
     }
     loadsprites()
@@ -29,28 +30,40 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.body.setSize(16, 32);
 		this.body.setOffset(0, 0);
 
+
+		//Salto
 		if(this.scene.cursors.up.isDown && this.scene.cursors.right.isDown)
 		{
 			if(this.body.onFloor())
-				this.body.setVelocityY(-330);
-			this.body.setVelocityX(160);
+				this.body.setVelocityY(this.jumpSpeed);
+			this.body.setVelocityX(this.speed);
 
 		    this.anims.play('rightJump', true);
 		}
 		else if(this.scene.cursors.up.isDown && this.scene.cursors.left.isDown)
 		{
 			if(this.body.onFloor())
-				this.body.setVelocityY(-330);
-			this.body.setVelocityX(-160);
+				this.body.setVelocityY(this.jumpSpeed);
+			this.body.setVelocityX(-(this.speed));
 
 		    this.anims.play('leftJump', true);
 		}
+		else if (this.scene.cursors.up.isDown)
+		{	
+			if(this.body.onFloor())
+			{
+				this.body.setVelocityY(this.jumpSpeed);
+				this.anims.play('leftJump', true);
+			}
+		}
+
+		//Agacharse
 		else if(this.scene.cursors.down.isDown && this.scene.cursors.right.isDown)
 		{
 			this.body.setSize(16, 20);
 			this.body.setOffset(0, 5);
 			if(this.body.onFloor())
-				this.body.setVelocityX(80);
+				this.body.setVelocityX(this.speedCrouch);
 
 		    this.anims.play('rightCrouch', true);
 		}
@@ -59,36 +72,35 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			this.body.setSize(16, 20);
 			this.body.setOffset(0, 5);
 			if(this.body.onFloor())
-				this.body.setVelocityX(-80);
+				this.body.setVelocityX(-(this.speedCrouch));
 
 		    this.anims.play('leftCrouch', true);
 		}
 
+		//Mov Izquierda
 		else if(this.scene.cursors.left.isDown)
 		{
-		    this.body.setVelocityX(-160);
+			this.facingR = false;
+		    this.body.setVelocityX(-(this.speed));
 
 		    this.anims.play('left', true);
 		}
+
+		//Mov Derecha
 		else if (this.scene.cursors.right.isDown)
 		{
-		    this.body.setVelocityX(160);
+			this.facingR = true;
+		    this.body.setVelocityX(this.speed);
 
 		    this.anims.play('right', true);
 		}
-		else if (this.scene.cursors.up.isDown)
-		{	
-			if(this.body.onFloor())
-			{
-				this.body.setVelocityY(-330);
-				this.anims.play('leftJump', true);
-			}
-		}
-		
 		else
 		{
 		    this.body.setVelocityX(0);
-		   this.anims.play('turn');
+		    if(!this.facingR)
+		   		this.anims.play('turnL');
+		   	else
+		   		this.anims.play('turnR');
 		}
     }
 
@@ -96,13 +108,19 @@ export default class Player extends Phaser.GameObjects.Sprite {
     createPlayerAnimations() {
          this.scene.anims.create({
             key: 'left',
-            frames: this.scene.anims.generateFrameNumbers('run', { start: 6, end: 10 }),
+            frames: this.scene.anims.generateFrameNumbers('run', { start: 7, end: 11 }),
             frameRate: 10,
             repeat: -1
         });
 
         this.scene.anims.create({
-            key: 'turn',
+            key: 'turnL',
+            frames: [ { key: 'run', frame: 6 } ],
+            frameRate: 1
+        });
+
+         this.scene.anims.create({
+            key: 'turnR',
             frames: [ { key: 'run', frame: 5 } ],
             frameRate: 1
         });
@@ -139,4 +157,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			repeat: -1
 		});
     }
+    isDead()
+    {
+    	return this.isDeath;
+    }
+    death()
+    {
+    	this.isDeath = true;
+    }
 }
+

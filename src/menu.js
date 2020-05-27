@@ -47,7 +47,6 @@ export default class Game extends Phaser.Scene {
     })
   playButton.on("pointerdown", () => {
        this.scene.start('main');
-       //new Phaser.Game(config);
     })
 
    optionsButton.setInteractive();

@@ -17,6 +17,7 @@
         import Game from './src/game.js';
         import Menu from './src/menu.js';
         import Level1 from './src/Level1.js';
+        import Level2 from './src/Level2.js';
 
         var platforms;
         var player;
@@ -34,7 +35,7 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            scene: [ Menu ,Game, Level1 ],
+            scene: [ Menu ,Game, Level1, Level2],
             physics: { default: 'arcade', arcade: { gravity: { y: 400 }, debug: false } }
         };
         new Phaser.Game(config);

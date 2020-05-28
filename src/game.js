@@ -2,8 +2,10 @@ import Player from './player.js';
 import Enemy   from './enemy.js';
 import Projectile from './projectile.js';
 import Laser from './laser.js';
-
+var key1;
 export default class Game extends Phaser.Scene {
+
+    
 
 	constructor(configGame) {
 	   	super({ key: 'main' });
@@ -13,7 +15,8 @@ export default class Game extends Phaser.Scene {
 		this.load.spritesheet('laserOn', 'assets/sprites/laser/laser-turn-on.png',{ frameWidth: 16, frameHeight:50 });
 		this.load.spritesheet('laserOff', 'assets/sprites/laser/laser-turn-off.png',{ frameWidth: 16, frameHeight: 50 });
   		this.load.image("tilesMap1", "assets/TileSets/industrial.v1.png");
-  		this.load.tilemapTiledJSON("map1", "Maps/level1.json");
+        this.load.tilemapTiledJSON("map1", "Maps/level1.json");
+        this.load.tilemapTiledJSON("map2", "Maps/level2.json");
   		this.load.spritesheet('run', 'assets/sprites/RunAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
         this.load.spritesheet('jump', 'assets/sprites/RunAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
         this.load.spritesheet('crouch', 'assets/sprites/RunAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });
@@ -23,11 +26,13 @@ export default class Game extends Phaser.Scene {
 	}
 	create() {
 
-		this.scene.start("Level1");
-
+        this.scene.start("Level2");
+        //this.scene.start("Level2");
 	}
 
 	update(time, delta) {
+
+
 	}
 
 

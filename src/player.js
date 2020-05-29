@@ -9,24 +9,48 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.body.colliderWorldBounds = false;
 
 
+
+
         this.loadsprites();
         this.createPlayerAnimations();
 
 
         this.health = 3;
         this.isDeath = false;
-        this.speed = 110;
+		this.speed = 110;
+		this.jumpPower = 0;
+		this.xjumpPower = 0;
+		this.loadingJump = false;
         this.speedCrouch = 80;
         this.jumpSpeed = -200;
-        this.facingR = true;
+		this.facingR = true;
+		
 
+		//Audio
+		this.walkSound = this.scene.sound.add('walkSoundEffect',{loop: false});
+		this.jumpSound = this.scene.sound.add('jumpSoundEffect',{loop: false});
     }
     loadsprites()
     {
     }
 
     update() {
-		
+		if(this.scene.input.manager.activePointer.isDown){			
+			
+
+			if(this.loadingJump){
+				this.jumpPower-=5;
+			}else{
+				this.loadingJump = true;
+			}
+		}else{
+			if(this.loadingJump && this.body.onFloor()){
+				this.body.setVelocityY(this.jumpPower);
+				this.loadingJump = false;
+			}
+			this.jumpPower = 0;
+		}
+
 		this.body.setSize(16, 32);
 		this.body.setOffset(0, 0);
 
@@ -34,16 +58,20 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		//Salto
 		if(this.scene.cursors.up.isDown && this.scene.cursors.right.isDown)
 		{
-			if(this.body.onFloor())
+			if(this.body.onFloor()){
+				this.jumpSound.play();
 				this.body.setVelocityY(this.jumpSpeed);
+			}
 			this.body.setVelocityX(this.speed);
 
 		    this.anims.play('rightJump', true);
 		}
 		else if(this.scene.cursors.up.isDown && this.scene.cursors.left.isDown)
 		{
-			if(this.body.onFloor())
+			if(this.body.onFloor()){
+				this.jumpSound.play();
 				this.body.setVelocityY(this.jumpSpeed);
+			}
 			this.body.setVelocityX(-(this.speed));
 
 		    this.anims.play('leftJump', true);
@@ -52,6 +80,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		{	
 			if(this.body.onFloor())
 			{
+				this.jumpSound.play();
+
 				this.body.setVelocityY(this.jumpSpeed);
 				this.anims.play('leftJump', true);
 			}
@@ -80,6 +110,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		//Mov Izquierda
 		else if(this.scene.cursors.left.isDown)
 		{
+
+			if(!this.walkSound.isPlaying){
+				this.walkSound.play();
+			}
+
 			this.facingR = false;
 		    this.body.setVelocityX(-(this.speed));
 
@@ -89,6 +124,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		//Mov Derecha
 		else if (this.scene.cursors.right.isDown)
 		{
+			if(!this.walkSound.isPlaying){
+				this.walkSound.play();
+			}
 			this.facingR = true;
 		    this.body.setVelocityX(this.speed);
 
@@ -96,6 +134,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		}
 		else
 		{
+			this.walkSound.stop();
 		    this.body.setVelocityX(0);
 		    if(!this.facingR)
 		   		this.anims.play('turnL');

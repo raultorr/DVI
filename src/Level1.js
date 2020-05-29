@@ -11,7 +11,6 @@ export default class Level1 extends Phaser.Scene {
         this.game = this.scene.get('main');
 
 
-
         //Mapa
         const map = this.make.tilemap({ key: "map1" });
         const tileset = map.addTilesetImage("industrial.v1", "tilesMap1");

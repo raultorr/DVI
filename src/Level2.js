@@ -9,7 +9,7 @@ export default class Level2 extends Phaser.Scene {
     create() {
 
         this.game = this.scene.get('main');
-
+       
 
 
         //Mapa

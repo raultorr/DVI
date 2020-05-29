@@ -23,10 +23,17 @@ export default class Game extends Phaser.Scene {
         this.load.spritesheet('enemyMove', 'assets/sprites/enemy/Robot.png',{ frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('projectile', 'assets/sprites/enemy/projectile.png',{ frameWidth: 3, frameHeight: 1 });
 
+        this.load.audio('shootSoundEffect', 'assets/audio/Rifleprimary2.ogg');
+       // this.load.audio('walkSoundEffect', 'assets/audio/steps_platform.ogg');
+
+        //this.load.audio('shootSoundEffect', 'assets/audio/Rifleprimary2.ogg');
+        this.load.audio('walkSoundEffect', 'assets/audio/Run raul.ogg');
+        this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
+
 	}
 	create() {
 
-        this.scene.start("Level2");
+        this.scene.start("Level1");
         //this.scene.start("Level2");
 	}
 

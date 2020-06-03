@@ -27,9 +27,6 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
 
 
     update(player, game) {
-
-
-        
     	if(	this.playerInRange(player) && this.facingCorrect(player))
     	{
             if(this.facingR)

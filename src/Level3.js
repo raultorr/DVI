@@ -1,6 +1,6 @@
 import Player from './player.js';
 
-export default class Level1 extends Phaser.Scene {
+export default class Level3 extends Phaser.Scene {
     constructor(scene) {
         super({ key: 'Level3' });
     }
@@ -15,7 +15,7 @@ export default class Level1 extends Phaser.Scene {
         //Mapa
         const map = this.make.tilemap({ key: "map3" });
         const tileset = map.addTilesetImage("industrial.v1", "tilesMap");
-        const blackLayout = map.createDynamicLayer("Black", tileset, 0, 0);
+        //const blackLayout = map.createDynamicLayer("Black", tileset, 0, 0);
         const backGround = map.createDynamicLayer("BackGround", tileset , 0 , 0);
         this.worldLayer = map.createDynamicLayer("WorldLayer", tileset , 0 , 0);
         
@@ -27,13 +27,6 @@ export default class Level1 extends Phaser.Scene {
        this.puente = map.findObject("Spawners", obj => obj.name === "puente");
        this.console = map.findObject("Spawners", obj => obj.name === "console");
 
-        this.marker = this.add.graphics();
-        this.marker.lineStyle(5, 0xffffff, 1);
-        this.marker.strokeRect(0, 0, map.tileWidth, map.tileHeight);
-        this.marker.lineStyle(3, 0xff4f78, 1);
-        this.marker.strokeRect(0, 0, map.tileWidth, map.tileHeight);
-        
-
 
         //Jugador
         this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y);
@@ -42,7 +35,7 @@ export default class Level1 extends Phaser.Scene {
 
         //Camara
         
-       // this.game.addCamera(this, this.player,  worldLayer);
+        this.game.addCamera(this, this.player,  this.worldLayer);
 
 
         //Enemigos
@@ -63,6 +56,10 @@ export default class Level1 extends Phaser.Scene {
         this.lasers = this.add.group();
 
 
+        //Consolas
+        this.consoles = this.add.group();
+        this.game.putConsole(this, this.console.x, this.console.y,13,  this.consoles);
+        this.game.putConsole(this, 150,400,13,  this.consoles);
 
         //Overlaps
        // this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);
@@ -75,21 +72,12 @@ export default class Level1 extends Phaser.Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
-
-
-
-        //this.worldLayer.renderDebug = true;
-        const debugGraphics = this.add.graphics().setAlpha(0.75);
-        this.worldLayer.renderDebug(debugGraphics, {
-            tileColor: null, // Color of non-colliding tiles
-            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-        });
-
     }
 
     update(time, delta) {
-        this.player.update();
+        this.player.update(this.game);
+
+        this.game.consoleUpdate(this, this.consoles);
        /* const worldPoint = this.input.activePointer.positionToCamera(this.cameras.main);
 
           // Place the marker in world space, but snap it to the tile grid. If we convert world -> tile and
@@ -104,15 +92,56 @@ export default class Level1 extends Phaser.Scene {
             
         }
         
-*/      
+*/      /*
         if ( Math.abs(this.player.x - this.console.x) < 40 )
         {
             let i;
-            for(i= 0; i < 16*6; i += 16)
+            for(i= 0; i < 16*6  ; i += 16)
             {
                 const tile = this.worldLayer.putTileAtWorldXY(75, this.puente.x + i, this.puente.y);
                 tile.setCollision(true);
             }
+        }*/
+    }  
+    checkInteraction(x,y,player)
+    {
+        let i;
+        let panel;
+
+        this.consoles.getChildren().forEach(function (item) {
+            if ( Math.abs(player.x - item.x) < 40 && Math.abs(player.y - item.y) < 40)
+            {
+                panel = item;
+            }
+        }, this);
+        if(panel != undefined)
+        {
+            if(panel.timeToReactive == 0)
+            {
+                if(panel.onOff)
+                {
+                    for(i= 32; i < 16*panel.tamPuente +32  ; i += 16)
+                    {
+                        this.worldLayer.removeTileAtWorldXY(panel.x + i, panel.y+10);
+                    }
+
+                }
+                else
+                {
+                    for(i= 32; i < 16*panel.tamPuente +32  ; i += 16)
+                    {
+                        const tile = this.worldLayer.putTileAtWorldXY(75, panel.x + i, panel.y +10);
+                        tile.setCollision(true);
+                    }
+
+                }
+                panel.onOff = !panel.onOff;
+                panel.timeToReactive = 10;
+            }
+            else
+            {
+                panel.timeToReactive -= 1;
+            }
         }
-    }   
+    }
 }

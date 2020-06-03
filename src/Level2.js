@@ -14,7 +14,7 @@ export default class Level2 extends Phaser.Scene {
 
         //Mapa
         const map = this.make.tilemap({ key: "map2" });
-        const tileset = map.addTilesetImage("industrial.v1", "tilesMap1");
+        const tileset = map.addTilesetImage("industrial.v1", "tilesMap");
         const worldLayerEnemy = map.createStaticLayer("enemyCollisionLayer", tileset , 0 , 0);
         const blackLayout = map.createStaticLayer("Black", tileset, 0, 0);
         const backGround = map.createStaticLayer("BackGround", tileset , 0 , 0);

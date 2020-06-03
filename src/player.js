@@ -9,56 +9,66 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.body.colliderWorldBounds = false;
 
 
-
-
         this.loadsprites();
         this.createPlayerAnimations();
 
 
         this.health = 3;
         this.isDeath = false;
-		this.speed = 110;
+        this.speed = 110;
 		this.jumpPower = 0;
 		this.xjumpPower = 0;
 		this.loadingJump = false;
         this.speedCrouch = 80;
         this.jumpSpeed = -200;
-		this.facingR = true;
-		
+        this.facingR = true;
 
-		//Audio
+
+        //Audio
 		this.walkSound = this.scene.sound.add('walkSoundEffect',{loop: false});
 		this.jumpSound = this.scene.sound.add('jumpSoundEffect',{loop: false});
+
+
+
+        this.cursors = this.scene.input.keyboard.addKeys('W, A, D,S,E, SPACE');
+
     }
     loadsprites()
     {
     }
 
-    update() {
+    update(game) {
+				
 		if(this.scene.input.manager.activePointer.isDown){			
-			
-
-			if(this.loadingJump){
+			if(this.loadingJump)
+			{
 				this.jumpPower-=5;
-			}else{
+			}
+			else
+			{
 				this.loadingJump = true;
 			}
-		}else{
-			if(this.loadingJump && this.body.onFloor()){
+		}
+		else
+		{
+			if(this.loadingJump && this.body.onFloor())
+			{
 				this.body.setVelocityY(this.jumpPower);
 				this.loadingJump = false;
 			}
 			this.jumpPower = 0;
 		}
 
+
 		this.body.setSize(16, 32);
 		this.body.setOffset(0, 0);
 
 
 		//Salto
-		if(this.scene.cursors.up.isDown && this.scene.cursors.right.isDown)
+		if(this.cursors.W.isDown && this.cursors.D.isDown)
 		{
-			if(this.body.onFloor()){
+			if(this.body.onFloor())
+			{
 				this.jumpSound.play();
 				this.body.setVelocityY(this.jumpSpeed);
 			}
@@ -66,9 +76,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 		    this.anims.play('rightJump', true);
 		}
-		else if(this.scene.cursors.up.isDown && this.scene.cursors.left.isDown)
+		else if(this.cursors.W.isDown && this.cursors.A.isDown)
 		{
-			if(this.body.onFloor()){
+			if(this.body.onFloor())
+			{
 				this.jumpSound.play();
 				this.body.setVelocityY(this.jumpSpeed);
 			}
@@ -76,19 +87,21 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 		    this.anims.play('leftJump', true);
 		}
-		else if (this.scene.cursors.up.isDown)
+		else if (this.cursors.W.isDown)
 		{	
 			if(this.body.onFloor())
 			{
 				this.jumpSound.play();
-
 				this.body.setVelocityY(this.jumpSpeed);
-				this.anims.play('leftJump', true);
+				if(!this.facingR)
+					this.anims.play('leftJump', true);
+				else
+					this.anims.play('rightJump', true);
 			}
 		}
 
 		//Agacharse
-		else if(this.scene.cursors.down.isDown && this.scene.cursors.right.isDown)
+		else if(this.cursors.S.isDown && this.cursors.D.isDown)
 		{
 			this.body.setSize(16, 20);
 			this.body.setOffset(0, 5);
@@ -97,7 +110,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 		    this.anims.play('rightCrouch', true);
 		}
-		else if(this.scene.cursors.down.isDown && this.scene.cursors.left.isDown)
+		else if(this.cursors.S.isDown && this.cursors.A.isDown)
 		{
 			this.body.setSize(16, 20);
 			this.body.setOffset(0, 5);
@@ -108,13 +121,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		}
 
 		//Mov Izquierda
-		else if(this.scene.cursors.left.isDown)
+		else if(this.cursors.A.isDown)
 		{
-
-			if(!this.walkSound.isPlaying){
+			if(!this.walkSound.isPlaying)
+			{
 				this.walkSound.play();
 			}
-
 			this.facingR = false;
 		    this.body.setVelocityX(-(this.speed));
 
@@ -122,16 +134,31 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		}
 
 		//Mov Derecha
-		else if (this.scene.cursors.right.isDown)
+		else if (this.cursors.D.isDown)
 		{
-			if(!this.walkSound.isPlaying){
+			if(!this.walkSound.isPlaying)
+			{
 				this.walkSound.play();
 			}
 			this.facingR = true;
 		    this.body.setVelocityX(this.speed);
 
 		    this.anims.play('right', true);
+		}	
+		//Interaccion
+		else if(this.cursors.E.isDown)
+		{
+			game.interaction(this.scene, this.x,this.y, this);
 		}
+
+
+
+
+
+
+
+
+		//Estatico
 		else
 		{
 			this.walkSound.stop();
@@ -141,6 +168,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		   	else
 		   		this.anims.play('turnR');
 		}
+
+
     }
 
     

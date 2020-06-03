@@ -11,9 +11,10 @@ export default class Level1 extends Phaser.Scene {
         this.game = this.scene.get('main');
 
 
+
         //Mapa
         const map = this.make.tilemap({ key: "map1" });
-        const tileset = map.addTilesetImage("industrial.v1", "tilesMap1");
+        const tileset = map.addTilesetImage("industrial.v1", "tilesMap");
         const worldLayerEnemy = map.createStaticLayer("enemyCollisionLayer", tileset , 0 , 0);
         const blackLayout = map.createStaticLayer("Black", tileset, 0, 0);
         const backGround = map.createStaticLayer("BackGround", tileset , 0 , 0);
@@ -38,6 +39,7 @@ export default class Level1 extends Phaser.Scene {
         this.spawnPointL4 = map.findObject("Spawners", obj => obj.name === "laser4");
         this.spawnPointL5 = map.findObject("Spawners", obj => obj.name === "laser5");
         this.spawnPointL6 = map.findObject("Spawners", obj => obj.name === "laser6");
+        this.end = map.findObject("Spawners", obj => obj.name === "End");
 
 
         
@@ -102,6 +104,7 @@ export default class Level1 extends Phaser.Scene {
         this.player.update();
         this.game.enemyUpdate(this, this.enemy, this.player);
         this.game.laserUpdate(this,this.lasers, this.player);
+        this.game.goalReach(this.end, this.player);
     }
 
 

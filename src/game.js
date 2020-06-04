@@ -2,7 +2,7 @@ import Player from './player.js';
 import Enemy   from './enemy.js';
 import Projectile from './projectile.js';
 import Laser from './laser.js';
-import Consola from './ConsolaPuente.js';
+import Consola from './consolaPuente.js';
 
 export default class Game extends Phaser.Scene {
 

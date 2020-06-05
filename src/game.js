@@ -42,6 +42,7 @@ export default class Game extends Phaser.Scene {
 	}
 	create() {
 		this.mapSelector();
+		
 		this.scene.start(this.nameLevel);
 
 	}
@@ -143,9 +144,13 @@ export default class Game extends Phaser.Scene {
     playerDie(player)
     {
     	this.game.mapSelector();
-    	if(player.isDeath)
-    		this.scene.start(this.game.nameLevel);
-    }
+		if(player.isDeath){
+			this.scene.start(this.game.nameLevel);
+		}
+	}
+	respawn(){
+		
+	}
     hitPlayer(player, object)
     {	
     	switch(object.name)

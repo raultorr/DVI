@@ -97,6 +97,8 @@ export default class Level1 extends Phaser.Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
+
+        
     }
 
     update(time, delta) {

@@ -15,13 +15,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         this.health = 3;
         this.isDeath = false;
-        this.speed = 110;
+		this.speed = 110;
+		this.walkingSpeed= 50;
 		this.jumpPower = 0;
 		this.xjumpPower = 0;
 		this.loadingJump = false;
-        this.speedCrouch = 80;
+        this.speedCrouch = 40;
         this.jumpSpeed = -200;
-        this.facingR = true;
+		this.facingR = true;
+		this.isWalking = false;
 
 
         //Audio
@@ -30,7 +32,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 
 
-        this.cursors = this.scene.input.keyboard.addKeys('W, A, D,S,E, SPACE');
+		this.cursors = this.scene.input.keyboard.addKeys('W, A, D, S , E, SPACE, SHIFT');
+		
 
     }
     loadsprites()
@@ -65,8 +68,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 
 		//Salto
-		if(this.cursors.W.isDown && this.cursors.D.isDown)
+		if(this.cursors.SPACE.isDown  && this.cursors.D.isDown)
 		{
+			this.facingR = true;
 			if(this.body.onFloor())
 			{
 				this.jumpSound.play();
@@ -76,8 +80,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 		    this.anims.play('rightJump', true);
 		}
-		else if(this.cursors.W.isDown && this.cursors.A.isDown)
+		else if(this.cursors.SPACE.isDown && this.cursors.A.isDown)
 		{
+			this.facingR = false;
 			if(this.body.onFloor())
 			{
 				this.jumpSound.play();
@@ -87,7 +92,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 		    this.anims.play('leftJump', true);
 		}
-		else if (this.cursors.W.isDown)
+		else if (this.cursors.SPACE.isDown)
 		{	
 			if(this.body.onFloor())
 			{
@@ -101,10 +106,14 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		}
 
 		//Agacharse
+
+
 		else if(this.cursors.S.isDown && this.cursors.D.isDown)
 		{
 			this.body.setSize(16, 20);
 			this.body.setOffset(0, 5);
+			this.facingR = true;
+			this.walkSound.stop();
 			if(this.body.onFloor())
 				this.body.setVelocityX(this.speedCrouch);
 
@@ -114,13 +123,37 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		{
 			this.body.setSize(16, 20);
 			this.body.setOffset(0, 5);
+			this.walkSound.stop();
+			this.facingR = false;
 			if(this.body.onFloor())
 				this.body.setVelocityX(-(this.speedCrouch));
 
 		    this.anims.play('leftCrouch', true);
 		}
+		else if(this.cursors.S.isDown){
+			this.body.setSize(16, 20);
+			this.body.setOffset(0, 5);
+			this.walkSound.stop();
+			if(this.body.onFloor())
+				this.body.setVelocityX(0);
+
+			if(!this.facingR)
+				this.anims.play('staticCrouchL', true);
+			else
+				this.anims.play('staticCrouchR', true);
+			
+		}
 
 		//Mov Izquierda
+		else if(this.cursors.A.isDown && this.cursors.SHIFT.isDown)
+		{
+			this.walkSound.stop();
+			
+			this.facingR = false;
+		    this.body.setVelocityX(-(this.walkingSpeed));
+
+		    this.anims.play('leftWalk', true);
+		}
 		else if(this.cursors.A.isDown)
 		{
 			if(!this.walkSound.isPlaying)
@@ -134,6 +167,14 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		}
 
 		//Mov Derecha
+		else if (this.cursors.D.isDown && this.cursors.SHIFT.isDown)
+		{
+			this.walkSound.stop();
+			this.facingR = true;
+		    this.body.setVelocityX(this.walkingSpeed);
+
+		    this.anims.play('rightWalk', true);
+		}
 		else if (this.cursors.D.isDown)
 		{
 			if(!this.walkSound.isPlaying)
@@ -150,9 +191,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		{
 			game.interaction(this.scene, this.x,this.y, this);
 		}
-
-
-
 
 
 
@@ -179,6 +217,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
             frames: this.scene.anims.generateFrameNumbers('run', { start: 7, end: 11 }),
             frameRate: 10,
             repeat: -1
+		});
+		
+		this.scene.anims.create({
+            key: 'leftWalk',
+            frames: this.scene.anims.generateFrameNumbers('run', { start: 7, end: 11 }),
+            frameRate: 4,
+            repeat: -1
         });
 
         this.scene.anims.create({
@@ -198,6 +243,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
             frames: this.scene.anims.generateFrameNumbers('run', { start: 0, end: 4 }),
             frameRate: 10,
             repeat: -1
+		});
+		this.scene.anims.create({
+            key: 'rightWalk',
+            frames: this.scene.anims.generateFrameNumbers('run', { start: 0, end: 4 }),
+            frameRate: 4,
+            repeat: -1
         });
         this.scene.anims.create({
 	        key: 'rightJump',
@@ -210,7 +261,20 @@ export default class Player extends Phaser.GameObjects.Sprite {
             frames: this.scene.anims.generateFrameNumbers('jump', {start: 6, end: 10}),
             frameRate: 5,
             repeat: -1
-        }); 
+		}); 
+		
+		this.scene.anims.create({
+			key: 'staticCrouchR',
+			frames: [ { key: 'crouch', frame: 0 } ],
+			frameRate: 1
+		});
+
+		this.scene.anims.create({
+			key: 'staticCrouchL',
+			frames: [ { key: 'crouch', frame: 5 } ],
+			frameRate: 1
+		});
+
         this.scene.anims.create({
 			key: 'leftCrouch',
 			frames: this.scene.anims.generateFrameNumbers('crouch', {start: 5, end: 9}),

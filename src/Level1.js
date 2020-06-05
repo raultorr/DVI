@@ -9,9 +9,9 @@ export default class Level1 extends Phaser.Scene {
     create() {
 
         this.game = this.scene.get('main');
-
-
-
+        this.game.sound.stopAll();
+        this.level1music = this.sound.add('level1music',{loop: true, volume:0.1});
+        this.level1music.play();
         //Mapa
         const map = this.make.tilemap({ key: "map1" });
         const tileset = map.addTilesetImage("industrial.v1", "tilesMap");

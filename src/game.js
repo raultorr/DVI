@@ -36,7 +36,8 @@ export default class Game extends Phaser.Scene {
         // this.load.audio('walkSoundEffect', 'assets/audio/steps_platform.ogg');
         //this.load.audio('shootSoundEffect', 'assets/audio/Rifleprimary2.ogg');
         this.load.audio('walkSoundEffect', 'assets/audio/Run raul.ogg');
-        this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
+		this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
+		this.load.audio('level1music', 'assets/audio/walking the devil.mp3');
 
 
 	}

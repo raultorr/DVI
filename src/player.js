@@ -13,7 +13,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.createPlayerAnimations();
 
 
-		this.equipped = 0; //0 nada, 1 botas, 2 arma distraccion
+		this.equipped = 0; //0 nada, 1 botas, 2 arma distraccion, 3 ...
 
         this.health = 3;
         this.isDeath = false;
@@ -26,6 +26,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.jumpSpeed = -200;
 		this.facingR = true;
 		this.isWalking = false;
+		this.isPowerJumping = false;
+		this.isPowerJumpingIniCount = 0;
 
 
         //Audio
@@ -35,7 +37,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 
 		this.cursors = this.scene.input.keyboard.addKeys('ZERO, ONE, TWO, THREE, W, A, D, S , E, SPACE, SHIFT');
-		
 
     }
     loadsprites()
@@ -43,33 +44,52 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
 
     update(game) {
-				
-		if(this.scene.input.manager.activePointer.isDown){			
-			if(this.loadingJump)
-			{
-				this.jumpPower-=5;
+		
+		//this.rotation = this.scene.physics.arcade.angleToPointer(sprite);
+		//this.scene.physics.moveTo(this, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y, null, 750);
+
+		//this.scene.scoreText.setScrollFactor(0);
+
+
+		if(this.equipped == 1){
+			if(this.scene.input.manager.activePointer.isDown){			
+				if(this.loadingJump)
+				{
+					if(this.jumpPower > -250)
+						this.jumpPower-=3;
+				}
+				else
+				{
+					this.loadingJump = true;
+				}
 			}
 			else
 			{
-				this.loadingJump = true;
-			}
-		}
-		else
-		{
-			if(this.loadingJump && this.body.onFloor())
-			{
-				this.body.setVelocityY(this.jumpPower);
-				this.loadingJump = false;
-			}
-			this.jumpPower = 0;
-		}
+				if(this.loadingJump)
+				{	
 
+					if(this.scene.input.mousePointer.x > 700){
+						this.body.setVelocityX(-this.jumpPower);
+					}else{
+						this.body.setVelocityX(this.jumpPower);
+					}
+
+					this.isPowerJumping = true;
+					this.body.setVelocityY(this.jumpPower);
+
+					this.loadingJump = false;
+				}
+				this.jumpPower = 0;
+			}
+		}
 
 		this.body.setSize(16, 32);
 		this.body.setOffset(0, 0);
 
 
 		//Salto
+		if(!this.isPowerJumping){
+
 		if(this.cursors.SPACE.isDown  && this.cursors.D.isDown)
 		{
 			this.walkSound.stop();
@@ -299,7 +319,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		else
 		{
 			this.walkSound.stop();
-		    this.body.setVelocityX(0);
+			
+			if(!this.isPowerJumping){
+				this.body.setVelocityX(0);
+			}
+			
+			
 		    if(!this.facingR){
 				if(this.equipped==1){
 					this.anims.play('turnLBoots', true);
@@ -323,7 +348,14 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				}
 			}
 		}
-
+		}else{
+			if(this.body.onFloor() && this.isPowerJumpingIniCount > 5){
+				this.isPowerJumpingIniCount = 0;
+				this.isPowerJumping = false;
+			}else {
+				this.isPowerJumpingIniCount++;
+			}
+		}
 
 
 		//EQUIPAMIENTOS

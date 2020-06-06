@@ -15,9 +15,15 @@ export default class Game extends Phaser.Scene {
 	preload() {  
 		this.load.spritesheet('laserOn', 'assets/sprites/laser/laser-turn-on.png',{ frameWidth: 16, frameHeight:50 });
 		this.load.spritesheet('laserOff', 'assets/sprites/laser/laser-turn-off.png',{ frameWidth: 16, frameHeight: 50 });
-  		this.load.spritesheet('run', 'assets/sprites/RunAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
-        this.load.spritesheet('jump', 'assets/sprites/RunAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
-        this.load.spritesheet('crouch', 'assets/sprites/RunAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });
+		this.load.spritesheet('run', 'assets/sprites/RunAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('runBoots', 'assets/sprites/RunAnimation/runBoots.png',{ frameWidth: 16, frameHeight: 32 });
+		
+		this.load.spritesheet('jump', 'assets/sprites/RunAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('jumpBoots', 'assets/sprites/RunAnimation/jumpBoots.png',{ frameWidth: 16, frameHeight: 32 });
+		
+		this.load.spritesheet('crouch', 'assets/sprites/RunAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });
+		this.load.spritesheet('crouchBoots', 'assets/sprites/RunAnimation/crouchBoots.png',{ frameWidth: 16, frameHeight: 25 });
+
         this.load.spritesheet('enemyMove', 'assets/sprites/enemy/Robot.png',{ frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('projectile', 'assets/sprites/enemy/projectile.png',{ frameWidth: 3, frameHeight: 1 });
         this.load.spritesheet('consola', 'assets/sprites/consola/consola.png',{ frameWidth: 33, frameHeight: 25 });

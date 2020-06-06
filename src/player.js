@@ -13,6 +13,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.createPlayerAnimations();
 
 
+		this.equipped = 0; //0 nada, 1 botas, 2 arma distraccion
+
         this.health = 3;
         this.isDeath = false;
 		this.speed = 110;
@@ -32,7 +34,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 
 
-		this.cursors = this.scene.input.keyboard.addKeys('W, A, D, S , E, SPACE, SHIFT');
+		this.cursors = this.scene.input.keyboard.addKeys('ZERO, ONE, TWO, THREE, W, A, D, S , E, SPACE, SHIFT');
 		
 
     }
@@ -70,6 +72,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		//Salto
 		if(this.cursors.SPACE.isDown  && this.cursors.D.isDown)
 		{
+			this.walkSound.stop();
 			this.facingR = true;
 			if(this.body.onFloor())
 			{
@@ -78,10 +81,19 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			}
 			this.body.setVelocityX(this.speed);
 
-		    this.anims.play('rightJump', true);
+			if(this.equipped==1){
+				this.anims.play('rightJumpBoots', true);
+			}else if((this.equipped==2)){
+				this.anims.play('rightJump', true);
+			}else if((this.equipped==3)){
+				this.anims.play('rightJump', true);
+			}else{
+				this.anims.play('rightJump', true);
+			}
 		}
 		else if(this.cursors.SPACE.isDown && this.cursors.A.isDown)
 		{
+			this.walkSound.stop();
 			this.facingR = false;
 			if(this.body.onFloor())
 			{
@@ -89,19 +101,45 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.body.setVelocityY(this.jumpSpeed);
 			}
 			this.body.setVelocityX(-(this.speed));
-
-		    this.anims.play('leftJump', true);
+			if(this.equipped==1){
+				this.anims.play('leftJumpBoots', true);
+			}else if((this.equipped==2)){
+				this.anims.play('leftJump', true);
+			}else if((this.equipped==3)){
+				this.anims.play('leftJump', true);
+			}else{
+				this.anims.play('leftJump', true);
+			}
 		}
 		else if (this.cursors.SPACE.isDown)
 		{	
+			this.walkSound.stop();
 			if(this.body.onFloor())
 			{
 				this.jumpSound.play();
 				this.body.setVelocityY(this.jumpSpeed);
-				if(!this.facingR)
-					this.anims.play('leftJump', true);
-				else
-					this.anims.play('rightJump', true);
+				if(!this.facingR){
+					if(this.equipped==1){
+						this.anims.play('leftJumpBoots', true);
+					}else if((this.equipped==2)){
+						this.anims.play('leftJump', true);
+					}else if((this.equipped==3)){
+						this.anims.play('leftJump', true);
+					}else{
+						this.anims.play('leftJump', true);
+					}
+				}
+				else{
+					if(this.equipped==1){
+						this.anims.play('rightJumpBoots', true);
+					}else if((this.equipped==2)){
+						this.anims.play('rightJump', true);
+					}else if((this.equipped==3)){
+						this.anims.play('rightJump', true);
+					}else{
+						this.anims.play('rightJump', true);
+					}
+				}
 			}
 		}
 
@@ -117,7 +155,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			if(this.body.onFloor())
 				this.body.setVelocityX(this.speedCrouch);
 
-		    this.anims.play('rightCrouch', true);
+			if(this.equipped==1){
+				this.anims.play('rightCrouchBoots', true);
+			}else if((this.equipped==2)){
+				this.anims.play('rightCrouch', true);
+			}else if((this.equipped==3)){
+				this.anims.play('rightCrouch', true);
+			}else{
+				this.anims.play('rightCrouch', true);
+			}
 		}
 		else if(this.cursors.S.isDown && this.cursors.A.isDown)
 		{
@@ -128,7 +174,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			if(this.body.onFloor())
 				this.body.setVelocityX(-(this.speedCrouch));
 
-		    this.anims.play('leftCrouch', true);
+			if(this.equipped==1){
+				this.anims.play('leftCrouchBoots', true);
+			}else if((this.equipped==2)){
+				this.anims.play('leftCrouch', true);
+			}else if((this.equipped==3)){
+				this.anims.play('leftCrouch', true);
+			}else{
+				this.anims.play('leftCrouch', true);
+			}
 		}
 		else if(this.cursors.S.isDown){
 			this.body.setSize(16, 20);
@@ -137,10 +191,28 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			if(this.body.onFloor())
 				this.body.setVelocityX(0);
 
-			if(!this.facingR)
-				this.anims.play('staticCrouchL', true);
-			else
-				this.anims.play('staticCrouchR', true);
+			if(!this.facingR){
+				if(this.equipped==1){
+					this.anims.play('staticCrouchLBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('staticCrouchL', true);
+				}else if((this.equipped==3)){
+					this.anims.play('staticCrouchL', true);
+				}else{
+					this.anims.play('staticCrouchL', true);
+				}
+			}
+			else{
+				if(this.equipped==1){
+					this.anims.play('staticCrouchRBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('staticCrouchR', true);
+				}else if((this.equipped==3)){
+					this.anims.play('staticCrouchR', true);
+				}else{
+					this.anims.play('staticCrouchR', true);
+				}
+			}
 			
 		}
 
@@ -152,7 +224,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			this.facingR = false;
 		    this.body.setVelocityX(-(this.walkingSpeed));
 
-		    this.anims.play('leftWalk', true);
+		    if(this.equipped==1){
+				this.anims.play('leftWalkBoots', true);
+			}else if((this.equipped==2)){
+				this.anims.play('leftWalk', true);
+			}else if((this.equipped==3)){
+				this.anims.play('leftWalk', true);
+			}else{
+				this.anims.play('leftWalk', true);
+			}
 		}
 		else if(this.cursors.A.isDown)
 		{
@@ -163,7 +243,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			this.facingR = false;
 		    this.body.setVelocityX(-(this.speed));
 
-		    this.anims.play('left', true);
+		    if(this.equipped==1){
+				this.anims.play('leftBoots', true);
+			}else if((this.equipped==2)){
+				this.anims.play('left', true);
+			}else if((this.equipped==3)){
+				this.anims.play('left', true);
+			}else{
+				this.anims.play('left', true);
+			}
 		}
 
 		//Mov Derecha
@@ -173,7 +261,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			this.facingR = true;
 		    this.body.setVelocityX(this.walkingSpeed);
 
-		    this.anims.play('rightWalk', true);
+		    if(this.equipped==1){
+				this.anims.play('rightWalkBoots', true);
+			}else if((this.equipped==2)){
+				this.anims.play('rightWalk', true);
+			}else if((this.equipped==3)){
+				this.anims.play('rightWalk', true);
+			}else{
+				this.anims.play('rightWalk', true);
+			}
 		}
 		else if (this.cursors.D.isDown)
 		{
@@ -184,30 +280,65 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			this.facingR = true;
 		    this.body.setVelocityX(this.speed);
 
-		    this.anims.play('right', true);
+		    if(this.equipped==1){
+				this.anims.play('rightBoots', true);
+			}else if((this.equipped==2)){
+				this.anims.play('right', true);
+			}else if((this.equipped==3)){
+				this.anims.play('right', true);
+			}else{
+				this.anims.play('right', true);
+			}
 		}	
 		//Interaccion
 		else if(this.cursors.E.isDown)
 		{
 			game.interaction(this.scene, this.x,this.y, this);
 		}
-
-
-
-
-
 		//Estatico
 		else
 		{
 			this.walkSound.stop();
 		    this.body.setVelocityX(0);
-		    if(!this.facingR)
-		   		this.anims.play('turnL');
-		   	else
-		   		this.anims.play('turnR');
+		    if(!this.facingR){
+				if(this.equipped==1){
+					this.anims.play('turnLBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('turnL', true);
+				}else if((this.equipped==3)){
+					this.anims.play('turnL', true);
+				}else{
+					this.anims.play('turnL', true);
+				}
+			}
+		   	else{
+				if(this.equipped==1){
+					this.anims.play('turnRBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('turnR', true);
+				}else if((this.equipped==3)){
+					this.anims.play('turnR', true);
+				}else{
+					this.anims.play('turnR', true);
+				}
+			}
 		}
 
 
+
+		//EQUIPAMIENTOS
+		if (this.cursors.ZERO.isDown){
+			this.equipped = 0;
+		}
+		if (this.cursors.ONE.isDown){
+			this.equipped = 1;
+		}
+		else if(this.cursors.TWO.isDown){
+			this.equipped = 2;
+		}
+		else if(this.cursors.THREE.isDown){
+			this.equipped = 3;
+		}
     }
 
     
@@ -218,10 +349,24 @@ export default class Player extends Phaser.GameObjects.Sprite {
             frameRate: 10,
             repeat: -1
 		});
+
+		this.scene.anims.create({
+            key: 'leftBoots',
+            frames: this.scene.anims.generateFrameNumbers('runBoots', { start: 7, end: 11 }),
+            frameRate: 10,
+            repeat: -1
+		});
 		
 		this.scene.anims.create({
             key: 'leftWalk',
             frames: this.scene.anims.generateFrameNumbers('run', { start: 7, end: 11 }),
+            frameRate: 4,
+            repeat: -1
+		});
+		
+		this.scene.anims.create({
+            key: 'leftWalkBoots',
+            frames: this.scene.anims.generateFrameNumbers('runBoots', { start: 7, end: 11 }),
             frameRate: 4,
             repeat: -1
         });
@@ -230,11 +375,23 @@ export default class Player extends Phaser.GameObjects.Sprite {
             key: 'turnL',
             frames: [ { key: 'run', frame: 6 } ],
             frameRate: 1
+		});
+		
+		this.scene.anims.create({
+            key: 'turnLBoots',
+            frames: [ { key: 'runBoots', frame: 6 } ],
+            frameRate: 1
         });
 
          this.scene.anims.create({
             key: 'turnR',
             frames: [ { key: 'run', frame: 5 } ],
+            frameRate: 1
+		});
+		
+		this.scene.anims.create({
+            key: 'turnRBoots',
+            frames: [ { key: 'runBoots', frame: 5 } ],
             frameRate: 1
         });
 
@@ -244,34 +401,66 @@ export default class Player extends Phaser.GameObjects.Sprite {
             frameRate: 10,
             repeat: -1
 		});
+
+		this.scene.anims.create({
+            key: 'rightBoots',
+            frames: this.scene.anims.generateFrameNumbers('runBoots', { start: 0, end: 4 }),
+            frameRate: 10,
+            repeat: -1
+		});
 		this.scene.anims.create({
             key: 'rightWalk',
             frames: this.scene.anims.generateFrameNumbers('run', { start: 0, end: 4 }),
             frameRate: 4,
             repeat: -1
+		});
+		this.scene.anims.create({
+            key: 'rightWalkBoots',
+            frames: this.scene.anims.generateFrameNumbers('runBoots', { start: 0, end: 4 }),
+            frameRate: 4,
+            repeat: -1
         });
-        this.scene.anims.create({
+		this.scene.anims.create({
 	        key: 'rightJump',
-	        frames: this.scene.anims.generateFrameNumbers('jump', {start: 0, end: 4}),
-	        frameRate: 5,
-	        repeat: -1
+	        frames: [ { key: 'jump', frame: 0 } ],
+	        frameRate: 1
+		});
+		this.scene.anims.create({
+	        key: 'rightJumpBoots',
+	        frames: [ { key: 'jumpBoots', frame: 0 } ],
+	        frameRate: 1
         });
         this.scene.anims.create({
             key: 'leftJump',
-            frames: this.scene.anims.generateFrameNumbers('jump', {start: 6, end: 10}),
-            frameRate: 5,
-            repeat: -1
-		}); 
+            frames: [ { key: 'jump', frame: 1 } ],
+            frameRate: 1
+		});
+		this.scene.anims.create({
+            key: 'leftJumpBoots',
+            frames: [ { key: 'jumpBoots', frame: 1 } ],
+            frameRate: 1
+		});
 		
 		this.scene.anims.create({
 			key: 'staticCrouchR',
 			frames: [ { key: 'crouch', frame: 0 } ],
 			frameRate: 1
 		});
+		this.scene.anims.create({
+			key: 'staticCrouchRBoots',
+			frames: [ { key: 'crouchBoots', frame: 0 } ],
+			frameRate: 1
+		});
 
 		this.scene.anims.create({
 			key: 'staticCrouchL',
 			frames: [ { key: 'crouch', frame: 5 } ],
+			frameRate: 1
+		});
+
+		this.scene.anims.create({
+			key: 'staticCrouchLBoots',
+			frames: [ { key: 'crouchBoots', frame: 5 } ],
 			frameRate: 1
 		});
 
@@ -283,8 +472,22 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		});
 
 		this.scene.anims.create({
+			key: 'leftCrouchBoots',
+			frames: this.scene.anims.generateFrameNumbers('crouchBoots', {start: 5, end: 9}),
+			frameRate: 5,
+			repeat: -1
+		});
+
+		this.scene.anims.create({
 			key: 'rightCrouch',
 			frames: this.scene.anims.generateFrameNumbers('crouch', {start: 0, end: 4}),
+			frameRate: 5,
+			repeat: -1
+		});
+
+		this.scene.anims.create({
+			key: 'rightCrouchBoots',
+			frames: this.scene.anims.generateFrameNumbers('crouchBoots', {start: 0, end: 4}),
 			frameRate: 5,
 			repeat: -1
 		});

@@ -43,7 +43,7 @@ export default class Level3 extends Phaser.Scene {
         //Enemigos
 
         this.enemy = this.physics.add.group();
-       // this.physics.add.collider(this.enemy, worldLayerEnemy);
+        //this.physics.add.collider(this.enemy, worldLayerEnemy);
         //this.physics.add.collider(this.enemy, worldLayer);
         
 
@@ -62,7 +62,7 @@ export default class Level3 extends Phaser.Scene {
         this.consoles = this.add.group();
 
         //scene / PosConsolaX / PosConsolaY / tamaño/tipo/temporizador/consolas/posInix/posIniY
-        this.game.putConsole(this, this.consoleB1.x, this.consoleB1.y,14, "puente", 100, this.consoles ,this.bridge1.x, this.bridge1.y );
+        this.game.putConsole(this, this.consoleB1.x, this.consoleB1.y,14, "puente", 0, this.consoles ,this.bridge1.x, this.bridge1.y );
         this.game.putConsole(this, this.consoleD1.x, this.consoleD1.y,8, "puerta", 100, this.consoles, this.door1.x, this.door1.y);
 
         //Overlaps

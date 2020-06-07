@@ -9,13 +9,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.body.colliderWorldBounds = false;
 
 
-        this.loadsprites();
         this.createPlayerAnimations();
 
 
-		this.equipped = 0; //0 nada, 1 botas, 2 arma distraccion, 3 ...
+		this.equipped = 2; //0 nada, 1 botas, 2 arma distraccion, 3 ...
 
-        this.health = 3;
         this.isDeath = false;
 		this.speed = 110;
 		this.walkingSpeed= 50;
@@ -39,9 +37,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.cursors = this.scene.input.keyboard.addKeys('ZERO, ONE, TWO, THREE, W, A, D, S , E, SPACE, SHIFT');
 
     }
-    loadsprites()
-    {
-    }
 
     update(game) {
 		
@@ -49,7 +44,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		//this.scene.physics.moveTo(this, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y, null, 750);
 
 		//this.scene.scoreText.setScrollFactor(0);
-
 
 		if(this.equipped == 1){
 			if(this.scene.input.manager.activePointer.isDown){			
@@ -82,7 +76,52 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.jumpPower = 0;
 			}
 		}
+		if(this.equipped == 2)
+		{
 
+			if(this.body.onWall() || this.body.blocked.right || this.body.blocked.left)
+			{
+				//this.body.allowGravity = false;
+				this.anims.play("wallClimbingStatic", true);
+				if(this.cursors.W.isDown)
+				{
+					this.body.setVelocityY(-this.speed);
+				}
+				else if(this.cursors.D.isDown && !this.body.blocked.right)
+				{
+					this.body.setVelocityX(this.speed);
+				}
+				else if(this.cursors.A.isDown && !this.body.blocked.left)
+				{
+					this.body.setVelocityX(-this.speed);
+				}
+				else if(this.cursors.S.isDown)
+				{
+					this.body.setVelocityY(this.speed);
+				}
+				else if(this.cursors.SPACE.isDown)
+				{
+					if(this.facingR)
+					{
+						this.body.setVelocityY(this.jumpSpeed *2);
+						this.body.setVelocityX(-(this.speed *2));
+
+					}
+					else
+					{
+						this.body.setVelocityY(this.jumpSpeed*2	);
+						this.body.setVelocityX(this.speed *2);
+					}
+					this.facingR = !this.facingR;
+				}
+				else
+				{
+					this.body.setVelocityY(0);
+				}
+				return;
+			}
+
+		}
 		this.body.setSize(16, 32);
 		this.body.setOffset(0, 0);
 
@@ -90,265 +129,266 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		//Salto
 		if(!this.isPowerJumping){
 
-		if(this.cursors.SPACE.isDown  && this.cursors.D.isDown)
-		{
-			this.walkSound.stop();
-			this.facingR = true;
-			if(this.body.onFloor())
+			if(this.cursors.SPACE.isDown  && this.cursors.D.isDown)
 			{
-				this.jumpSound.play();
-				this.body.setVelocityY(this.jumpSpeed);
-			}
-			this.body.setVelocityX(this.speed);
+				this.walkSound.stop();
+				this.facingR = true;
+				if(this.body.onFloor())
+				{
+					this.jumpSound.play();
+					this.body.setVelocityY(this.jumpSpeed);
+				}
+				this.body.setVelocityX(this.speed);
 
-			if(this.equipped==1){
-				this.anims.play('rightJumpBoots', true);
-			}else if((this.equipped==2)){
-				this.anims.play('rightJump', true);
-			}else if((this.equipped==3)){
-				this.anims.play('rightJump', true);
-			}else{
-				this.anims.play('rightJump', true);
+				if(this.equipped==1){
+					this.anims.play('rightJumpBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('rightJump', true);
+				}else if((this.equipped==3)){
+					this.anims.play('rightJump', true);
+				}else{
+					this.anims.play('rightJump', true);
+				}
 			}
-		}
-		else if(this.cursors.SPACE.isDown && this.cursors.A.isDown)
-		{
-			this.walkSound.stop();
-			this.facingR = false;
-			if(this.body.onFloor())
+			else if(this.cursors.SPACE.isDown && this.cursors.A.isDown)
 			{
-				this.jumpSound.play();
-				this.body.setVelocityY(this.jumpSpeed);
+				this.walkSound.stop();
+				this.facingR = false;
+				if(this.body.onFloor())
+				{
+					this.jumpSound.play();
+					this.body.setVelocityY(this.jumpSpeed);
+				}
+				this.body.setVelocityX(-(this.speed));
+				if(this.equipped==1){
+					this.anims.play('leftJumpBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('leftJump', true);
+				}else if((this.equipped==3)){
+					this.anims.play('leftJump', true);
+				}else{
+					this.anims.play('leftJump', true);
+				}
 			}
-			this.body.setVelocityX(-(this.speed));
-			if(this.equipped==1){
-				this.anims.play('leftJumpBoots', true);
-			}else if((this.equipped==2)){
-				this.anims.play('leftJump', true);
-			}else if((this.equipped==3)){
-				this.anims.play('leftJump', true);
-			}else{
-				this.anims.play('leftJump', true);
+			else if (this.cursors.SPACE.isDown)
+			{	
+				this.walkSound.stop();
+				if(this.body.onFloor())
+				{
+					this.jumpSound.play();
+					this.body.setVelocityY(this.jumpSpeed);
+					if(!this.facingR){
+						if(this.equipped==1){
+							this.anims.play('leftJumpBoots', true);
+						}else if((this.equipped==2)){
+							this.anims.play('leftJump', true);
+						}else if((this.equipped==3)){
+							this.anims.play('leftJump', true);
+						}else{
+							this.anims.play('leftJump', true);
+						}
+					}
+					else{
+						if(this.equipped==1){
+							this.anims.play('rightJumpBoots', true);
+						}else if((this.equipped==2)){
+							this.anims.play('rightJump', true);
+						}else if((this.equipped==3)){
+							this.anims.play('rightJump', true);
+						}else{
+							this.anims.play('rightJump', true);
+						}
+					}
+				}
 			}
-		}
-		else if (this.cursors.SPACE.isDown)
-		{	
-			this.walkSound.stop();
-			if(this.body.onFloor())
+
+			//Agacharse
+
+
+			else if(this.cursors.S.isDown && this.cursors.D.isDown)
 			{
-				this.jumpSound.play();
-				this.body.setVelocityY(this.jumpSpeed);
+				this.body.setSize(16, 20);
+				this.body.setOffset(0, 5);
+				this.facingR = true;
+				this.walkSound.stop();
+				if(this.body.onFloor())
+					this.body.setVelocityX(this.speedCrouch);
+
+				if(this.equipped==1){
+					this.anims.play('rightCrouchBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('rightCrouch', true);
+				}else if((this.equipped==3)){
+					this.anims.play('rightCrouch', true);
+				}else{
+					this.anims.play('rightCrouch', true);
+				}
+			}
+			else if(this.cursors.S.isDown && this.cursors.A.isDown)
+			{
+				this.body.setSize(16, 20);
+				this.body.setOffset(0, 5);
+				this.walkSound.stop();
+				this.facingR = false;
+				if(this.body.onFloor())
+					this.body.setVelocityX(-(this.speedCrouch));
+
+				if(this.equipped==1){
+					this.anims.play('leftCrouchBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('leftCrouch', true);
+				}else if((this.equipped==3)){
+					this.anims.play('leftCrouch', true);
+				}else{
+					this.anims.play('leftCrouch', true);
+				}
+			}
+			else if(this.cursors.S.isDown){
+				this.body.setSize(16, 20);
+				this.body.setOffset(0, 5);
+				this.walkSound.stop();
+				if(this.body.onFloor())
+					this.body.setVelocityX(0);
+
 				if(!this.facingR){
 					if(this.equipped==1){
-						this.anims.play('leftJumpBoots', true);
+						this.anims.play('staticCrouchLBoots', true);
 					}else if((this.equipped==2)){
-						this.anims.play('leftJump', true);
+						this.anims.play('staticCrouchL', true);
 					}else if((this.equipped==3)){
-						this.anims.play('leftJump', true);
+						this.anims.play('staticCrouchL', true);
 					}else{
-						this.anims.play('leftJump', true);
+						this.anims.play('staticCrouchL', true);
 					}
 				}
 				else{
 					if(this.equipped==1){
-						this.anims.play('rightJumpBoots', true);
+						this.anims.play('staticCrouchRBoots', true);
 					}else if((this.equipped==2)){
-						this.anims.play('rightJump', true);
+						this.anims.play('staticCrouchR', true);
 					}else if((this.equipped==3)){
-						this.anims.play('rightJump', true);
+						this.anims.play('staticCrouchR', true);
 					}else{
-						this.anims.play('rightJump', true);
+						this.anims.play('staticCrouchR', true);
+					}
+				}
+				
+			}
+
+			//Mov Izquierda
+			else if(this.cursors.A.isDown && this.cursors.SHIFT.isDown)
+			{
+				this.walkSound.stop();
+				
+				this.facingR = false;
+			    this.body.setVelocityX(-(this.walkingSpeed));
+
+			    if(this.equipped==1){
+					this.anims.play('leftWalkBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('leftWalk', true);
+				}else if((this.equipped==3)){
+					this.anims.play('leftWalk', true);
+				}else{
+					this.anims.play('leftWalk', true);
+				}
+			}
+			else if(this.cursors.A.isDown)
+			{
+				if(!this.walkSound.isPlaying)
+				{
+					this.walkSound.play();
+				}
+				this.facingR = false;
+			    this.body.setVelocityX(-(this.speed));
+
+			    if(this.equipped==1){
+					this.anims.play('leftBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('leftWallClimbing', true);
+				}else if((this.equipped==3)){
+					this.anims.play('left', true);
+				}else{
+					this.anims.play('left', true);
+				}
+			}
+
+			//Mov Derecha
+			else if (this.cursors.D.isDown && this.cursors.SHIFT.isDown)
+			{
+				this.walkSound.stop();
+				this.facingR = true;
+			    this.body.setVelocityX(this.walkingSpeed);
+
+			    if(this.equipped==1){
+					this.anims.play('rightWalkBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('rightWalk', true);
+				}else if((this.equipped==3)){
+					this.anims.play('rightWalk', true);
+				}else{
+					this.anims.play('rightWalk', true);
+				}
+			}
+			else if (this.cursors.D.isDown)
+			{
+				if(!this.walkSound.isPlaying)
+				{
+					this.walkSound.play();
+				}
+				this.facingR = true;
+			    this.body.setVelocityX(this.speed);
+
+			    if(this.equipped==1){
+					this.anims.play('rightBoots', true);
+				}else if((this.equipped==2)){
+					this.anims.play('rightWallClimbing', true);
+				}else if((this.equipped==3)){
+					this.anims.play('right', true);
+				}else{
+					this.anims.play('right', true);
+				}
+			}	
+			//Interaccion
+			else if(this.cursors.E.isDown)
+			{
+				game.interaction(this.scene, this.x,this.y, this);
+			}
+			//Estatico
+			else
+			{
+				this.walkSound.stop();
+				
+				if(!this.isPowerJumping){
+					this.body.setVelocityX(0);
+				}
+				
+				
+			    if(!this.facingR){
+					if(this.equipped==1){
+						this.anims.play('turnLBoots', true);
+					}else if((this.equipped==2)){
+						this.anims.play('turnL', true);
+					}else if((this.equipped==3)){
+						this.anims.play('turnL', true);
+					}else{
+						this.anims.play('turnL', true);
+					}
+				}
+			   	else{
+					if(this.equipped==1){
+						this.anims.play('turnRBoots', true);
+					}else if((this.equipped==2)){
+						this.anims.play('turnR', true);
+					}else if((this.equipped==3)){
+						this.anims.play('turnR', true);
+					}else{
+						this.anims.play('turnR', true);
 					}
 				}
 			}
 		}
-
-		//Agacharse
-
-
-		else if(this.cursors.S.isDown && this.cursors.D.isDown)
-		{
-			this.body.setSize(16, 20);
-			this.body.setOffset(0, 5);
-			this.facingR = true;
-			this.walkSound.stop();
-			if(this.body.onFloor())
-				this.body.setVelocityX(this.speedCrouch);
-
-			if(this.equipped==1){
-				this.anims.play('rightCrouchBoots', true);
-			}else if((this.equipped==2)){
-				this.anims.play('rightCrouch', true);
-			}else if((this.equipped==3)){
-				this.anims.play('rightCrouch', true);
-			}else{
-				this.anims.play('rightCrouch', true);
-			}
-		}
-		else if(this.cursors.S.isDown && this.cursors.A.isDown)
-		{
-			this.body.setSize(16, 20);
-			this.body.setOffset(0, 5);
-			this.walkSound.stop();
-			this.facingR = false;
-			if(this.body.onFloor())
-				this.body.setVelocityX(-(this.speedCrouch));
-
-			if(this.equipped==1){
-				this.anims.play('leftCrouchBoots', true);
-			}else if((this.equipped==2)){
-				this.anims.play('leftCrouch', true);
-			}else if((this.equipped==3)){
-				this.anims.play('leftCrouch', true);
-			}else{
-				this.anims.play('leftCrouch', true);
-			}
-		}
-		else if(this.cursors.S.isDown){
-			this.body.setSize(16, 20);
-			this.body.setOffset(0, 5);
-			this.walkSound.stop();
-			if(this.body.onFloor())
-				this.body.setVelocityX(0);
-
-			if(!this.facingR){
-				if(this.equipped==1){
-					this.anims.play('staticCrouchLBoots', true);
-				}else if((this.equipped==2)){
-					this.anims.play('staticCrouchL', true);
-				}else if((this.equipped==3)){
-					this.anims.play('staticCrouchL', true);
-				}else{
-					this.anims.play('staticCrouchL', true);
-				}
-			}
-			else{
-				if(this.equipped==1){
-					this.anims.play('staticCrouchRBoots', true);
-				}else if((this.equipped==2)){
-					this.anims.play('staticCrouchR', true);
-				}else if((this.equipped==3)){
-					this.anims.play('staticCrouchR', true);
-				}else{
-					this.anims.play('staticCrouchR', true);
-				}
-			}
-			
-		}
-
-		//Mov Izquierda
-		else if(this.cursors.A.isDown && this.cursors.SHIFT.isDown)
-		{
-			this.walkSound.stop();
-			
-			this.facingR = false;
-		    this.body.setVelocityX(-(this.walkingSpeed));
-
-		    if(this.equipped==1){
-				this.anims.play('leftWalkBoots', true);
-			}else if((this.equipped==2)){
-				this.anims.play('leftWalk', true);
-			}else if((this.equipped==3)){
-				this.anims.play('leftWalk', true);
-			}else{
-				this.anims.play('leftWalk', true);
-			}
-		}
-		else if(this.cursors.A.isDown)
-		{
-			if(!this.walkSound.isPlaying)
-			{
-				this.walkSound.play();
-			}
-			this.facingR = false;
-		    this.body.setVelocityX(-(this.speed));
-
-		    if(this.equipped==1){
-				this.anims.play('leftBoots', true);
-			}else if((this.equipped==2)){
-				this.anims.play('left', true);
-			}else if((this.equipped==3)){
-				this.anims.play('left', true);
-			}else{
-				this.anims.play('left', true);
-			}
-		}
-
-		//Mov Derecha
-		else if (this.cursors.D.isDown && this.cursors.SHIFT.isDown)
-		{
-			this.walkSound.stop();
-			this.facingR = true;
-		    this.body.setVelocityX(this.walkingSpeed);
-
-		    if(this.equipped==1){
-				this.anims.play('rightWalkBoots', true);
-			}else if((this.equipped==2)){
-				this.anims.play('rightWalk', true);
-			}else if((this.equipped==3)){
-				this.anims.play('rightWalk', true);
-			}else{
-				this.anims.play('rightWalk', true);
-			}
-		}
-		else if (this.cursors.D.isDown)
-		{
-			if(!this.walkSound.isPlaying)
-			{
-				this.walkSound.play();
-			}
-			this.facingR = true;
-		    this.body.setVelocityX(this.speed);
-
-		    if(this.equipped==1){
-				this.anims.play('rightBoots', true);
-			}else if((this.equipped==2)){
-				this.anims.play('right', true);
-			}else if((this.equipped==3)){
-				this.anims.play('right', true);
-			}else{
-				this.anims.play('right', true);
-			}
-		}	
-		//Interaccion
-		else if(this.cursors.E.isDown)
-		{
-			game.interaction(this.scene, this.x,this.y, this);
-		}
-		//Estatico
-		else
-		{
-			this.walkSound.stop();
-			
-			if(!this.isPowerJumping){
-				this.body.setVelocityX(0);
-			}
-			
-			
-		    if(!this.facingR){
-				if(this.equipped==1){
-					this.anims.play('turnLBoots', true);
-				}else if((this.equipped==2)){
-					this.anims.play('turnL', true);
-				}else if((this.equipped==3)){
-					this.anims.play('turnL', true);
-				}else{
-					this.anims.play('turnL', true);
-				}
-			}
-		   	else{
-				if(this.equipped==1){
-					this.anims.play('turnRBoots', true);
-				}else if((this.equipped==2)){
-					this.anims.play('turnR', true);
-				}else if((this.equipped==3)){
-					this.anims.play('turnR', true);
-				}else{
-					this.anims.play('turnR', true);
-				}
-			}
-		}
-		}else{
+		else{
 			if(this.body.onFloor() && this.isPowerJumpingIniCount > 5){
 				this.isPowerJumpingIniCount = 0;
 				this.isPowerJumping = false;
@@ -392,6 +432,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.scene.anims.create({
             key: 'leftWalk',
             frames: this.scene.anims.generateFrameNumbers('run', { start: 7, end: 11 }),
+            frameRate: 4,
+            repeat: -1
+		});
+
+		this.scene.anims.create({
+            key: 'leftWallClimbing',
+            frames: this.scene.anims.generateFrameNumbers('runWallClimbing', { start: 7, end: 11 }),
             frameRate: 4,
             repeat: -1
 		});
@@ -446,6 +493,14 @@ export default class Player extends Phaser.GameObjects.Sprite {
             frameRate: 4,
             repeat: -1
 		});
+		
+		this.scene.anims.create({
+            key: 'rightWallClimbing',
+            frames: this.scene.anims.generateFrameNumbers('runWallClimbing', { start: 0, end: 4 }),
+            frameRate: 4,
+            repeat: -1
+		});
+
 		this.scene.anims.create({
             key: 'rightWalkBoots',
             frames: this.scene.anims.generateFrameNumbers('runBoots', { start: 0, end: 4 }),
@@ -521,6 +576,25 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			key: 'rightCrouchBoots',
 			frames: this.scene.anims.generateFrameNumbers('crouchBoots', {start: 0, end: 4}),
 			frameRate: 5,
+			repeat: -1
+		});
+
+		this.scene.anims.create({
+			key: 'wallClimbingLeft',
+			frames: this.scene.anims.generateFrameNumbers('wallClimbing', {start: 4, end: 7}),
+			frameRate: 10,
+			repeat: -1
+		});
+		this.scene.anims.create({
+			key: 'wallClimbingRight',
+			frames: this.scene.anims.generateFrameNumbers('wallClimbing', {start: 0, end: 3}),
+			frameRate:10,
+			repeat: -1
+		});
+		this.scene.anims.create({
+			key: 'wallClimbingStatic',
+			frames: [ { key: 'wallClimbing', frame: 5 } ],
+			frameRate: 10,
 			repeat: -1
 		});
     }

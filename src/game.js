@@ -8,15 +8,17 @@ export default class Game extends Phaser.Scene {
 
 	constructor(configGame) {
 	   	super({ key: 'main' });
-	   	this.actLevel = 1;
+	   	this.actLevel = 3;
 	   	this.nameLevel;
 
 	}
 	preload() {  
 		this.load.spritesheet('laserOn', 'assets/sprites/laser/laser-turn-on.png',{ frameWidth: 16, frameHeight:50 });
 		this.load.spritesheet('laserOff', 'assets/sprites/laser/laser-turn-off.png',{ frameWidth: 16, frameHeight: 50 });
+
 		this.load.spritesheet('run', 'assets/sprites/RunAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
 		this.load.spritesheet('runBoots', 'assets/sprites/RunAnimation/runBoots.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('runWallClimbing', 'assets/sprites/RunAnimation/runWallclimbing.png',{ frameWidth: 16, frameHeight: 32 });
 		
 		this.load.spritesheet('jump', 'assets/sprites/RunAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
 		this.load.spritesheet('jumpBoots', 'assets/sprites/RunAnimation/jumpBoots.png',{ frameWidth: 16, frameHeight: 32 });
@@ -28,10 +30,15 @@ export default class Game extends Phaser.Scene {
         this.load.spritesheet('projectile', 'assets/sprites/enemy/projectile.png',{ frameWidth: 3, frameHeight: 1 });
         this.load.spritesheet('consola', 'assets/sprites/consola/consola.png',{ frameWidth: 33, frameHeight: 25 });
 
+        this.load.spritesheet('wallClimbing', 'assets/sprites/RunAnimation/wallClimbing.png',{ frameWidth: 16, frameHeight: 32 })
+
+
+
 
 
         //maps
 		this.load.image("tilesMap", "assets/TileSets/industrial.v1.png");
+		this.load.image("tilesGoal", "assets/TileSets/Goal.png");
   		this.load.tilemapTiledJSON("map1", "Maps/level1.json");
   		this.load.tilemapTiledJSON("map2", "Maps/level2.json");
   		this.load.tilemapTiledJSON("map3", "Maps/level3.json");
@@ -42,20 +49,17 @@ export default class Game extends Phaser.Scene {
         // this.load.audio('walkSoundEffect', 'assets/audio/steps_platform.ogg');
         //this.load.audio('shootSoundEffect', 'assets/audio/Rifleprimary2.ogg');
         this.load.audio('walkSoundEffect', 'assets/audio/Run raul.ogg');
-		this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
-		this.load.audio('level1music', 'assets/audio/walking the devil.mp3');
+        this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
 
 
 	}
 	create() {
 		this.mapSelector();
-		
 		this.scene.start(this.nameLevel);
 
 	}
 
 	update(time, delta) {
-		
 	}
 
 	mapSelector()
@@ -99,9 +103,9 @@ export default class Game extends Phaser.Scene {
     	lasers.add(laser);
     }
 
-    putConsole(scene, x, y,tamPuente,  consolas)
+    putConsole(scene, x, y,tam,tipo, temp,  consolas, xModf, yModf)
     {
-    	let consola = new Consola(scene, x, y, tamPuente);
+    	let consola = new Consola(scene, x, y, tam, tipo, temp, xModf, yModf);
     	consola.createConsolaAnimations();
     	consolas.add(consola);
     }
@@ -120,10 +124,10 @@ export default class Game extends Phaser.Scene {
             item.update(player, this);
         }, this);
     }
-    consoleUpdate(scene, consoles)
+    consoleUpdate(scene, consoles, mapa)
     {
     	consoles.getChildren().forEach(function (item) {
-            item.update();
+            item.update(mapa);
         }, this);
     }
 
@@ -152,13 +156,9 @@ export default class Game extends Phaser.Scene {
     playerDie(player)
     {
     	this.game.mapSelector();
-		if(player.isDeath){
-			this.scene.start(this.game.nameLevel);
-		}
-	}
-	respawn(){
-		
-	}
+    	if(player.isDeath)
+    		this.scene.start(this.game.nameLevel);
+    }
     hitPlayer(player, object)
     {	
     	switch(object.name)

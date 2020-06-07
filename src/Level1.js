@@ -113,8 +113,6 @@ export default class Level1 extends Phaser.Scene {
         this.game.enemyUpdate(this, this.enemy, this.player);
         this.game.laserUpdate(this,this.lasers, this.player);
         this.game.goalReach(this.end, this.player);
-        if(this.item != undefined)
-            this.item.update(time, delta);
     }
 
 

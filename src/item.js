@@ -21,13 +21,13 @@ export default class Item extends Phaser.GameObjects.Sprite {
                 frames: [ { key: 'bootsItem', frame: 0 } ],
                 frameRate: 1
             });
+            this.anims.play("bootsItemAnim", true);
 
     }
 
 
     update(t, dt) {
         super.update(t, dt);
-        this.anims.play("bootsItemAnim", true);
     }
 
 

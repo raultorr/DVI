@@ -54,6 +54,10 @@ export default class Level1 extends Phaser.Scene {
         
         this.game.addCamera(this, this.player,  worldLayer);
 
+        this.scoreText = this.add.text(16, 16, 'Hola: ', { fontSize: '28px', fill: '#fff' });
+		this.scoreText.scrollfactor = 0;
+		this.scoreText.fixedToCamera = true;
+
 
         //Enemigos
 

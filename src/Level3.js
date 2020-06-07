@@ -39,6 +39,8 @@ export default class Level3 extends Phaser.Scene {
         
         this.game.addCamera(this, this.player,  this.worldLayer);
 
+        
+
 
         //Enemigos
 

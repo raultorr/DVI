@@ -12,7 +12,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.createPlayerAnimations();
 
 
-		this.equipped = 2; //0 nada, 1 botas, 2 arma distraccion, 3 ...
+		this.equipped = 1; //0 nada, 1 botas, 2 arma distraccion, 3 ...
 
         this.isDeath = false;
 		this.speed = 110;
@@ -32,9 +32,18 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.walkSound = this.scene.sound.add('walkSoundEffect',{loop: false});
 		this.jumpSound = this.scene.sound.add('jumpSoundEffect',{loop: false});
 
-
+		
 
 		this.cursors = this.scene.input.keyboard.addKeys('ZERO, ONE, TWO, THREE, W, A, D, S , E, SPACE, SHIFT');
+
+		this.inventoryBg = this.scene.add.sprite(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY+110, 'inventory');
+		this.boots = this.scene.add.sprite(this.scene.cameras.main.centerX-17, this.scene.cameras.main.centerY+110, 'boots');
+		this.inventoryActive = this.scene.add.sprite(683, this.scene.cameras.main.centerY+110, 'inventory-active');
+		
+
+		this.inventoryBg.setScrollFactor(0);
+		this.inventoryActive.setScrollFactor(0);
+		this.boots.setScrollFactor(0);
 
     }
 
@@ -44,6 +53,21 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		//this.scene.physics.moveTo(this, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y, null, 750);
 
 		//this.scene.scoreText.setScrollFactor(0);
+
+		this.body.setSize(16, 32);
+		this.body.setOffset(0, 0);
+
+		if(this.isPowerJumping){
+			this.body.setSize(25, 16);
+			this.body.setOffset(0, 0);
+			if(this.facingR){
+				this.anims.play("rightPowerJump", true);
+				
+			}else{
+				this.anims.play("leftPowerJump", true);
+			}
+		}
+
 
 		if(this.equipped == 1){
 			if(this.scene.input.manager.activePointer.isDown){			
@@ -64,8 +88,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 					if(this.scene.input.mousePointer.x > 700){
 						this.body.setVelocityX(-this.jumpPower);
+						this.facingR = true;
 					}else{
 						this.body.setVelocityX(this.jumpPower);
+						this.facingR = false;
 					}
 
 					this.isPowerJumping = true;
@@ -122,8 +148,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			}
 
 		}
-		this.body.setSize(16, 32);
-		this.body.setOffset(0, 0);
+
 
 
 		//Salto
@@ -411,6 +436,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		else if(this.cursors.THREE.isDown){
 			this.equipped = 3;
 		}
+
+
+		this.drawHudActive();
     }
 
     
@@ -527,6 +555,20 @@ export default class Player extends Phaser.GameObjects.Sprite {
             frames: [ { key: 'jumpBoots', frame: 1 } ],
             frameRate: 1
 		});
+
+
+		this.scene.anims.create({
+	        key: 'rightPowerJump',
+	        frames: [ { key: 'powerJump', frame: 0 } ],
+	        frameRate: 1
+		});
+
+		this.scene.anims.create({
+	        key: 'leftPowerJump',
+	        frames: [ { key: 'powerJump', frame: 1 } ],
+	        frameRate: 1
+		});
+
 		
 		this.scene.anims.create({
 			key: 'staticCrouchR',
@@ -601,7 +643,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
     isDead()
     {
     	return this.isDeath;
+	}
+	
+	drawHudActive()
+    {
+		this.inventoryActive.x = 683 + (this.equipped * 17) - 17;
     }
+
     death()
     {
     	this.isDeath = true;

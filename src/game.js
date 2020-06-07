@@ -8,7 +8,7 @@ export default class Game extends Phaser.Scene {
 
 	constructor(configGame) {
 	   	super({ key: 'main' });
-	   	this.actLevel = 3;
+	   	this.actLevel = 1;
 	   	this.nameLevel;
 
 	}
@@ -21,6 +21,7 @@ export default class Game extends Phaser.Scene {
 		this.load.spritesheet('runWallClimbing', 'assets/sprites/RunAnimation/runWallclimbing.png',{ frameWidth: 16, frameHeight: 32 });
 		
 		this.load.spritesheet('jump', 'assets/sprites/RunAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('powerJump', 'assets/sprites/RunAnimation/powerJump.png',{ frameWidth: 25, frameHeight: 16 });
 		this.load.spritesheet('jumpBoots', 'assets/sprites/RunAnimation/jumpBoots.png',{ frameWidth: 16, frameHeight: 32 });
 		
 		this.load.spritesheet('crouch', 'assets/sprites/RunAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });
@@ -32,8 +33,10 @@ export default class Game extends Phaser.Scene {
 
         this.load.spritesheet('wallClimbing', 'assets/sprites/RunAnimation/wallClimbing.png',{ frameWidth: 16, frameHeight: 32 })
 
-
-
+		//HUD IMGS
+		this.load.image('inventory', 'assets/sprites/hud/inventory-bg.png');
+		this.load.image('inventory-active', 'assets/sprites/hud/inventory-active.png');
+		this.load.image('boots', 'assets/sprites/hud/boots16.png');
 
 
         //maps
@@ -49,7 +52,8 @@ export default class Game extends Phaser.Scene {
         // this.load.audio('walkSoundEffect', 'assets/audio/steps_platform.ogg');
         //this.load.audio('shootSoundEffect', 'assets/audio/Rifleprimary2.ogg');
         this.load.audio('walkSoundEffect', 'assets/audio/Run raul.ogg');
-        this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
+		this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
+		this.load.audio('level1music', 'assets/audio/walking the devil.mp3');
 
 
 	}

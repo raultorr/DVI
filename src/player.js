@@ -31,6 +31,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         //Audio
 		this.walkSound = this.scene.sound.add('walkSoundEffect',{loop: false});
 		this.jumpSound = this.scene.sound.add('jumpSoundEffect',{loop: false});
+		this.powerJumpSound = this.scene.sound.add('powerJumpSoundEffect',{loop: false});
 
 		
 
@@ -44,6 +45,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.inventoryBg.setScrollFactor(0);
 		this.inventoryActive.setScrollFactor(0);
 		this.boots.setScrollFactor(0);
+
+
+		this.picked1 = false;
+		this.picked2 = false;
+		this.picked3 = false;
+
 
     }
 
@@ -69,7 +76,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		}
 
 
-		if(this.equipped == 1){
+		if(this.equipped == 1 && this.picked1){
 			if(this.scene.input.manager.activePointer.isDown){			
 				if(this.loadingJump)
 				{
@@ -85,7 +92,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			{
 				if(this.loadingJump)
 				{	
-
+					this.powerJumpSound.play();
 					if(this.scene.input.mousePointer.x > 700){
 						this.body.setVelocityX(-this.jumpPower);
 						this.facingR = true;
@@ -165,7 +172,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				}
 				this.body.setVelocityX(this.speed);
 
-				if(this.equipped==1){
+				if(this.equipped==1 && this.picked1){
 					this.anims.play('rightJumpBoots', true);
 				}else if((this.equipped==2)){
 					this.anims.play('rightJump', true);
@@ -185,7 +192,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					this.body.setVelocityY(this.jumpSpeed);
 				}
 				this.body.setVelocityX(-(this.speed));
-				if(this.equipped==1){
+				if(this.equipped==1 && this.picked1){
 					this.anims.play('leftJumpBoots', true);
 				}else if((this.equipped==2)){
 					this.anims.play('leftJump', true);
@@ -203,7 +210,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					this.jumpSound.play();
 					this.body.setVelocityY(this.jumpSpeed);
 					if(!this.facingR){
-						if(this.equipped==1){
+						if(this.equipped==1 && this.picked1){
 							this.anims.play('leftJumpBoots', true);
 						}else if((this.equipped==2)){
 							this.anims.play('leftJump', true);
@@ -214,7 +221,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 						}
 					}
 					else{
-						if(this.equipped==1){
+						if(this.equipped==1 && this.picked1){
 							this.anims.play('rightJumpBoots', true);
 						}else if((this.equipped==2)){
 							this.anims.play('rightJump', true);
@@ -239,7 +246,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				if(this.body.onFloor())
 					this.body.setVelocityX(this.speedCrouch);
 
-				if(this.equipped==1){
+				if(this.equipped==1 && this.picked1){
 					this.anims.play('rightCrouchBoots', true);
 				}else if((this.equipped==2)){
 					this.anims.play('rightCrouch', true);
@@ -258,7 +265,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				if(this.body.onFloor())
 					this.body.setVelocityX(-(this.speedCrouch));
 
-				if(this.equipped==1){
+				if(this.equipped==1 && this.picked1){
 					this.anims.play('leftCrouchBoots', true);
 				}else if((this.equipped==2)){
 					this.anims.play('leftCrouch', true);
@@ -276,7 +283,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					this.body.setVelocityX(0);
 
 				if(!this.facingR){
-					if(this.equipped==1){
+					if(this.equipped==1 && this.picked1){
 						this.anims.play('staticCrouchLBoots', true);
 					}else if((this.equipped==2)){
 						this.anims.play('staticCrouchL', true);
@@ -287,7 +294,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					}
 				}
 				else{
-					if(this.equipped==1){
+					if(this.equipped==1 && this.picked1){
 						this.anims.play('staticCrouchRBoots', true);
 					}else if((this.equipped==2)){
 						this.anims.play('staticCrouchR', true);
@@ -308,7 +315,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.facingR = false;
 			    this.body.setVelocityX(-(this.walkingSpeed));
 
-			    if(this.equipped==1){
+			    if(this.equipped==1 && this.picked1){
 					this.anims.play('leftWalkBoots', true);
 				}else if((this.equipped==2)){
 					this.anims.play('leftWalk', true);
@@ -327,7 +334,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.facingR = false;
 			    this.body.setVelocityX(-(this.speed));
 
-			    if(this.equipped==1){
+			    if(this.equipped==1 && this.picked1){
 					this.anims.play('leftBoots', true);
 				}else if((this.equipped==2)){
 					this.anims.play('leftWallClimbing', true);
@@ -345,7 +352,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.facingR = true;
 			    this.body.setVelocityX(this.walkingSpeed);
 
-			    if(this.equipped==1){
+			    if(this.equipped==1 && this.picked1){
 					this.anims.play('rightWalkBoots', true);
 				}else if((this.equipped==2)){
 					this.anims.play('rightWalk', true);
@@ -364,7 +371,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.facingR = true;
 			    this.body.setVelocityX(this.speed);
 
-			    if(this.equipped==1){
+			    if(this.equipped==1 && this.picked1){
 					this.anims.play('rightBoots', true);
 				}else if((this.equipped==2)){
 					this.anims.play('rightWallClimbing', true);
@@ -390,7 +397,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				
 				
 			    if(!this.facingR){
-					if(this.equipped==1){
+					if(this.equipped==1 && this.picked1){
 						this.anims.play('turnLBoots', true);
 					}else if((this.equipped==2)){
 						this.anims.play('turnL', true);
@@ -401,7 +408,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					}
 				}
 			   	else{
-					if(this.equipped==1){
+					if(this.equipped==1 && this.picked1){
 						this.anims.play('turnRBoots', true);
 					}else if((this.equipped==2)){
 						this.anims.play('turnR', true);
@@ -647,6 +654,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 	
 	drawHudActive()
     {
+		if(!this.picked1){
+			this.boots.visible = false;
+		}else{
+			this.boots.visible = true;
+		}
+
 		this.inventoryActive.x = 683 + (this.equipped * 17) - 17;
     }
 

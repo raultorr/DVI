@@ -33,6 +33,9 @@ export default class Game extends Phaser.Scene {
 
         this.load.spritesheet('wallClimbing', 'assets/sprites/RunAnimation/wallClimbing.png',{ frameWidth: 16, frameHeight: 32 })
 
+		//ITEMS
+		this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
+
 		//HUD IMGS
 		this.load.image('inventory', 'assets/sprites/hud/inventory-bg.png');
 		this.load.image('inventory-active', 'assets/sprites/hud/inventory-active.png');
@@ -53,6 +56,7 @@ export default class Game extends Phaser.Scene {
         //this.load.audio('shootSoundEffect', 'assets/audio/Rifleprimary2.ogg');
         this.load.audio('walkSoundEffect', 'assets/audio/Run raul.ogg');
 		this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
+		this.load.audio('powerJumpSoundEffect', 'assets/audio/PowerJump.ogg');
 		this.load.audio('level1music', 'assets/audio/walking the devil.mp3');
 
 
@@ -156,7 +160,19 @@ export default class Game extends Phaser.Scene {
     {
     	scene.checkInteraction(x,y,player);
 
+	}
+	
+	playerPickItem(player, item)
+    {
+    	this.game.mapSelector();
+		
+		if(item.id == 1){
+			player.picked1 = true;
+		}
+
+		item.destroy();
     }
+
     playerDie(player)
     {
     	this.game.mapSelector();
@@ -176,7 +192,11 @@ export default class Game extends Phaser.Scene {
 				break;
 			case "projectile":
 				player.isDeath = true;
-    			break;
+				break;
+			case "item":
+				player.isDeath = true;
+				break;
+				
     		default:
     			player.isDeath = false;
     	}

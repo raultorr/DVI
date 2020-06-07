@@ -21,7 +21,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
         this.name = "projectile";
 
-       this.mapBoundaryLeft = -70;
+        this.mapBoundaryLeft = -70;
         this.mapBoundaryRight = 3300;
 
         this.shootEffect = this.scene.sound.add('shootSoundEffect',{loop: false});

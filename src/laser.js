@@ -14,7 +14,8 @@ export default class Laser extends Phaser.GameObjects.Sprite {
         this.timeOff = timeOff;
         this.onOff = onOff;
         this.actTime = 0;
-        this.body.setSize(11,50,0,0);
+        this.body.setSize(7,35);
+        this.body.setOffset(5, 17);
         this.scaleY = 1;
         this.body.gameObject.width = 10;
     }

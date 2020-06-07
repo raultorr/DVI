@@ -1,4 +1,5 @@
 import Player from './player.js';
+import Item from './item.js';
 
 export default class Level1 extends Phaser.Scene {
     constructor(scene) {
@@ -74,7 +75,9 @@ export default class Level1 extends Phaser.Scene {
         //proyectiles
         this.projectiles = this.add.group();
 
-       
+
+        //items
+        this.item = new Item(this, 400, 100);
 
 
         //Lasers
@@ -93,6 +96,7 @@ export default class Level1 extends Phaser.Scene {
         this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.projectiles,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.spikes,this.game.playerDie,this.game.hitPlayer, this);
+        this.physics.add.overlap( this.player,this.item,this.game.playerPickItem,this.game.hitPlayer, this);
         
 
         //teclas
@@ -109,6 +113,8 @@ export default class Level1 extends Phaser.Scene {
         this.game.enemyUpdate(this, this.enemy, this.player);
         this.game.laserUpdate(this,this.lasers, this.player);
         this.game.goalReach(this.end, this.player);
+        if(this.item != undefined)
+            this.item.update(time, delta);
     }
 
 

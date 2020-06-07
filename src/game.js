@@ -193,9 +193,6 @@ export default class Game extends Phaser.Scene {
 			case "projectile":
 				player.isDeath = true;
 				break;
-			case "item":
-				player.isDeath = true;
-				break;
 				
     		default:
     			player.isDeath = false;

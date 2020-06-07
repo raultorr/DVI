@@ -96,7 +96,7 @@ export default class Level1 extends Phaser.Scene {
         this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.projectiles,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.spikes,this.game.playerDie,this.game.hitPlayer, this);
-        this.physics.add.overlap( this.player,this.item,this.game.playerPickItem,this.game.hitPlayer, this);
+        this.physics.add.overlap( this.player,this.item,this.game.playerPickItem, this.game.hitPlayer, this);
         
 
         //teclas

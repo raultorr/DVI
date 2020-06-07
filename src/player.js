@@ -77,7 +77,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 
 		if(this.equipped == 1 && this.picked1){
-			if(this.scene.input.manager.activePointer.isDown){			
+			if(this.scene.input.manager.activePointer.isDown && !this.isPowerJumping && this.body.onFloor()){			
 				if(this.loadingJump)
 				{
 					if(this.jumpPower > -250)

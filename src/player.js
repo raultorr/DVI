@@ -118,6 +118,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 			if(this.body.onWall() || this.body.blocked.right || this.body.blocked.left || this.climbing)
 			{
+				this.walkSound.stop();
 				//this.body.allowGravity = false;
 				this.climbing = true;
 				if(this.facingR)
@@ -176,7 +177,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 		if(!this.climbing )
 		{
+			this.body.allowGravity = true;
 			this.normalMovements(game);
+		}else{
+			this.body.allowGravity = false;
 		}
 
 		

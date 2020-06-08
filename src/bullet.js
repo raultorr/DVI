@@ -1,6 +1,6 @@
 export default class Bullet extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, angle, layer) {
-        super(scene, x, y, "projectile");
+        super(scene, x, y, "projectileGreen");
 
 /*
         this.minX = 70;
@@ -10,6 +10,8 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
         this.scene.physics.add.existing(this); //enable body
 
         this.scene.physics.velocityFromRotation(angle, 300, this.body.velocity);
+
+        //this.angle = angle;
 
         this.body.allowGravity = false;
         scene.projectiles.add(this);
@@ -28,9 +30,9 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
         this.impact = false;
     }
 
-    createProjectileAnimations() { 
+    createBulletAnimations() { 
         this.scene.anims.create({
-            key: 'projectileFire',
+            key: 'projectileGreenFire',
             frames: 1,
             frameRate: 10,
             repeat: -1
@@ -39,6 +41,9 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
 
     update(t, dt) {
         super.update(t, dt);
+
+        //this.body.angle = -180;
+
         if (this.x < this.mapBoundaryLeft || this.x > this.mapBoundaryRight) //se va del mapa
             this.destroy();
 

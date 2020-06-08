@@ -39,7 +39,8 @@ export default class Game extends Phaser.Scene {
 
         this.load.spritesheet('enemyMove', 'assets/sprites/enemy/Robot.png',{ frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('chaserMove', 'assets/sprites/enemy/Chaser.png',{ frameWidth: 25, frameHeight: 27 });
-        this.load.spritesheet('projectile', 'assets/sprites/enemy/projectile.png',{ frameWidth: 3, frameHeight: 1 });
+		this.load.spritesheet('projectile', 'assets/sprites/enemy/Projectile.png',{ frameWidth: 3, frameHeight: 1 });
+		this.load.spritesheet('projectileGreen', 'assets/sprites/enemy/ProjectileGreen.png',{ frameWidth: 3, frameHeight: 1 });
         this.load.spritesheet('consola', 'assets/sprites/consola/consola.png',{ frameWidth: 33, frameHeight: 25 });
 
         this.load.spritesheet('wallClimbing', 'assets/sprites/runAnimation/wallClimbing.png',{ frameWidth: 16, frameHeight: 32 })
@@ -123,7 +124,7 @@ export default class Game extends Phaser.Scene {
 	
 	spawnBullet(scene, x, y, angle, layer) {
         let bullet = new Bullet(scene, x, y, angle, layer);
-        bullet.createProjectileAnimations();
+        bullet.createBulletAnimations();
         return bullet;
     }
 

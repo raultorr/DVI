@@ -59,6 +59,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.bullets = this.scene.add.group();
 		this.timeToShoot = 0;
 
+		this.body.angle = 90;
+
 		/*
 		this.bullets = this.scene.add.group();
     	this.bullets.enableBody = true;

@@ -52,7 +52,7 @@ export default class Level3 extends Phaser.Scene {
         //proyectiles
         this.projectiles = this.add.group();
 
-        this.game.spawnChaser(this, this.spawnPoint.x -100, this.spawnPoint.y -100, this.chasers);
+        this.game.spawnChaser(this, this.spawnPoint.x -150, this.spawnPoint.y -100, this.chasers);
 
        this.physics.add.collider(this.chasers, this.worldLayer);
 

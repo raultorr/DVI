@@ -12,7 +12,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.createPlayerAnimations();
 
 
-		this.equipped = 1; //0 nada, 1 botas, 2 guantes de escalada, 3 arma distraccion
+		this.equipped = 0; //0 nada, 1 botas, 2 guantes de escalada, 3 arma distraccion
 
         this.isDeath = false;
 		this.speed = 110;
@@ -27,7 +27,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.isPowerJumping = false;
 		this.isPowerJumpingIniCount = 0;
 
-		this.a = true;
 		this.climbing = false;
         //Audio
 		this.walkSound = this.scene.sound.add('walkSoundEffect',{loop: false});
@@ -129,20 +128,24 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					this.anims.play("wallClimbingLeft", true);
 				if(this.cursors.W.isDown)
 				{
+					this.body.setVelocityY(-6); //Mantiene al juagdor colgado
 
-					this.body.setVelocityY(-this.speed);
 				}
-				else if(this.cursors.D.isDown && !this.body.blocked.right)
+				else if(this.cursors.D.isDown )
 				{
 					this.body.setVelocityX(this.speed);
-					if(!this.facingR)
+					if(!this.facingR || !this.body.blocked.right)
 						this.climbing = false;
+					else
+						this.body.setVelocityY(-this.speed);
 				}
-				else if(this.cursors.A.isDown && !this.body.blocked.left)
+				else if(this.cursors.A.isDown)
 				{
 					this.body.setVelocityX(-this.speed);
-					if(this.facingR)
+					if(this.facingR || !this.body.blocked.left)
 						this.climbing = false;
+					else
+						this.body.setVelocityY(-this.speed);
 				}
 				else if(this.cursors.S.isDown)
 				{
@@ -155,20 +158,20 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					if(this.facingR)
 					{
 						this.body.setVelocityY(this.jumpSpeed);
-						this.body.setVelocityX(-(this.speed *2));
+						this.body.setVelocityX(-(this.speed));
 
 					}
 					else
 					{
 						this.body.setVelocityY(this.jumpSpeed);
-						this.body.setVelocityX(this.speed *2);
+						this.body.setVelocityX(this.speed);
 					}
 					this.facingR = !this.facingR;
 				}
 				else
 				{
 					//this.anims.play("wallClimbingStatic", true);
-					this.body.setVelocityY(0);
+					//this.body.setVelocityY(0);
 				}
 				return;
 			}

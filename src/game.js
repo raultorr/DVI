@@ -7,31 +7,31 @@ import Consola from './consolaPuente.js';
 
 export default class Game extends Phaser.Scene {
 
-	constructor(configGame) {
-	   	super({ key: 'main' });
-	   	this.actLevel = 1;
-	   	this.nameLevel;
+    constructor(configGame) {
+        super({ key: 'main' });
+        this.actLevel = 3;
+        this.nameLevel;
 
-	}
-	preload() {  
-		this.load.spritesheet('laserOn', 'assets/sprites/laser/laser-turn-on.png',{ frameWidth: 16, frameHeight:50 });
-		this.load.spritesheet('laserOff', 'assets/sprites/laser/laser-turn-off.png',{ frameWidth: 16, frameHeight: 50 });
+    }
+    preload() {  
+        this.load.spritesheet('laserOn', 'assets/sprites/laser/laser-turn-on.png',{ frameWidth: 16, frameHeight:50 });
+        this.load.spritesheet('laserOff', 'assets/sprites/laser/laser-turn-off.png',{ frameWidth: 16, frameHeight: 50 });
 
-		this.load.spritesheet('run', 'assets/sprites/runAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
-		this.load.spritesheet('runBoots', 'assets/sprites/runAnimation/runBoots.png',{ frameWidth: 16, frameHeight: 32 });
-		this.load.spritesheet('runWallClimbing', 'assets/sprites/runAnimation/runWallclimbing.png',{ frameWidth: 16, frameHeight: 32 });
-		
-		this.load.spritesheet('jump', 'assets/sprites/runAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
-		this.load.spritesheet('jumpBoots', 'assets/sprites/runAnimation/jumpBoots.png',{ frameWidth: 16, frameHeight: 32 });
-		this.load.spritesheet('jumpWallClimbing', 'assets/sprites/runAnimation/jumpWallClimbing.png',{ frameWidth: 16, frameHeight: 32 });
-
-
-		this.load.spritesheet('powerJump', 'assets/sprites/RunAnimation/powerJump.png',{ frameWidth: 25, frameHeight: 16 });
+        this.load.spritesheet('run', 'assets/sprites/runAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('runBoots', 'assets/sprites/runAnimation/runBoots.png',{ frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('runWallClimbing', 'assets/sprites/runAnimation/runWallclimbing.png',{ frameWidth: 16, frameHeight: 32 });
+        
+        this.load.spritesheet('jump', 'assets/sprites/runAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('jumpBoots', 'assets/sprites/runAnimation/jumpBoots.png',{ frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('jumpWallClimbing', 'assets/sprites/runAnimation/jumpWallClimbing.png',{ frameWidth: 16, frameHeight: 32 });
 
 
-		this.load.spritesheet('crouch', 'assets/sprites/runAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });
-		this.load.spritesheet('crouchBoots', 'assets/sprites/runAnimation/crouchBoots.png',{ frameWidth: 16, frameHeight: 25 });
-		this.load.spritesheet('crouchWallClimbing', 'assets/sprites/runAnimation/crouchWallClimbing.png',{ frameWidth: 16, frameHeight: 25 });
+        this.load.spritesheet('powerJump', 'assets/sprites/RunAnimation/powerJump.png',{ frameWidth: 25, frameHeight: 16 });
+
+
+        this.load.spritesheet('crouch', 'assets/sprites/runAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });
+        this.load.spritesheet('crouchBoots', 'assets/sprites/runAnimation/crouchBoots.png',{ frameWidth: 16, frameHeight: 25 });
+        this.load.spritesheet('crouchWallClimbing', 'assets/sprites/runAnimation/crouchWallClimbing.png',{ frameWidth: 16, frameHeight: 25 });
 
         this.load.spritesheet('enemyMove', 'assets/sprites/enemy/Robot.png',{ frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('chaserMove', 'assets/sprites/enemy/Chaser.png',{ frameWidth: 25, frameHeight: 27 });
@@ -40,66 +40,66 @@ export default class Game extends Phaser.Scene {
 
         this.load.spritesheet('wallClimbing', 'assets/sprites/runAnimation/wallClimbing.png',{ frameWidth: 16, frameHeight: 32 })
 
-		this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
-		this.load.spritesheet('glovesItem', 'assets/sprites/hud/gloves16.png',{ frameWidth: 16, frameHeight: 16 });
-		this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
+        this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
+        this.load.spritesheet('glovesItem', 'assets/sprites/hud/gloves16.png',{ frameWidth: 16, frameHeight: 16 });
+        this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
 
         //HUD IMGS
-		this.load.image('inventory', 'assets/sprites/hud/inventory-bg.png');
-		this.load.image('inventory-active', 'assets/sprites/hud/inventory-active.png');
-		this.load.image('boots', 'assets/sprites/hud/boots16.png');
-		this.load.image('gloves', 'assets/sprites/hud/gloves16.png');
+        this.load.image('inventory', 'assets/sprites/hud/inventory-bg.png');
+        this.load.image('inventory-active', 'assets/sprites/hud/inventory-active.png');
+        this.load.image('boots', 'assets/sprites/hud/boots16.png');
+        this.load.image('gloves', 'assets/sprites/hud/gloves16.png');
 
 
         //maps
-		this.load.image("tilesMap", "assets/TileSets/industrial.v1.png");
-		this.load.image("tilesGoal", "assets/TileSets/Goal.png");
-  		this.load.tilemapTiledJSON("map1", "Maps/level1.json");
-  		this.load.tilemapTiledJSON("map2", "Maps/level2.json");
-  		this.load.tilemapTiledJSON("map3", "Maps/level3.json");
+        this.load.image("tilesMap", "assets/TileSets/industrial.v1.png");
+        this.load.image("tilesGoal", "assets/TileSets/Goal.png");
+        this.load.tilemapTiledJSON("map1", "Maps/level1.json");
+        this.load.tilemapTiledJSON("map2", "Maps/level2.json");
+        this.load.tilemapTiledJSON("map3", "Maps/level3.json");
 
 
-  		//Sounds
-  		this.load.audio('shootSoundEffect', 'assets/audio/Rifleprimary2.ogg');
+        //Sounds
+        this.load.audio('shootSoundEffect', 'assets/audio/Rifleprimary2.ogg');
         // this.load.audio('walkSoundEffect', 'assets/audio/steps_platform.ogg');
         //this.load.audio('shootSoundEffect', 'assets/audio/Rifleprimary2.ogg');
         this.load.audio('walkSoundEffect', 'assets/audio/Run raul.ogg');
         this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
-		this.load.audio('level1music', 'assets/audio/walking the devil.mp3');
-		this.load.audio('powerJumpSoundEffect', 'assets/audio/PowerJump.ogg');
+        this.load.audio('level1music', 'assets/audio/walking the devil.mp3');
+        this.load.audio('powerJumpSoundEffect', 'assets/audio/PowerJump.ogg');
 
-	}
-	create() {
-		this.mapSelector();
-		this.scene.start(this.nameLevel);
+    }
+    create() {
+        this.mapSelector();
+        this.scene.start(this.nameLevel);
 
-	}
+    }
 
-	update(time, delta) {
-	}
+    update(time, delta) {
+    }
 
-	mapSelector()
-	{
-		switch(this.actLevel)
-		{
-			case 1:
-				this.nameLevel = "Level1";
-				break;
-			case 2:
-				this.nameLevel = "Level2";
-				break;
-			case 3:
-				this.nameLevel = "Level3";
-				break
-			default:
-				this.nameLevel = "Menu";
-				break;
-		}
-	}
+    mapSelector()
+    {
+        switch(this.actLevel)
+        {
+            case 1:
+                this.nameLevel = "Level1";
+                break;
+            case 2:
+                this.nameLevel = "Level2";
+                break;
+            case 3:
+                this.nameLevel = "Level3";
+                break
+            default:
+                this.nameLevel = "Menu";
+                break;
+        }
+    }
 
 
-	//Spawns
-	spawnRobot(scene, x, y, enemies) {
+    //Spawns
+    spawnRobot(scene, x, y, enemies) {
         let robot = new Enemy(scene, x, y);
         robot.createEnemyAnimations();
         enemies.add(robot);
@@ -118,16 +118,16 @@ export default class Game extends Phaser.Scene {
     //Traps
     putLaser(scene, x, y, lasers, onOff, tOn, tOff)
     {
-    	let laser = new Laser(scene, x, y, lasers, onOff, tOn, tOff);
-    	laser.createLaserAnimations();
-    	lasers.add(laser);
+        let laser = new Laser(scene, x, y, lasers, onOff, tOn, tOff);
+        laser.createLaserAnimations();
+        lasers.add(laser);
     }
 
     putConsole(scene, x, y,tam,tipo, temp,  consolas, xModf, yModf)
     {
-    	let consola = new Consola(scene, x, y, tam, tipo, temp, xModf, yModf);
-    	consola.createConsolaAnimations();
-    	consolas.add(consola);
+        let consola = new Consola(scene, x, y, tam, tipo, temp, xModf, yModf);
+        consola.createConsolaAnimations();
+        consolas.add(consola);
     }
 
 
@@ -145,13 +145,13 @@ export default class Game extends Phaser.Scene {
     }
     laserUpdate(scene,lasers,  player)
     {
-    	lasers.getChildren().forEach(function (item) {
+        lasers.getChildren().forEach(function (item) {
             item.update(player, this);
         }, this);
     }
     consoleUpdate(scene, consoles, mapa)
     {
-    	consoles.getChildren().forEach(function (item) {
+        consoles.getChildren().forEach(function (item) {
             item.update(mapa);
         }, this);
     }
@@ -175,64 +175,64 @@ export default class Game extends Phaser.Scene {
     //Player
     interaction(scene, x,y, player)
     {
-    	scene.checkInteraction(x,y,player);
+        scene.checkInteraction(x,y,player);
 
     }
     playerPickItem(player, item)
     {
-    	this.game.mapSelector();
-		
-		if(item.id == 1){
-			player.picked1 = true;
-		}else if(item.id == 2){
-			player.picked2 = true;
-		}
+        this.game.mapSelector();
+        
+        if(item.id == 1){
+            player.picked1 = true;
+        }else if(item.id == 2){
+            player.picked2 = true;
+        }
 
-		item.destroy();
+        item.destroy();
     }
     playerDie(player)
     {
-    	this.game.mapSelector();
-    	if(player.isDeath)
-    		this.scene.start(this.game.nameLevel);
+        this.game.mapSelector();
+        if(player.isDeath)
+            this.scene.start(this.game.nameLevel);
     }
     hitPlayer(player, object)
-    {	
-    	switch(object.name)
-    	{
-    		case "laser":
-				if(object.onOff)
-    				player.isDeath = true;
-    			break;
-    		case "robot":
-				player.isDeath = true;
-				break;
-			case "projectile":
-				player.isDeath = true;
-    			break;
-    		case "chaser":
-    			if(object.isRunning)
-    				player.isDeath = true;
-    			break;
-    		default:
-    			player.isDeath = false;
-    	}
-    	
+    {   
+        switch(object.name)
+        {
+            case "laser":
+                if(object.onOff)
+                    player.isDeath = true;
+                break;
+            case "robot":
+                player.isDeath = true;
+                break;
+            case "projectile":
+                player.isDeath = true;
+                break;
+            case "chaser":
+                if(object.isRunning)
+                    player.isDeath = true;
+                break;
+            default:
+                player.isDeath = false;
+        }
+        
     }
 
 
     goalReach(goal, player)
     {
 
-    	if(Math.abs(player.x - goal.x) < 14 && Math.abs(player.y - goal.y) < 30)
-    		this.nextLevel();
+        if(Math.abs(player.x - goal.x) < 14 && Math.abs(player.y - goal.y) < 30)
+            this.nextLevel();
     }
     nextLevel()
     {
-    	this.scene.stop(this.nameLevel);
-    	this.actLevel += 1;
-    	this.mapSelector();
-    	this.scene.start(this.nameLevel);
+        this.scene.stop(this.nameLevel);
+        this.actLevel += 1;
+        this.mapSelector();
+        this.scene.start(this.nameLevel);
     }
 
 }

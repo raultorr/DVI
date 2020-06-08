@@ -12,7 +12,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.createPlayerAnimations();
 
 
-		this.equipped = 1; //0 nada, 1 botas, 2 arma distraccion, 3 ...
+		this.equipped = 0; //0 nada, 1 botas, 2 guantes de escalada, 3 arma distraccion
 
         this.isDeath = false;
 		this.speed = 110;
@@ -27,15 +27,16 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.isPowerJumping = false;
 		this.isPowerJumpingIniCount = 0;
 
-
+		this.a = true;
+		this.climbing = false;
         //Audio
 		this.walkSound = this.scene.sound.add('walkSoundEffect',{loop: false});
 		this.jumpSound = this.scene.sound.add('jumpSoundEffect',{loop: false});
 		this.powerJumpSound = this.scene.sound.add('powerJumpSoundEffect',{loop: false});
 
-		
 
 		this.cursors = this.scene.input.keyboard.addKeys('ZERO, ONE, TWO, THREE, W, A, D, S , E, SPACE, SHIFT');
+
 
 		this.inventoryBg = this.scene.add.sprite(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY+110, 'inventory');
 		this.boots = this.scene.add.sprite(this.scene.cameras.main.centerX-17, this.scene.cameras.main.centerY+110, 'boots');
@@ -51,7 +52,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.picked2 = false;
 		this.picked3 = false;
 
-
     }
 
     update(game) {
@@ -60,7 +60,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		//this.scene.physics.moveTo(this, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y, null, 750);
 
 		//this.scene.scoreText.setScrollFactor(0);
-
+		this.drawHudActive();
 		this.body.setSize(16, 32);
 		this.body.setOffset(0, 0);
 
@@ -74,6 +74,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.anims.play("leftPowerJump", true);
 			}
 		}
+
+
 
 
 		if(this.equipped == 1 && this.picked1){
@@ -112,28 +114,41 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		if(this.equipped == 2)
 		{
 
-			if(this.body.onWall() || this.body.blocked.right || this.body.blocked.left)
+			if(this.body.onWall() || this.body.blocked.right || this.body.blocked.left || this.climbing)
 			{
 				//this.body.allowGravity = false;
-				this.anims.play("wallClimbingStatic", true);
+				this.climbing = true;
+				if(this.facingR)
+				{
+					this.anims.play("wallClimbingRight", true);
+				}
+				else
+					this.anims.play("wallClimbingLeft", true);
 				if(this.cursors.W.isDown)
 				{
+
 					this.body.setVelocityY(-this.speed);
 				}
 				else if(this.cursors.D.isDown && !this.body.blocked.right)
 				{
 					this.body.setVelocityX(this.speed);
+					if(!this.facingR)
+						this.climbing = false;
 				}
 				else if(this.cursors.A.isDown && !this.body.blocked.left)
 				{
 					this.body.setVelocityX(-this.speed);
+					if(this.facingR)
+						this.climbing = false;
 				}
 				else if(this.cursors.S.isDown)
 				{
-					this.body.setVelocityY(this.speed);
+					//this.body.setVelocityY(this.speed);
+					this.climbing = false;
 				}
 				else if(this.cursors.SPACE.isDown)
 				{
+					this.climbing = false;
 					if(this.facingR)
 					{
 						this.body.setVelocityY(this.jumpSpeed *2);
@@ -149,6 +164,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				}
 				else
 				{
+					//this.anims.play("wallClimbingStatic", true);
 					this.body.setVelocityY(0);
 				}
 				return;
@@ -156,8 +172,30 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 		}
 
+		if(!this.climbing )
+		{
+			this.normalMovements(game);
+		}
 
+		
 
+		//EQUIPAMIENTOS
+		if (this.cursors.ZERO.isDown){
+			this.equipped = 0;
+		}
+		if (this.cursors.ONE.isDown && this.picked1){ //Si no esta cogido no puede seleccionarlo
+			this.equipped = 1;
+		}
+		else if(this.cursors.TWO.isDown){
+			this.equipped = 2;
+		}
+		else if(this.cursors.THREE.isDown){
+			this.equipped = 3;
+		}
+    }
+
+    normalMovements(game)
+    {
 		//Salto
 		if(!this.isPowerJumping){
 
@@ -172,10 +210,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				}
 				this.body.setVelocityX(this.speed);
 
-				if(this.equipped==1 && this.picked1){
+				if(this.equipped==1){
 					this.anims.play('rightJumpBoots', true);
 				}else if((this.equipped==2)){
-					this.anims.play('rightJump', true);
+					this.anims.play('rightJumpWallClimbing', true);
 				}else if((this.equipped==3)){
 					this.anims.play('rightJump', true);
 				}else{
@@ -191,11 +229,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					this.jumpSound.play();
 					this.body.setVelocityY(this.jumpSpeed);
 				}
+				//if()
 				this.body.setVelocityX(-(this.speed));
-				if(this.equipped==1 && this.picked1){
+				if(this.equipped==1){
 					this.anims.play('leftJumpBoots', true);
 				}else if((this.equipped==2)){
-					this.anims.play('leftJump', true);
+					this.anims.play('leftJumpWallClimbing', true);
 				}else if((this.equipped==3)){
 					this.anims.play('leftJump', true);
 				}else{
@@ -210,10 +249,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					this.jumpSound.play();
 					this.body.setVelocityY(this.jumpSpeed);
 					if(!this.facingR){
-						if(this.equipped==1 && this.picked1){
+						if(this.equipped==1){
 							this.anims.play('leftJumpBoots', true);
 						}else if((this.equipped==2)){
-							this.anims.play('leftJump', true);
+							this.anims.play('leftJumpWallClimbing', true);
 						}else if((this.equipped==3)){
 							this.anims.play('leftJump', true);
 						}else{
@@ -221,10 +260,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 						}
 					}
 					else{
-						if(this.equipped==1 && this.picked1){
+						if(this.equipped==1){
 							this.anims.play('rightJumpBoots', true);
 						}else if((this.equipped==2)){
-							this.anims.play('rightJump', true);
+							this.anims.play('rightJumpWallClimbing', true);
 						}else if((this.equipped==3)){
 							this.anims.play('rightJump', true);
 						}else{
@@ -246,10 +285,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				if(this.body.onFloor())
 					this.body.setVelocityX(this.speedCrouch);
 
-				if(this.equipped==1 && this.picked1){
+				if(this.equipped==1){
 					this.anims.play('rightCrouchBoots', true);
 				}else if((this.equipped==2)){
-					this.anims.play('rightCrouch', true);
+					this.anims.play('rightCrouchWallClimbing', true);
 				}else if((this.equipped==3)){
 					this.anims.play('rightCrouch', true);
 				}else{
@@ -265,10 +304,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				if(this.body.onFloor())
 					this.body.setVelocityX(-(this.speedCrouch));
 
-				if(this.equipped==1 && this.picked1){
+				if(this.equipped==1){
 					this.anims.play('leftCrouchBoots', true);
 				}else if((this.equipped==2)){
-					this.anims.play('leftCrouch', true);
+					this.anims.play('leftCrouchWallClimbing', true);
 				}else if((this.equipped==3)){
 					this.anims.play('leftCrouch', true);
 				}else{
@@ -283,10 +322,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					this.body.setVelocityX(0);
 
 				if(!this.facingR){
-					if(this.equipped==1 && this.picked1){
+					if(this.equipped==1){
 						this.anims.play('staticCrouchLBoots', true);
 					}else if((this.equipped==2)){
-						this.anims.play('staticCrouchL', true);
+						this.anims.play('staticCrouchLWallClimbing', true);
 					}else if((this.equipped==3)){
 						this.anims.play('staticCrouchL', true);
 					}else{
@@ -294,10 +333,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					}
 				}
 				else{
-					if(this.equipped==1 && this.picked1){
+					if(this.equipped==1){
 						this.anims.play('staticCrouchRBoots', true);
 					}else if((this.equipped==2)){
-						this.anims.play('staticCrouchR', true);
+						this.anims.play('staticCrouchRWallClimbing', true);
 					}else if((this.equipped==3)){
 						this.anims.play('staticCrouchR', true);
 					}else{
@@ -315,10 +354,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.facingR = false;
 			    this.body.setVelocityX(-(this.walkingSpeed));
 
-			    if(this.equipped==1 && this.picked1){
+			    if(this.equipped==1){
 					this.anims.play('leftWalkBoots', true);
 				}else if((this.equipped==2)){
-					this.anims.play('leftWalk', true);
+					this.anims.play('leftWallClimbing', true);
 				}else if((this.equipped==3)){
 					this.anims.play('leftWalk', true);
 				}else{
@@ -334,7 +373,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.facingR = false;
 			    this.body.setVelocityX(-(this.speed));
 
-			    if(this.equipped==1 && this.picked1){
+			    if(this.equipped==1){
 					this.anims.play('leftBoots', true);
 				}else if((this.equipped==2)){
 					this.anims.play('leftWallClimbing', true);
@@ -352,10 +391,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.facingR = true;
 			    this.body.setVelocityX(this.walkingSpeed);
 
-			    if(this.equipped==1 && this.picked1){
+			    if(this.equipped==1){
 					this.anims.play('rightWalkBoots', true);
 				}else if((this.equipped==2)){
-					this.anims.play('rightWalk', true);
+					this.anims.play('rightWallClimbing', true);
 				}else if((this.equipped==3)){
 					this.anims.play('rightWalk', true);
 				}else{
@@ -371,7 +410,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.facingR = true;
 			    this.body.setVelocityX(this.speed);
 
-			    if(this.equipped==1 && this.picked1){
+			    if(this.equipped==1){
 					this.anims.play('rightBoots', true);
 				}else if((this.equipped==2)){
 					this.anims.play('rightWallClimbing', true);
@@ -397,10 +436,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				
 				
 			    if(!this.facingR){
-					if(this.equipped==1 && this.picked1){
+					if(this.equipped==1){
 						this.anims.play('turnLBoots', true);
 					}else if((this.equipped==2)){
-						this.anims.play('turnL', true);
+						this.anims.play('turnLtWallClimbing', true);
 					}else if((this.equipped==3)){
 						this.anims.play('turnL', true);
 					}else{
@@ -408,10 +447,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					}
 				}
 			   	else{
-					if(this.equipped==1 && this.picked1){
+					if(this.equipped==1){
 						this.anims.play('turnRBoots', true);
 					}else if((this.equipped==2)){
-						this.anims.play('turnR', true);
+						this.anims.play('turnRtWallClimbing', true);
 					}else if((this.equipped==3)){
 						this.anims.play('turnR', true);
 					}else{
@@ -428,27 +467,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				this.isPowerJumpingIniCount++;
 			}
 		}
-
-
-		//EQUIPAMIENTOS
-		if (this.cursors.ZERO.isDown){
-			this.equipped = 0;
-		}
-		if (this.cursors.ONE.isDown){
-			this.equipped = 1;
-		}
-		else if(this.cursors.TWO.isDown){
-			this.equipped = 2;
-		}
-		else if(this.cursors.THREE.isDown){
-			this.equipped = 3;
-		}
-
-
-		this.drawHudActive();
     }
-
-    
     createPlayerAnimations() {
          this.scene.anims.create({
             key: 'left',
@@ -496,6 +515,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
             frames: [ { key: 'runBoots', frame: 6 } ],
             frameRate: 1
         });
+        this.scene.anims.create({
+            key: 'turnLtWallClimbing',
+            frames: [ { key: 'runWallClimbing', frame: 6 } ],
+            frameRate: 1
+        });
 
          this.scene.anims.create({
             key: 'turnR',
@@ -506,6 +530,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.scene.anims.create({
             key: 'turnRBoots',
             frames: [ { key: 'runBoots', frame: 5 } ],
+            frameRate: 1
+        });
+         this.scene.anims.create({
+            key: 'turnRtWallClimbing',
+            frames: [ { key: 'runWallClimbing', frame: 5 } ],
             frameRate: 1
         });
 
@@ -553,6 +582,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
 	        frameRate: 1
         });
         this.scene.anims.create({
+	        key: 'rightJumpWallClimbing',
+	        frames: [ { key: 'jumpWallClimbing', frame: 0 } ],
+	        frameRate: 1
+        });
+        this.scene.anims.create({
             key: 'leftJump',
             frames: [ { key: 'jump', frame: 1 } ],
             frameRate: 1
@@ -562,20 +596,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
             frames: [ { key: 'jumpBoots', frame: 1 } ],
             frameRate: 1
 		});
-
-
 		this.scene.anims.create({
-	        key: 'rightPowerJump',
-	        frames: [ { key: 'powerJump', frame: 0 } ],
+	        key: 'leftJumpWallClimbing',
+	        frames: [ { key: 'jumpWallClimbing', frame: 1 } ],
 	        frameRate: 1
-		});
-
-		this.scene.anims.create({
-	        key: 'leftPowerJump',
-	        frames: [ { key: 'powerJump', frame: 1 } ],
-	        frameRate: 1
-		});
-
+        });
 		
 		this.scene.anims.create({
 			key: 'staticCrouchR',
@@ -587,7 +612,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			frames: [ { key: 'crouchBoots', frame: 0 } ],
 			frameRate: 1
 		});
-
+		this.scene.anims.create({
+			key: 'staticCrouchRWallClimbing',
+			frames: [ { key: 'crouchWallClimbing', frame: 0 } ],
+			frameRate: 1
+		});
 		this.scene.anims.create({
 			key: 'staticCrouchL',
 			frames: [ { key: 'crouch', frame: 5 } ],
@@ -597,6 +626,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.scene.anims.create({
 			key: 'staticCrouchLBoots',
 			frames: [ { key: 'crouchBoots', frame: 5 } ],
+			frameRate: 1
+		});
+
+		this.scene.anims.create({
+			key: 'staticCrouchLWallClimbing',
+			frames: [ { key: 'crouchWallClimbing', frame: 5 } ],
 			frameRate: 1
 		});
 
@@ -610,6 +645,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.scene.anims.create({
 			key: 'leftCrouchBoots',
 			frames: this.scene.anims.generateFrameNumbers('crouchBoots', {start: 5, end: 9}),
+			frameRate: 5,
+			repeat: -1
+		});
+		this.scene.anims.create({
+			key: 'leftCrouchWallClimbing',
+			frames: this.scene.anims.generateFrameNumbers('crouchWallClimbing', {start: 5, end: 9}),
 			frameRate: 5,
 			repeat: -1
 		});
@@ -627,17 +668,23 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			frameRate: 5,
 			repeat: -1
 		});
-
+		this.scene.anims.create({
+			key: 'rightCrouchWallClimbing',
+			frames: this.scene.anims.generateFrameNumbers('crouchWallClimbing', {start: 0, end: 4}),
+			frameRate: 5,
+			repeat: -1
+		});
+		//Wallclimbing
 		this.scene.anims.create({
 			key: 'wallClimbingLeft',
 			frames: this.scene.anims.generateFrameNumbers('wallClimbing', {start: 4, end: 7}),
-			frameRate: 10,
+			frameRate: 5,
 			repeat: -1
 		});
 		this.scene.anims.create({
 			key: 'wallClimbingRight',
 			frames: this.scene.anims.generateFrameNumbers('wallClimbing', {start: 0, end: 3}),
-			frameRate:10,
+			frameRate: 5,
 			repeat: -1
 		});
 		this.scene.anims.create({
@@ -646,26 +693,30 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			frameRate: 10,
 			repeat: -1
 		});
+		//PowerJump
+		this.scene.anims.create({
+	        key: 'rightPowerJump',
+	        frames: [ { key: 'powerJump', frame: 0 } ],
+	        frameRate: 1
+		});
+
+		this.scene.anims.create({
+	        key: 'leftPowerJump',
+	        frames: [ { key: 'powerJump', frame: 1 } ],
+	        frameRate: 1
+		});
     }
     isDead()
     {
     	return this.isDeath;
-	}
-	
-	drawHudActive()
-    {
-		if(!this.picked1){
-			this.boots.visible = false;
-		}else{
-			this.boots.visible = true;
-		}
-
-		this.inventoryActive.x = 683 + (this.equipped * 17) - 17;
     }
-
     death()
     {
     	this.isDeath = true;
+    }
+    drawHudActive()
+    {
+		this.inventoryActive.x = 683 + (this.equipped * 17) - 17;
     }
 }
 

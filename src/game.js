@@ -1,5 +1,6 @@
 import Player from './player.js';
 import Enemy   from './enemy.js';
+import EnemyChaser   from './enemyChaser.js';
 import Projectile from './projectile.js';
 import Laser from './laser.js';
 import Consola from './consolaPuente.js';
@@ -21,22 +22,27 @@ export default class Game extends Phaser.Scene {
 		this.load.spritesheet('runWallClimbing', 'assets/sprites/RunAnimation/runWallclimbing.png',{ frameWidth: 16, frameHeight: 32 });
 		
 		this.load.spritesheet('jump', 'assets/sprites/RunAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
-		this.load.spritesheet('powerJump', 'assets/sprites/RunAnimation/powerJump.png',{ frameWidth: 25, frameHeight: 16 });
 		this.load.spritesheet('jumpBoots', 'assets/sprites/RunAnimation/jumpBoots.png',{ frameWidth: 16, frameHeight: 32 });
-		
+		this.load.spritesheet('jumpWallClimbing', 'assets/sprites/RunAnimation/jumpWallClimbing.png',{ frameWidth: 16, frameHeight: 32 });
+
+
+		this.load.spritesheet('powerJump', 'assets/sprites/RunAnimation/powerJump.png',{ frameWidth: 25, frameHeight: 16 });
+
+
 		this.load.spritesheet('crouch', 'assets/sprites/RunAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });
 		this.load.spritesheet('crouchBoots', 'assets/sprites/RunAnimation/crouchBoots.png',{ frameWidth: 16, frameHeight: 25 });
+		this.load.spritesheet('crouchWallClimbing', 'assets/sprites/RunAnimation/crouchWallClimbing.png',{ frameWidth: 16, frameHeight: 25 });
 
         this.load.spritesheet('enemyMove', 'assets/sprites/enemy/Robot.png',{ frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('chaserMove', 'assets/sprites/enemy/Chaser.png',{ frameWidth: 25, frameHeight: 27 });
         this.load.spritesheet('projectile', 'assets/sprites/enemy/projectile.png',{ frameWidth: 3, frameHeight: 1 });
         this.load.spritesheet('consola', 'assets/sprites/consola/consola.png',{ frameWidth: 33, frameHeight: 25 });
 
         this.load.spritesheet('wallClimbing', 'assets/sprites/RunAnimation/wallClimbing.png',{ frameWidth: 16, frameHeight: 32 })
 
-		//ITEMS
-		this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
+        this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
 
-		//HUD IMGS
+        //HUD IMGS
 		this.load.image('inventory', 'assets/sprites/hud/inventory-bg.png');
 		this.load.image('inventory-active', 'assets/sprites/hud/inventory-active.png');
 		this.load.image('boots', 'assets/sprites/hud/boots16.png');
@@ -55,10 +61,9 @@ export default class Game extends Phaser.Scene {
         // this.load.audio('walkSoundEffect', 'assets/audio/steps_platform.ogg');
         //this.load.audio('shootSoundEffect', 'assets/audio/Rifleprimary2.ogg');
         this.load.audio('walkSoundEffect', 'assets/audio/Run raul.ogg');
-		this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
-		this.load.audio('powerJumpSoundEffect', 'assets/audio/PowerJump.ogg');
+        this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
 		this.load.audio('level1music', 'assets/audio/walking the devil.mp3');
-
+		this.load.audio('powerJumpSoundEffect', 'assets/audio/PowerJump.ogg');
 
 	}
 	create() {
@@ -94,8 +99,12 @@ export default class Game extends Phaser.Scene {
 	spawnRobot(scene, x, y, enemies) {
         let robot = new Enemy(scene, x, y);
         robot.createEnemyAnimations();
-        robot.play('staticEnemyRight', true);
         enemies.add(robot);
+    }
+    spawnChaser(scene, x, y, chasers) {
+        let chaser = new EnemyChaser(scene, x, y);
+        chaser.createEnemyAnimations();
+        chasers.add(chaser);
     }
     spawnProjectile(scene, x, y, enemy) {
         let projectile = new Projectile(scene, x, y, enemy);
@@ -123,6 +132,11 @@ export default class Game extends Phaser.Scene {
     //Updates
     enemyUpdate(scene, enemies, player) {
         enemies.getChildren().forEach(function (item) {
+            item.update(player, this);
+        }, this);
+    }
+    enemyChasersUpdate(scene, chasers, player) {
+        chasers.getChildren().forEach(function (item) {
             item.update(player, this);
         }, this);
     }
@@ -160,9 +174,8 @@ export default class Game extends Phaser.Scene {
     {
     	scene.checkInteraction(x,y,player);
 
-	}
-	
-	playerPickItem(player, item)
+    }
+    playerPickItem(player, item)
     {
     	this.game.mapSelector();
 		
@@ -172,7 +185,6 @@ export default class Game extends Phaser.Scene {
 
 		item.destroy();
     }
-
     playerDie(player)
     {
     	this.game.mapSelector();
@@ -192,8 +204,11 @@ export default class Game extends Phaser.Scene {
 				break;
 			case "projectile":
 				player.isDeath = true;
-				break;
-				
+    			break;
+    		case "chaser":
+    			if(object.isRunning)
+    				player.isDeath = true;
+    			break;
     		default:
     			player.isDeath = false;
     	}

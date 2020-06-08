@@ -1,6 +1,5 @@
 import Player from './player.js';
 import Item from './item.js';
-
 export default class Level1 extends Phaser.Scene {
     constructor(scene) {
         super({ key: 'Level1' });
@@ -13,12 +12,16 @@ export default class Level1 extends Phaser.Scene {
         this.game.sound.stopAll();
         this.level1music = this.sound.add('level1music',{loop: true, volume:0.1});
         this.level1music.play();
+
+
         //Mapa
         const map = this.make.tilemap({ key: "map1" });
-        const tileset = map.addTilesetImage("industrial.v1", "tilesMap");
+        const tileset = map.addTilesetImage("industrial.v1", "tilesMap",16,8,0,0);
+        const tileset2 = map.addTilesetImage("Goal", "tilesGoal", 14,8,0,0);
         const worldLayerEnemy = map.createStaticLayer("enemyCollisionLayer", tileset , 0 , 0);
         const blackLayout = map.createStaticLayer("Black", tileset, 0, 0);
         const backGround = map.createStaticLayer("BackGround", tileset , 0 , 0);
+        const GoalLayer = map.createStaticLayer("GoalLayer", tileset2, 0, 0);
         const worldLayer = map.createStaticLayer("WorldLayer", tileset , 0 , 0);
         
         
@@ -55,8 +58,6 @@ export default class Level1 extends Phaser.Scene {
         
         this.game.addCamera(this, this.player,  worldLayer);
 
-        this.add.text(16, 16, 'Tyranny ', { fontSize: '16px', fill: '#ddd' });
-
 
         //Enemigos
 
@@ -75,8 +76,7 @@ export default class Level1 extends Phaser.Scene {
         //proyectiles
         this.projectiles = this.add.group();
 
-
-        //items
+         //items
         this.item = new Item(this, 400, 100);
 
 
@@ -97,14 +97,11 @@ export default class Level1 extends Phaser.Scene {
         this.physics.add.overlap( this.player,this.projectiles,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.spikes,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.item,this.game.playerPickItem, this.game.hitPlayer, this);
-        
 
         //teclas
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
-
-        
     }
 
     update(time, delta) {
@@ -113,6 +110,7 @@ export default class Level1 extends Phaser.Scene {
         this.game.enemyUpdate(this, this.enemy, this.player);
         this.game.laserUpdate(this,this.lasers, this.player);
         this.game.goalReach(this.end, this.player);
+
     }
 
 

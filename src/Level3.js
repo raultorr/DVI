@@ -39,8 +39,6 @@ export default class Level3 extends Phaser.Scene {
         
         this.game.addCamera(this, this.player,  this.worldLayer);
 
-        
-
 
         //Enemigos
 
@@ -49,11 +47,15 @@ export default class Level3 extends Phaser.Scene {
         //this.physics.add.collider(this.enemy, worldLayer);
         
 
+        this.chasers = this.physics.add.group();
 
         //proyectiles
         this.projectiles = this.add.group();
 
-       
+        this.game.spawnChaser(this, this.spawnPoint.x -100, this.spawnPoint.y -100, this.chasers);
+
+       this.physics.add.collider(this.chasers, this.worldLayer);
+
 
 
         //Lasers
@@ -70,7 +72,7 @@ export default class Level3 extends Phaser.Scene {
         //Overlaps
        // this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);
        // this.physics.add.overlap( this.player,this.projectiles,this.game.playerDie,this.game.hitPlayer, this);
-      //  this.physics.add.overlap( this.player,this.spikes,this.game.playerDie,this.game.hitPlayer, this);
+        this.physics.add.overlap( this.player,this.chasers,this.game.playerDie,this.game.hitPlayer, this);
         
 
         //teclas
@@ -81,7 +83,7 @@ export default class Level3 extends Phaser.Scene {
 
     update(time, delta) {
         this.player.update(this.game);
-
+        this.game.enemyChasersUpdate(this, this.chasers, this.player);
         this.game.consoleUpdate(this, this.consoles, this.worldLayer);
 
     }  

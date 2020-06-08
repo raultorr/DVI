@@ -10,7 +10,7 @@ export default class Level1 extends Phaser.Scene {
 
         this.game = this.scene.get('main');
         this.game.sound.stopAll();
-        this.level1music = this.sound.add('level1music',{loop: true, volume:0.1});
+        this.level1music = this.sound.add('level1music',{loop: true, volume:0.05});
         this.level1music.play();
 
 
@@ -77,7 +77,7 @@ export default class Level1 extends Phaser.Scene {
         this.projectiles = this.add.group();
 
          //items
-        this.item = new Item(this, 400, 100);
+        this.item = new Item(this, 400, 100, 2);
 
 
         //Lasers

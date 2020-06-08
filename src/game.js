@@ -40,12 +40,15 @@ export default class Game extends Phaser.Scene {
 
         this.load.spritesheet('wallClimbing', 'assets/sprites/runAnimation/wallClimbing.png',{ frameWidth: 16, frameHeight: 32 })
 
-        this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
+		this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
+		this.load.spritesheet('glovesItem', 'assets/sprites/hud/gloves16.png',{ frameWidth: 16, frameHeight: 16 });
+		this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
 
         //HUD IMGS
 		this.load.image('inventory', 'assets/sprites/hud/inventory-bg.png');
 		this.load.image('inventory-active', 'assets/sprites/hud/inventory-active.png');
 		this.load.image('boots', 'assets/sprites/hud/boots16.png');
+		this.load.image('gloves', 'assets/sprites/hud/gloves16.png');
 
 
         //maps
@@ -181,6 +184,8 @@ export default class Game extends Phaser.Scene {
 		
 		if(item.id == 1){
 			player.picked1 = true;
+		}else if(item.id == 2){
+			player.picked2 = true;
 		}
 
 		item.destroy();

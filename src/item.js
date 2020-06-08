@@ -1,5 +1,5 @@
 export default class Item extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y) {
+    constructor(scene, x, y, id) {
         super(scene, x, y, "item");
 
             this.scene.add.existing(this);
@@ -12,16 +12,32 @@ export default class Item extends Phaser.GameObjects.Sprite {
 
             this.body.allowGravity = false;
 
-            this.id = 1;
+            this.id = id;
 
             this.name = "item";
 
-            this.scene.anims.create({
-                key: 'bootsItemAnim',
-                frames: [ { key: 'bootsItem', frame: 0 } ],
-                frameRate: 1
-            });
-            this.anims.play("bootsItemAnim", true);
+            if(this.id == 1){
+                this.scene.anims.create({
+                    key: 'itemAnim',
+                    frames: [ { key: 'bootsItem', frame: 0 } ],
+                    frameRate: 1
+                });
+            }else if(this.id == 2){
+                this.scene.anims.create({
+                    key: 'itemAnim',
+                    frames: [ { key: 'glovesItem', frame: 0 } ],
+                    frameRate: 1
+                });
+            }else if(this.id == 3){
+                this.scene.anims.create({
+                    key: 'itemAnim',
+                    frames: [ { key: 'weaponItem', frame: 0 } ],
+                    frameRate: 1
+                });
+            }
+
+            
+            this.anims.play("itemAnim", true);
 
     }
 

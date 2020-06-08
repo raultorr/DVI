@@ -1,25 +1,21 @@
-export default class Projectile extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, enemy) {
+export default class Bullet extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, angle) {
         super(scene, x, y, "projectile");
 
 /*
         this.minX = 70;
         this.maxX = 3300;
 */
-        this.vel = 900;
-        if(!enemy.facingR)
-            this.vel = -this.vel;
-
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this); //enable body
 
+        this.scene.physics.velocityFromRotation(angle, 400, this.body.velocity);
 
-        this.body.setVelocityX(this.vel);
         this.body.allowGravity = false;
         scene.projectiles.add(this);
         this.body.syncBounds = true;
 
-        this.name = "projectile";
+        this.name = "bullet";
 
         this.mapBoundaryLeft = -70;
         this.mapBoundaryRight = 3300;

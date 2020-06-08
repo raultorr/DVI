@@ -2,6 +2,7 @@ import Player from './player.js';
 import Enemy   from './enemy.js';
 import EnemyChaser   from './enemyChaser.js';
 import Projectile from './projectile.js';
+import Bullet from './bullet.js';
 import Laser from './laser.js';
 import Consola from './consolaPuente.js';
 
@@ -113,6 +114,12 @@ export default class Game extends Phaser.Scene {
         let projectile = new Projectile(scene, x, y, enemy);
         projectile.createProjectileAnimations();
         return projectile;
+	}
+	
+	spawnBullet(scene, x, y, angle) {
+        let bullet = new Bullet(scene, x, y, angle);
+        bullet.createProjectileAnimations();
+        return bullet;
     }
 
     //Traps

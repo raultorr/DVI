@@ -84,7 +84,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
          this.scene.anims.create({
             key: 'rightEnemy',
             frames: this.scene.anims.generateFrameNumbers('enemyMove', { start:4, end: 7 }),
-            frameRate: 1,
+            frameRate: 6,
             repeat: -1
         });
 
@@ -104,7 +104,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         this.scene.anims.create({
             key: 'leftEnemy',
             frames: this.scene.anims.generateFrameNumbers('enemyMove', { start: 0, end: 3 }),
-            frameRate: 1,
+            frameRate: 6,
             repeat: -1
         });
     }

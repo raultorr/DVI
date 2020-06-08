@@ -12,7 +12,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.createPlayerAnimations();
 
 
-		this.equipped = 0; //0 nada, 1 botas, 2 guantes de escalada, 3 arma distraccion
+		this.equipped = 1; //0 nada, 1 botas, 2 guantes de escalada, 3 arma distraccion
 
         this.isDeath = false;
 		this.speed = 110;
@@ -53,6 +53,40 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.picked2 = false;
 		this.picked3 = false;
 
+
+		this.timeToShoot = 0;
+
+		/*
+		this.bullets = this.scene.add.group();
+    	this.bullets.enableBody = true;
+		this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
+
+		this.fireRate = 100;
+		this.nextFire = 0;	
+		
+		this.bullets.createMultiple(50, 'bullet');*/
+		//this.bullets.setAll('checkWorldBounds', true);
+		//this.bullets.setAll('outOfBoundsKill', true);
+
+
+		//PARA SACAR UNA LINEA CON LA DIRECCION
+		/*
+		this.gfx = this.scene.add.graphics().setDefaultStyles({ lineStyle: { width: 1, color: 0xffdd00, alpha: 0.5 } });
+		this.line = new Phaser.Geom.Line();
+		this.angle = 0;
+		this.scene.input.on('pointermove', function (pointer) {
+			if(this.scene.input.manager.activePointer.isDown && this.equipped == 1 && this.picked1){
+				this.gfx.setVisible(true);
+				this.angle = Phaser.Math.Angle.Between(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, pointer.x, pointer.y);
+				Phaser.Geom.Line.SetToAngle(this.line, this.x, this.y, this.angle, 64);
+				
+				this.gfx.clear().strokeLineShape(this.line);
+			}else{
+				this.gfx.setVisible(true);
+			}
+		}, this);
+
+		*/
     }
 
     update(game) {
@@ -62,8 +96,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 		//this.scene.scoreText.setScrollFactor(0);
 		this.drawHudActive();
+
 		this.body.setSize(16, 32);
 		this.body.setOffset(0, 0);
+		
 
 		if(this.isPowerJumping){
 			this.body.setSize(25, 16);
@@ -80,10 +116,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 
 		if(this.equipped == 1 && this.picked1){
+
+			
+
 			if(this.scene.input.manager.activePointer.isDown && !this.isPowerJumping && this.body.onFloor()){			
 				if(this.loadingJump)
 				{
-					if(this.jumpPower > -250)
+					if(this.jumpPower > -350)
 						this.jumpPower-=3;
 				}
 				else
@@ -96,16 +135,26 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				if(this.loadingJump)
 				{	
 					this.powerJumpSound.play();
+					/*
 					if(this.scene.input.mousePointer.x > 700){
 						this.body.setVelocityX(-this.jumpPower);
 						this.facingR = true;
 					}else{
 						this.body.setVelocityX(this.jumpPower);
 						this.facingR = false;
+					}*/
+
+					let angle = Phaser.Math.Angle.Between(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y);
+					this.scene.physics.velocityFromRotation(angle, -this.jumpPower, this.body.velocity);
+					console.log(angle);
+					if(-1.5<angle<1.5){
+						this.facingR = true;
+					}else{
+						this.facingR = false;
 					}
 
+
 					this.isPowerJumping = true;
-					this.body.setVelocityY(this.jumpPower);
 
 					this.loadingJump = false;
 				}
@@ -176,6 +225,19 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				return;
 			}
 
+		}
+
+
+		if(this.equipped == 3)
+		{
+			if ( this.scene.input.manager.activePointer.isDown && this.timeToShoot == 100) {
+				game.spawnBullet(this.scene, this.x, this.y, Phaser.Math.Angle.Between(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y));
+				this.timeToShoot = 0;
+			}
+			
+			if(this.timeToShoot<100){
+				this.timeToShoot++;
+			}
 		}
 
 		if(!this.climbing )
@@ -287,8 +349,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 			else if(this.cursors.S.isDown && this.cursors.D.isDown)
 			{
-				this.body.setSize(16, 20);
-				this.body.setOffset(0, 5);
+				this.body.setSize(16, 24);
+				this.body.setOffset(0, 0);
 				this.facingR = true;
 				this.walkSound.stop();
 				if(this.body.onFloor())
@@ -306,8 +368,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			}
 			else if(this.cursors.S.isDown && this.cursors.A.isDown)
 			{
-				this.body.setSize(16, 20);
-				this.body.setOffset(0, 5);
+				this.body.setSize(16, 24);
+				this.body.setOffset(0, 0);
 				this.walkSound.stop();
 				this.facingR = false;
 				if(this.body.onFloor())
@@ -324,8 +386,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				}
 			}
 			else if(this.cursors.S.isDown){
-				this.body.setSize(16, 20);
-				this.body.setOffset(0, 5);
+				this.body.setSize(16, 24);
+				this.body.setOffset(0, 0);
 				this.walkSound.stop();
 				if(this.body.onFloor())
 					this.body.setVelocityX(0);

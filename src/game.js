@@ -9,7 +9,7 @@ export default class Game extends Phaser.Scene {
 
     constructor(configGame) {
         super({ key: 'main' });
-        this.actLevel = 3;
+        this.actLevel = 1;
         this.nameLevel;
 
     }

@@ -19,11 +19,13 @@ export default class Game extends Phaser.Scene {
         this.load.spritesheet('laserOff', 'assets/sprites/laser/laser-turn-off.png',{ frameWidth: 16, frameHeight: 50 });
 
         this.load.spritesheet('run', 'assets/sprites/runAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
-        this.load.spritesheet('runBoots', 'assets/sprites/runAnimation/runBoots.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('runBoots', 'assets/sprites/runAnimation/runBoots.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('runWeapon', 'assets/sprites/runAnimation/runWeapon.png',{ frameWidth: 16, frameHeight: 32 });
         this.load.spritesheet('runWallClimbing', 'assets/sprites/runAnimation/runWallclimbing.png',{ frameWidth: 16, frameHeight: 32 });
         
         this.load.spritesheet('jump', 'assets/sprites/runAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
-        this.load.spritesheet('jumpBoots', 'assets/sprites/runAnimation/jumpBoots.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('jumpBoots', 'assets/sprites/runAnimation/jumpBoots.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('jumpWeapon', 'assets/sprites/runAnimation/jumpWeapon.png',{ frameWidth: 16, frameHeight: 32 });
         this.load.spritesheet('jumpWallClimbing', 'assets/sprites/runAnimation/jumpWallClimbing.png',{ frameWidth: 16, frameHeight: 32 });
 
 
@@ -31,7 +33,8 @@ export default class Game extends Phaser.Scene {
 
 
         this.load.spritesheet('crouch', 'assets/sprites/runAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });
-        this.load.spritesheet('crouchBoots', 'assets/sprites/runAnimation/crouchBoots.png',{ frameWidth: 16, frameHeight: 25 });
+		this.load.spritesheet('crouchBoots', 'assets/sprites/runAnimation/crouchBoots.png',{ frameWidth: 16, frameHeight: 25 });
+		this.load.spritesheet('crouchWeapon', 'assets/sprites/runAnimation/crouchWeapon.png',{ frameWidth: 16, frameHeight: 25 });
         this.load.spritesheet('crouchWallClimbing', 'assets/sprites/runAnimation/crouchWallClimbing.png',{ frameWidth: 16, frameHeight: 25 });
 
         this.load.spritesheet('enemyMove', 'assets/sprites/enemy/Robot.png',{ frameWidth: 64, frameHeight: 64 });

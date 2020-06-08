@@ -31,7 +31,7 @@ export default class Level3 extends Phaser.Scene {
        this.bridge1 = map.findObject("Spawners", obj => obj.name === "puente1");
 
         //Jugador
-        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y, true, true, false);
+        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y, this.worldLayer, true, true, false);
         this.physics.add.collider(this.player, this.worldLayer);
 
 

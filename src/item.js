@@ -1,4 +1,5 @@
 export default class Item extends Phaser.GameObjects.Sprite {
+    //CLASE PARA LOS ITEMS QUE SE PUEDEN RECOGER DEL SUELO
     constructor(scene, x, y, id) {
         super(scene, x, y, "item");
 

@@ -1,5 +1,5 @@
 export default class Bullet extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, angle) {
+    constructor(scene, x, y, angle, layer) {
         super(scene, x, y, "projectile");
 
 /*
@@ -9,7 +9,7 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this); //enable body
 
-        this.scene.physics.velocityFromRotation(angle, 400, this.body.velocity);
+        this.scene.physics.velocityFromRotation(angle, 300, this.body.velocity);
 
         this.body.allowGravity = false;
         scene.projectiles.add(this);
@@ -22,6 +22,10 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
 
         this.shootEffect = this.scene.sound.add('shootSoundEffect',{loop: false, volume:0.2});
         this.shootEffect.play();
+
+        this.scene.physics.add.collider(this, layer);
+        this.temporizador = 500;
+        this.impact = false;
     }
 
     createProjectileAnimations() { 
@@ -37,5 +41,26 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
         super.update(t, dt);
         if (this.x < this.mapBoundaryLeft || this.x > this.mapBoundaryRight) //se va del mapa
             this.destroy();
+
+        
+        
+
+
+        if(this.body.onFloor() || this.body.onCeiling()){
+            this.body.setVelocityX(0);
+            this.impact = true;
+        }
+
+        if(this.body.onWall()){
+            this.body.setVelocityY(0);
+            this.impact = true;
+        }
+
+        if(this.impact)
+            this.temporizador--;
+
+        if(this.temporizador == 0)
+            this.destroy();
+        
     }
 }

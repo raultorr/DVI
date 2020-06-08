@@ -43,13 +43,15 @@ export default class Game extends Phaser.Scene {
 
         this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
         this.load.spritesheet('glovesItem', 'assets/sprites/hud/gloves16.png',{ frameWidth: 16, frameHeight: 16 });
-        this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
+		this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
+		this.load.spritesheet('weaponItem', 'assets/sprites/hud/weapon16.png',{ frameWidth: 16, frameHeight: 16 });
 
         //HUD IMGS
         this.load.image('inventory', 'assets/sprites/hud/inventory-bg.png');
         this.load.image('inventory-active', 'assets/sprites/hud/inventory-active.png');
         this.load.image('boots', 'assets/sprites/hud/boots16.png');
-        this.load.image('gloves', 'assets/sprites/hud/gloves16.png');
+		this.load.image('gloves', 'assets/sprites/hud/gloves16.png');
+		this.load.image('weapon', 'assets/sprites/hud/weapon16.png');
 
 
         //maps
@@ -116,8 +118,8 @@ export default class Game extends Phaser.Scene {
         return projectile;
 	}
 	
-	spawnBullet(scene, x, y, angle) {
-        let bullet = new Bullet(scene, x, y, angle);
+	spawnBullet(scene, x, y, angle, layer) {
+        let bullet = new Bullet(scene, x, y, angle, layer);
         bullet.createProjectileAnimations();
         return bullet;
     }
@@ -193,6 +195,8 @@ export default class Game extends Phaser.Scene {
             player.picked1 = true;
         }else if(item.id == 2){
             player.picked2 = true;
+        }else if(item.id == 3){
+            player.picked3 = true;
         }
 
         item.destroy();

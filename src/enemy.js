@@ -51,9 +51,6 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
             {
                 this.facingR = !this.facingR; 
             }
-
-
-
 	   
             if(this.body.onWall())
             {

@@ -35,7 +35,7 @@ export default class Level2 extends Phaser.Scene {
 
 
         //Jugador
-        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y);
+        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y, true, false, false);
         this.physics.add.collider(this.player, worldLayer);
 
 

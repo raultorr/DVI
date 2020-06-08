@@ -50,7 +50,7 @@ export default class Level1 extends Phaser.Scene {
 
 
         //Jugador
-        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y);
+        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y, worldLayer, false, false, false);
         this.physics.add.collider(this.player, worldLayer);
 
 
@@ -77,7 +77,7 @@ export default class Level1 extends Phaser.Scene {
         this.projectiles = this.add.group();
 
          //items
-        this.item = new Item(this, 400, 100,1); //el ultimo parametro es para indicar el tipo del item
+        this.item = new Item(this, 400, 100, 3); //el ultimo parametro es para indicar el tipo del item
 
 
         //Lasers
@@ -108,6 +108,11 @@ export default class Level1 extends Phaser.Scene {
 
         this.player.update(this.game);
         this.game.enemyUpdate(this, this.enemy, this.player);
+        
+        this.player.bullets.getChildren().forEach(function (item) {
+            this.game.enemyUpdate(this, this.enemy, item);
+        }, this);
+
         this.game.laserUpdate(this,this.lasers, this.player);
         this.game.goalReach(this.end, this.player);
 

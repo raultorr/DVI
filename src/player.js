@@ -1,5 +1,5 @@
 export default class Player extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y) {
+    constructor(scene, x, y, mapLayer, item1, item2, item3) {
         super(scene, x, y, 'player', 0);
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
@@ -7,7 +7,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.render = this.scene.add.graphics();
 
         this.body.colliderWorldBounds = false;
-
+		this.layer = mapLayer;
 
         this.createPlayerAnimations();
 
@@ -40,6 +40,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.inventoryBg = this.scene.add.sprite(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY+110, 'inventory');
 		this.boots = this.scene.add.sprite(this.scene.cameras.main.centerX-17, this.scene.cameras.main.centerY+110, 'boots');
 		this.gloves = this.scene.add.sprite(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY+110, 'gloves');
+		this.weapon = this.scene.add.sprite(this.scene.cameras.main.centerX+17, this.scene.cameras.main.centerY+110, 'weapon');
 		this.inventoryActive = this.scene.add.sprite(683, this.scene.cameras.main.centerY+110, 'inventory-active');
 		
 
@@ -47,13 +48,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.inventoryActive.setScrollFactor(0);
 		this.boots.setScrollFactor(0);
 		this.gloves.setScrollFactor(0);
+		this.weapon.setScrollFactor(0);
 
 
-		this.picked1 = false;
-		this.picked2 = false;
-		this.picked3 = false;
+		this.picked1 = item1;
+		this.picked2 = item2;
+		this.picked3 = item3;
 
 
+		this.bullets = this.scene.add.group();
 		this.timeToShoot = 0;
 
 		/*
@@ -70,23 +73,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 
 		//PARA SACAR UNA LINEA CON LA DIRECCION
-		/*
+		
 		this.gfx = this.scene.add.graphics().setDefaultStyles({ lineStyle: { width: 1, color: 0xffdd00, alpha: 0.5 } });
 		this.line = new Phaser.Geom.Line();
 		this.angle = 0;
 		this.scene.input.on('pointermove', function (pointer) {
-			if(this.scene.input.manager.activePointer.isDown && this.equipped == 1 && this.picked1){
-				this.gfx.setVisible(true);
-				this.angle = Phaser.Math.Angle.Between(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, pointer.x, pointer.y);
-				Phaser.Geom.Line.SetToAngle(this.line, this.x, this.y, this.angle, 64);
-				
-				this.gfx.clear().strokeLineShape(this.line);
-			}else{
-				this.gfx.setVisible(true);
-			}
+			
 		}, this);
-
-		*/
     }
 
     update(game) {
@@ -112,18 +105,22 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			}
 		}
 
-
-
-
 		if(this.equipped == 1 && this.picked1){
 
 			
-
+			this.gfx.setScale(0);
 			if(this.scene.input.manager.activePointer.isDown && !this.isPowerJumping && this.body.onFloor()){			
 				if(this.loadingJump)
 				{
+					this.gfx.setScale(1);
+					this.angle = Phaser.Math.Angle.Between(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y);
+					Phaser.Geom.Line.SetToAngle(this.line, this.x, this.y, this.angle, (-this.jumpPower)/5);
+					
+					this.gfx.clear().strokeLineShape(this.line);
+					
+
 					if(this.jumpPower > -350)
-						this.jumpPower-=3;
+						this.jumpPower-=4;
 				}
 				else
 				{
@@ -147,7 +144,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					let angle = Phaser.Math.Angle.Between(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y);
 					this.scene.physics.velocityFromRotation(angle, -this.jumpPower, this.body.velocity);
 					console.log(angle);
-					if(-1.5<angle<1.5){
+					if(angle<1.5 && angle>-1.5){
 						this.facingR = true;
 					}else{
 						this.facingR = false;
@@ -230,13 +227,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 		if(this.equipped == 3)
 		{
-			if ( this.scene.input.manager.activePointer.isDown && this.timeToShoot == 100) {
-				game.spawnBullet(this.scene, this.x, this.y, Phaser.Math.Angle.Between(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y));
-				this.timeToShoot = 0;
+			if ( this.scene.input.manager.activePointer.isDown && this.timeToShoot == 0) {
+				
+				
+				this.bullets.add(game.spawnBullet(this.scene, this.x, this.y, Phaser.Math.Angle.Between(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y), this.layer));
+				this.timeToShoot = 500;
 			}
 			
-			if(this.timeToShoot<100){
-				this.timeToShoot++;
+			if(this.timeToShoot>0){
+				this.timeToShoot--;
 			}
 		}
 
@@ -263,6 +262,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		else if(this.cursors.THREE.isDown){
 			this.equipped = 3;
 		}
+
+
+		this.bullets.getChildren().forEach(function (item) {
+            item.update();
+        }, this);
     }
 
     normalMovements(game)
@@ -797,6 +801,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			this.gloves.visible = false;
 		}else{
 			this.gloves.visible = true;
+		}
+
+		if(!this.picked3){
+			this.weapon.visible = false;
+		}else{
+			this.weapon.visible = true;
 		}
 
 

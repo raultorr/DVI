@@ -80,7 +80,7 @@ export default class EnemyChaser extends Phaser.GameObjects.Sprite {
          this.scene.anims.create({
             key: 'righChaser',
             frames: this.scene.anims.generateFrameNumbers('chaserMove', { start:4, end: 7 }),
-            frameRate: 1,
+            frameRate: 10,
             repeat: -1
         });
 
@@ -100,7 +100,7 @@ export default class EnemyChaser extends Phaser.GameObjects.Sprite {
         this.scene.anims.create({
             key: 'leftChaser',
             frames: this.scene.anims.generateFrameNumbers('chaserMove', { start: 0, end: 3 }),
-            frameRate: 1,
+            frameRate: 10,
             repeat: -1
         });
     }

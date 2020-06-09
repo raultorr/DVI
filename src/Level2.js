@@ -37,16 +37,21 @@ export default class Level2 extends Phaser.Scene {
 
         //Capa de objetos mapa
         this.spawnPoint = map.findObject("Spawners", obj => obj.name === "PlayerSpawn");
-        this.spawnPointR1 = map.findObject("Spawners", obj => obj.name === "Robot1");
         this.spawnPointR2 = map.findObject("Spawners", obj => obj.name === "Robot2");
         this.spawnPointR3 = map.findObject("Spawners", obj => obj.name === "Robot3");
         this.spawnPointR4 = map.findObject("Spawners", obj => obj.name === "Robot4");
+        this.spawnPointR5 = map.findObject("Spawners", obj => obj.name === "Robot5");
+        this.spawnPointR6 = map.findObject("Spawners", obj => obj.name === "Robot6");
+
+        this.chaser1 = map.findObject("Spawners", obj => obj.name === "chaser1");
+        this.chaser2 = map.findObject("Spawners", obj => obj.name === "chaser2");
+        this.chaser3 = map.findObject("Spawners", obj => obj.name === "chaser3");
+        //this.chaser2 = map.findObject("Spawners", obj => obj.name === "chaser2");
+
         this.spawnPointL1 = map.findObject("Spawners", obj => obj.name === "laser1");
         this.spawnPointL2 = map.findObject("Spawners", obj => obj.name === "laser2");
         this.spawnPointL3 = map.findObject("Spawners", obj => obj.name === "laser3");
         this.spawnPointL4 = map.findObject("Spawners", obj => obj.name === "laser4");
-        this.spawnPointL5 = map.findObject("Spawners", obj => obj.name === "laser5");
-        this.spawnPointL6 = map.findObject("Spawners", obj => obj.name === "laser6");
         this.end = map.findObject("Spawners", obj => obj.name === "End");
 
 
@@ -54,7 +59,7 @@ export default class Level2 extends Phaser.Scene {
 
 
         //Jugador
-        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y, worldLayer, false, false, false);
+        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y, worldLayer, false, false, true);
         this.physics.add.collider(this.player, worldLayer);
 
 
@@ -68,21 +73,29 @@ export default class Level2 extends Phaser.Scene {
 
         this.enemy = this.physics.add.group();
 
-        this.game.spawnRobot(this, this.spawnPointR1.x, this.spawnPointR1.y, this.enemy);
+        //this.game.spawnRobot(this, this.spawnPointR1.x, this.spawnPointR1.y, this.enemy);
         this.game.spawnRobot(this, this.spawnPointR2.x, this.spawnPointR2.y, this.enemy);
         this.game.spawnRobot(this, this.spawnPointR3.x, this.spawnPointR3.y, this.enemy);
         this.game.spawnRobot(this, this.spawnPointR4.x, this.spawnPointR4.y, this.enemy);
+        this.game.spawnRobot(this, this.spawnPointR5.x, this.spawnPointR5.y, this.enemy);
+        this.game.spawnRobot(this, this.spawnPointR6.x, this.spawnPointR6.y, this.enemy);
 
         this.physics.add.collider(this.enemy, worldLayerEnemy);
         //this.physics.add.collider(this.enemy, worldLayer);
         
+        //Chasers
+        this.chasers = this.physics.add.group();
+        this.game.spawnChaser(this, this.chaser1.x, this.chaser1.y, this.chasers);
+        this.game.spawnChaser(this, this.chaser2.x, this.chaser2.y, this.chasers);
+        this.game.spawnChaser(this, this.chaser3.x, this.chaser3.y, this.chasers);
+        this.physics.add.collider(this.chasers, worldLayerEnemy);
 
 
         //proyectiles
         this.projectiles = this.add.group();
 
          //items
-        this.item = new Item(this, 400, 350, 1); //el ultimo parametro es para indicar el tipo del item
+        this.item = new Item(this, 888, 690, 1); //el ultimo parametro es para indicar el tipo del item
 
 
         //Lasers
@@ -92,8 +105,6 @@ export default class Level2 extends Phaser.Scene {
         this.game.putLaser(this, this.spawnPointL2.x, this.spawnPointL2.y, this.lasers, false, 200, 200);
         this.game.putLaser(this, this.spawnPointL3.x, this.spawnPointL3.y, this.lasers, false, 200, 200);
         this.game.putLaser(this, this.spawnPointL4.x, this.spawnPointL4.y, this.lasers, true, 100, 100);
-        this.game.putLaser(this, this.spawnPointL5.x, this.spawnPointL5.y, this.lasers, false, 100, 100);
-        this.game.putLaser(this, this.spawnPointL6.x, this.spawnPointL6.y, this.lasers, true, 100, 100);
 
 
 
@@ -101,6 +112,7 @@ export default class Level2 extends Phaser.Scene {
         this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.projectiles,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.spikes,this.game.playerDie,this.game.hitPlayer, this);
+        this.physics.add.overlap( this.player,this.chasers,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.item,this.game.playerPickItem, this.game.hitPlayer, this);
 
         //teclas
@@ -113,7 +125,7 @@ export default class Level2 extends Phaser.Scene {
 
         this.player.update(this.game);
         this.game.enemyUpdate(this, this.enemy, this.player);
-        
+        this.game.enemyChasersUpdate(this, this.chasers, this.player);
         this.player.bullets.getChildren().forEach(function (item) {
             this.game.enemyUpdate(this, this.enemy, item);
         }, this);

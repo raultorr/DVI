@@ -82,7 +82,7 @@ export default class Level1 extends Phaser.Scene {
         this.projectiles = this.add.group();
 
          //items
-        //this.item = new Item(this, 800, 500, 3); //el ultimo parametro es para indicar el tipo del item
+        this.item = new Item(this, 830, 550, 3); //el ultimo parametro es para indicar el tipo del item
 
 
         //Lasers

@@ -17,6 +17,9 @@ export default class Game extends Phaser.Scene {
     preload() {  
         this.load.spritesheet('laserOn', 'assets/sprites/laser/laser-turn-on.png',{ frameWidth: 16, frameHeight:50 });
         this.load.spritesheet('laserOff', 'assets/sprites/laser/laser-turn-off.png',{ frameWidth: 16, frameHeight: 50 });
+        this.load.image("spike", "assets/sprites/spikes/spikes.png");
+        this.load.image("spikeR", "assets/sprites/spikes/spikesR.png");
+        this.load.image("spikeL", "assets/sprites/spikes/spikesL.png");
 
         this.load.spritesheet('run', 'assets/sprites/playerAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
 		this.load.spritesheet('runBoots', 'assets/sprites/playerAnimation/runBoots.png',{ frameWidth: 16, frameHeight: 32 });
@@ -154,7 +157,7 @@ export default class Game extends Phaser.Scene {
         // The map has spikes rotated in Tiled (z key), so parse out that angle to the correct body
         // placement
             spike.rotation = tile.rotation;
-            spike.body.setSize(32, 8).setOffset(0, 24);
+            spike.body.setSize(18,4).setOffset(0, 4);
            worldLayer.removeTileAt(tile.x, tile.y);
           }else if (tile.index === 176) {
             const spike = spikeGroup.create(tile.getCenterX(), tile.getCenterY() , "spikeL");

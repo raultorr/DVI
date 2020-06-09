@@ -15,15 +15,21 @@ export default class Level3 extends Phaser.Scene {
         //Mapa
         const map = this.make.tilemap({ key: "map3" });
         const tileset = map.addTilesetImage("industrial.v1", "tilesMap");
-        //const blackLayout = map.createDynamicLayer("Black", tileset, 0, 0);
-        const worldLayerEnemy = map.createStaticLayer("enemyCollisionLayer", tileset , 0 , 0).setVisible(false);
-        const backGround = map.createDynamicLayer("BackGround", tileset , 0 , 0);
+        const tileset2 = map.addTilesetImage("Goal", "tilesGoal", 16,8,0,0);
+        const scifi = map.addTilesetImage("scifi", "bgImage2", 16,8,0,0);
+
+        const worldLayerEnemy = map.createStaticLayer("enemyCollisionLayer", tileset , 0 , 0);
+        const blackLayout = map.createStaticLayer("Black", scifi, 0, 0);
+        const backGround = map.createStaticLayer("BackGround", [tileset, tileset2] , 0 , 0);
         this.worldLayer = map.createDynamicLayer("WorldLayer", tileset , 0 , 0);
         
-        
+        //atributos
         this.worldLayer.setCollisionByProperty({ collides: true });
         worldLayerEnemy.setCollisionByProperty({ collides: true });
 
+
+
+        //Capa de objetos
        this.spawnPoint = map.findObject("Spawners", obj => obj.name === "PlayerSpawn");
        this.puente1 = map.findObject("Spawners", obj => obj.name === "puente1");
        this.consoleB1 = map.findObject("Spawners", obj => obj.name === "cPuente1");
@@ -90,14 +96,14 @@ export default class Level3 extends Phaser.Scene {
         this.consoles = this.add.group();
 
         //scene / PosConsolaX / PosConsolaY / tamaño/tipo/temporizador/consolas/posInix/posIniY
-        this.game.putConsole(this, this.consoleB1.x, this.consoleB1.y,14, "puente", 400, this.consoles ,this.bridge1.x, this.bridge1.y );
+        this.game.putConsole(this, this.consoleB1.x, this.consoleB1.y,20, "puente", 400, this.consoles ,this.bridge1.x, this.bridge1.y );
         this.game.putConsole(this, this.consoleD1.x, this.consoleD1.y,4, "puerta", 0, this.consoles, this.door1.x, this.door1.y);
 
         //Overlaps
-        this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);
+        /*this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.projectiles,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.chasers,this.game.playerDie,this.game.hitPlayer, this);
-        this.physics.add.overlap( this.player,this.spikeGroup,this.game.playerDie,this.game.hitPlayer, this);
+        this.physics.add.overlap( this.player,this.spikeGroup,this.game.playerDie,this.game.hitPlayer, this);*/
         
 
         //teclas

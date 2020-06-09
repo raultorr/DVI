@@ -19,8 +19,9 @@ export default class Level1 extends Phaser.Scene {
         const tileset = map.addTilesetImage("industrial.v1", "tilesMap",16,8,0,0);
         const tileset2 = map.addTilesetImage("Goal", "tilesGoal", 16,8,0,0);
         const t435951 = map.addTilesetImage("435951", "bgImage", 16,8,0,0);
+        const scifi = map.addTilesetImage("scifi", "bgImage2", 16,8,0,0);
         const worldLayerEnemy = map.createStaticLayer("enemyCollisionLayer", tileset , 0 , 0);
-        const blackLayout = map.createStaticLayer("Black", t435951, 0, 0);
+        const blackLayout = map.createStaticLayer("Black", scifi, 0, 0);
         const backGround = map.createStaticLayer("BackGround", tileset , 0 , 0);
         const GoalLayer = map.createStaticLayer("GoalLayer", tileset2, 0, 0);
         const worldLayer = map.createStaticLayer("WorldLayer", tileset , 0 , 0);
@@ -78,7 +79,7 @@ export default class Level1 extends Phaser.Scene {
         this.projectiles = this.add.group();
 
          //items
-        this.item = new Item(this, 400, 100, 3); //el ultimo parametro es para indicar el tipo del item
+        this.item = new Item(this, 800, 500, 3); //el ultimo parametro es para indicar el tipo del item
 
 
         //Lasers

@@ -17,28 +17,29 @@ export default class Item extends Phaser.GameObjects.Sprite {
 
             this.name = "item";
 
-            if(this.id == 1){
-                this.scene.anims.create({
-                    key: 'itemAnim',
-                    frames: [ { key: 'bootsItem', frame: 0 } ],
-                    frameRate: 1
-                });
-            }else if(this.id == 2){
-                this.scene.anims.create({
-                    key: 'itemAnim',
-                    frames: [ { key: 'glovesItem', frame: 0 } ],
-                    frameRate: 1
-                });
-            }else if(this.id == 3){
-                this.scene.anims.create({
-                    key: 'itemAnim',
-                    frames: [ { key: 'weaponItem', frame: 0 } ],
-                    frameRate: 1
-                });
-            }
+            this.scene.anims.create({
+                key: 'bootsItemAnim',
+                frames: [ { key: 'bootsItem', frame: 0 } ],
+                frameRate: 1
+            });
+            this.scene.anims.create({
+                key: 'gloveItemAnim',
+                frames: [ { key: 'glovesItem', frame: 0 } ],
+                frameRate: 1
+            });
+            this.scene.anims.create({
+                key: 'weaponItemAnim',
+                frames: [ { key: 'weaponItem', frame: 0 } ],
+                frameRate: 1
+            });
 
-            
-            this.anims.play("itemAnim", true);
+            if(this.id == 1){
+                this.anims.play("bootsItemAnim", true);
+            }else if(this.id == 2){
+                this.anims.play("gloveItemAnim", true);
+            }else if(this.id == 3){
+                this.anims.play("weaponItemAnim", true);
+            }
 
     }
 

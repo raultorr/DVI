@@ -78,7 +78,7 @@ export default class ConsolaPuente extends Phaser.GameObjects.Sprite {
                     {
                         for(i= 0; i < 16*this.tamPuente; i += 16)
                         {
-                            const tile = mapa.putTileAtWorldXY(75, Math.round(this.posX + i), Math.round(this.posY));
+                            const tile = mapa.putTileAtWorldXY(12, Math.round(this.posX + i), Math.round(this.posY));
                             tile.setCollision(true);
                         }
 
@@ -95,7 +95,7 @@ export default class ConsolaPuente extends Phaser.GameObjects.Sprite {
                 if(this.timeToReactive == 0)
                 {
                     this.onOff = !this.onOff;
-                    if(!this.onOff)
+                    if(this.onOff)
                     {
                         for(i= 0; i < 8*this.tamPuente; i += 8)
                         {
@@ -103,7 +103,7 @@ export default class ConsolaPuente extends Phaser.GameObjects.Sprite {
                         }
 
                     }
-                    else
+                   /* else
                     {
                         for(i= 0; i < 8*this.tamPuente; i += 8)
                         {
@@ -111,7 +111,7 @@ export default class ConsolaPuente extends Phaser.GameObjects.Sprite {
                             tile.setCollision(true);
                         }
 
-                    }
+                    }*/
                     this.timeToReactive = 10;
                 }
                 else

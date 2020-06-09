@@ -10,7 +10,7 @@ export default class Game extends Phaser.Scene {
 
     constructor(configGame) {
         super({ key: 'main' });
-        this.actLevel = 2;
+        this.actLevel = 3;
         this.nameLevel;
 
     }
@@ -152,7 +152,7 @@ export default class Game extends Phaser.Scene {
     {
         worldLayer.forEachTile(tile => {
         if (tile.index === 208) {
-            const spike = spikeGroup.create(tile.getCenterX() -8, tile.getCenterY() -12 , "spike");
+            const spike = spikeGroup.create(tile.getCenterX() , tile.getCenterY()  , "spike");
             spike.name = "spikes";
         // The map has spikes rotated in Tiled (z key), so parse out that angle to the correct body
         // placement
@@ -264,6 +264,9 @@ export default class Game extends Phaser.Scene {
             case "chaser":
                 if(object.isRunning)
                     player.isDeath = true;
+                break;
+            case "spikes":
+                player.isDeath = true;
                 break;
             default:
                 player.isDeath = false;

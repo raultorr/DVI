@@ -29,7 +29,7 @@ export default class Game extends Phaser.Scene {
         this.load.spritesheet('jumpWallClimbing', 'assets/sprites/runAnimation/jumpWallClimbing.png',{ frameWidth: 16, frameHeight: 32 });
 
 
-        this.load.spritesheet('powerJump', 'assets/sprites/RunAnimation/powerJump.png',{ frameWidth: 25, frameHeight: 16 });
+        this.load.spritesheet('powerJump', 'assets/sprites/runAnimation/powerJump.png',{ frameWidth: 25, frameHeight: 16 });
 
 
         this.load.spritesheet('crouch', 'assets/sprites/runAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });

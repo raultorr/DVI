@@ -176,7 +176,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 					this.anims.play("wallClimbingLeft", true);
 				if(this.cursors.W.isDown)
 				{
-					this.body.setVelocityY(-6); //Mantiene al juagdor colgado
+					this.body.setVelocityY(-6); //Mantiene al jugador colgado
 
 				}
 				else if(this.cursors.D.isDown )

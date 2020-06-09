@@ -18,8 +18,9 @@ export default class Level1 extends Phaser.Scene {
         const map = this.make.tilemap({ key: "map1" });
         const tileset = map.addTilesetImage("industrial.v1", "tilesMap",16,8,0,0);
         const tileset2 = map.addTilesetImage("Goal", "tilesGoal", 16,8,0,0);
+        const t435951 = map.addTilesetImage("435951", "bgImage", 16,8,0,0);
         const worldLayerEnemy = map.createStaticLayer("enemyCollisionLayer", tileset , 0 , 0);
-        const blackLayout = map.createStaticLayer("Black", tileset2, 0, 0);
+        const blackLayout = map.createStaticLayer("Black", t435951, 0, 0);
         const backGround = map.createStaticLayer("BackGround", tileset , 0 , 0);
         const GoalLayer = map.createStaticLayer("GoalLayer", tileset2, 0, 0);
         const worldLayer = map.createStaticLayer("WorldLayer", tileset , 0 , 0);

@@ -60,6 +60,7 @@ export default class Game extends Phaser.Scene {
 
         //maps
         this.load.image("tilesMap", "assets/TileSets/industrial.v1.png");
+        this.load.image("bgImage", "Maps/435951.jpg");
         this.load.image("tilesGoal", "assets/TileSets/Goal.png");
         this.load.tilemapTiledJSON("map1", "Maps/level1.json");
         this.load.tilemapTiledJSON("map2", "Maps/level2.json");
@@ -141,6 +142,37 @@ export default class Game extends Phaser.Scene {
         let consola = new Consola(scene, x, y, tam, tipo, temp, xModf, yModf);
         consola.createConsolaAnimations();
         consolas.add(consola);
+    }
+
+    putSpikes(spikeGroup,worldLayer )
+    {
+        worldLayer.forEachTile(tile => {
+        if (tile.index === 208) {
+            const spike = spikeGroup.create(tile.getCenterX() -8, tile.getCenterY() -12 , "spike");
+            spike.name = "spikes";
+        // The map has spikes rotated in Tiled (z key), so parse out that angle to the correct body
+        // placement
+            spike.rotation = tile.rotation;
+            spike.body.setSize(32, 8).setOffset(0, 24);
+           worldLayer.removeTileAt(tile.x, tile.y);
+          }else if (tile.index === 176) {
+            const spike = spikeGroup.create(tile.getCenterX(), tile.getCenterY() , "spikeL");
+            spike.name = "spikes";
+        // The map has spikes rotated in Tiled (z key), so parse out that angle to the correct body
+        // placement
+            spike.rotation = tile.rotation;
+            spike.body.setSize(4, 8).setOffset(0, 0);
+           worldLayer.removeTileAt(tile.x, tile.y);
+          } else if (tile.index === 144) {
+            const spike = spikeGroup.create(tile.getCenterX(), tile.getCenterY() , "spikeR");
+            spike.name = "spikes";
+        // The map has spikes rotated in Tiled (z key), so parse out that angle to the correct body
+        // placement
+            spike.rotation = tile.rotation;
+            spike.body.setSize(4, 8).setOffset(12, 0);
+           worldLayer.removeTileAt(tile.x, tile.y);
+          }
+        });
     }
 
 

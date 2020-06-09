@@ -24,11 +24,11 @@ export default class Level3 extends Phaser.Scene {
        // worldLayerEnemy.setCollisionByProperty({ collides: true });
 
        this.spawnPoint = map.findObject("Spawners", obj => obj.name === "PlayerSpawn");
-       this.puente = map.findObject("Spawners", obj => obj.name === "puente");
+      /* this.puente = map.findObject("Spawners", obj => obj.name === "puente");
        this.consoleB1 = map.findObject("Spawners", obj => obj.name === "consoleB1");
        this.consoleD1 = map.findObject("Spawners", obj => obj.name === "consoleD1");
        this.door1 = map.findObject("Spawners", obj => obj.name === "puerta1");
-       this.bridge1 = map.findObject("Spawners", obj => obj.name === "puente1");
+       this.bridge1 = map.findObject("Spawners", obj => obj.name === "puente1");*/
 
         //Jugador
         this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y, this.worldLayer, true, true, false);
@@ -52,7 +52,7 @@ export default class Level3 extends Phaser.Scene {
         //proyectiles
         this.projectiles = this.add.group();
 
-        this.game.spawnChaser(this, this.spawnPoint.x -150, this.spawnPoint.y -100, this.chasers);
+        //this.game.spawnChaser(this, this.spawnPoint.x -150, this.spawnPoint.y -100, this.chasers);
 
        this.physics.add.collider(this.chasers, this.worldLayer);
 
@@ -66,8 +66,8 @@ export default class Level3 extends Phaser.Scene {
         this.consoles = this.add.group();
 
         //scene / PosConsolaX / PosConsolaY / tamaño/tipo/temporizador/consolas/posInix/posIniY
-        this.game.putConsole(this, this.consoleB1.x, this.consoleB1.y,14, "puente", 0, this.consoles ,this.bridge1.x, this.bridge1.y );
-        this.game.putConsole(this, this.consoleD1.x, this.consoleD1.y,8, "puerta", 100, this.consoles, this.door1.x, this.door1.y);
+        //this.game.putConsole(this, this.consoleB1.x, this.consoleB1.y,14, "puente", 0, this.consoles ,this.bridge1.x, this.bridge1.y );
+        //this.game.putConsole(this, this.consoleD1.x, this.consoleD1.y,8, "puerta", 100, this.consoles, this.door1.x, this.door1.y);
 
         //Overlaps
        // this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);

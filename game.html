@@ -13,12 +13,7 @@
     <title>Tyranny</title>
 </head>
 
-<body> 
-
-    <div>
-        <h1 class="title">Tyranny</h1>
-    </div>
-
+<body>  
     <div id="container">
         <script type="module">
             import Game from './src/game.js';
@@ -41,7 +36,7 @@
                     gamepad: true
                 },
                 scale: {
-                    mode: Phaser.Scale.FIT,
+                    mode: Phaser.Scale.NO_SCALE,
                     autoCenter: Phaser.Scale.CENTER_BOTH
                 },
                 scene: [ Menu ,Game, Level1,Level2, Level3 ],

@@ -78,7 +78,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		
 		this.gfx = this.scene.add.graphics().setDefaultStyles({ lineStyle: { width: 1, color: 0xffdd00, alpha: 0.5 } });
 		this.line = new Phaser.Geom.Line();
-		this.angle = 0;
+		this.angler = 0;
 		this.scene.input.on('pointermove', function (pointer) {
 			
 		}, this);
@@ -115,8 +115,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 				if(this.loadingJump)
 				{
 					this.gfx.setScale(1);
-					this.angle = Phaser.Math.Angle.Between(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y);
-					Phaser.Geom.Line.SetToAngle(this.line, this.x, this.y, this.angle, (-this.jumpPower)/5);
+					this.angler = Phaser.Math.Angle.Between(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, this.scene.input.mousePointer.x, this.scene.input.mousePointer.y);
+					Phaser.Geom.Line.SetToAngle(this.line, this.x, this.y, this.angler, (-this.jumpPower)/5);
 					
 					this.gfx.clear().strokeLineShape(this.line);
 					

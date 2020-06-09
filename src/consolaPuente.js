@@ -78,7 +78,7 @@ export default class ConsolaPuente extends Phaser.GameObjects.Sprite {
                     {
                         for(i= 0; i < 16*this.tamPuente; i += 16)
                         {
-                            const tile = mapa.putTileAtWorldXY(12, Math.round(this.posX + i), Math.round(this.posY));
+                            const tile = mapa.putTileAtWorldXY(19, Math.round(this.posX + i), Math.round(this.posY));
                             tile.setCollision(true);
                         }
 

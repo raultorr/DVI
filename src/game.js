@@ -15,12 +15,24 @@ export default class Game extends Phaser.Scene {
         this.killcounter = 0;
     }
     preload() {  
+        //trampas
         this.load.spritesheet('laserOn', 'assets/sprites/laser/laser-turn-on.png',{ frameWidth: 16, frameHeight:50 });
         this.load.spritesheet('laserOff', 'assets/sprites/laser/laser-turn-off.png',{ frameWidth: 16, frameHeight: 50 });
         this.load.image("spike", "assets/sprites/spikes/spikes.png");
         this.load.image("spikeR", "assets/sprites/spikes/spikesR.png");
         this.load.image("spikeL", "assets/sprites/spikes/spikesL.png");
 
+        //Enemigos
+        this.load.spritesheet('enemyMove', 'assets/sprites/enemy/Robot.png',{ frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('chaserMove', 'assets/sprites/enemy/Chaser.png',{ frameWidth: 25, frameHeight: 27 });
+        this.load.spritesheet('projectile', 'assets/sprites/enemy/Projectile.png',{ frameWidth: 3, frameHeight: 1 });
+        this.load.spritesheet('projectileGreen', 'assets/sprites/enemy/ProjectileGreen.png',{ frameWidth: 3, frameHeight: 1 });
+        this.load.spritesheet('consola', 'assets/sprites/consola/consola.png',{ frameWidth: 33, frameHeight: 25 });
+
+
+
+
+        //Jugador
         this.load.spritesheet('run', 'assets/sprites/playerAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
         this.load.spritesheet('dead', 'assets/sprites/playerAnimation/dead.png',{ frameWidth: 32, frameHeight: 15 });
 		this.load.spritesheet('runBoots', 'assets/sprites/playerAnimation/runBoots.png',{ frameWidth: 16, frameHeight: 32 });
@@ -41,14 +53,10 @@ export default class Game extends Phaser.Scene {
 		this.load.spritesheet('crouchWeapon', 'assets/sprites/playerAnimation/crouchWeapon.png',{ frameWidth: 16, frameHeight: 25 });
         this.load.spritesheet('crouchWallClimbing', 'assets/sprites/playerAnimation/crouchWallClimbing.png',{ frameWidth: 16, frameHeight: 25 });
 
-        this.load.spritesheet('enemyMove', 'assets/sprites/enemy/Robot.png',{ frameWidth: 64, frameHeight: 64 });
-        this.load.spritesheet('chaserMove', 'assets/sprites/enemy/Chaser.png',{ frameWidth: 25, frameHeight: 27 });
-		this.load.spritesheet('projectile', 'assets/sprites/enemy/Projectile.png',{ frameWidth: 3, frameHeight: 1 });
-		this.load.spritesheet('projectileGreen', 'assets/sprites/enemy/ProjectileGreen.png',{ frameWidth: 3, frameHeight: 1 });
-        this.load.spritesheet('consola', 'assets/sprites/consola/consola.png',{ frameWidth: 33, frameHeight: 25 });
 
         this.load.spritesheet('wallClimbing', 'assets/sprites/playerAnimation/wallClimbing.png',{ frameWidth: 16, frameHeight: 32 })
 
+        //Itemss
         this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
         this.load.spritesheet('glovesItem', 'assets/sprites/hud/gloves16.png',{ frameWidth: 16, frameHeight: 16 });
 		this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
@@ -154,7 +162,7 @@ export default class Game extends Phaser.Scene {
     putSpikes(spikeGroup,worldLayer )
     {
         worldLayer.forEachTile(tile => {
-        if (tile.index === 208) {
+        if (tile.index === 173) {
             const spike = spikeGroup.create(tile.getCenterX() , tile.getCenterY()  , "spike");
             spike.name = "spikes";
         // The map has spikes rotated in Tiled (z key), so parse out that angle to the correct body
@@ -162,7 +170,8 @@ export default class Game extends Phaser.Scene {
             spike.rotation = tile.rotation;
             spike.body.setSize(18,4).setOffset(0, 4);
            worldLayer.removeTileAt(tile.x, tile.y);
-          }else if (tile.index === 176) {
+          }
+          else if (tile.index === 141) {
             const spike = spikeGroup.create(tile.getCenterX(), tile.getCenterY() , "spikeL");
             spike.name = "spikes";
         // The map has spikes rotated in Tiled (z key), so parse out that angle to the correct body
@@ -170,7 +179,8 @@ export default class Game extends Phaser.Scene {
             spike.rotation = tile.rotation;
             spike.body.setSize(4, 8).setOffset(0, 0);
            worldLayer.removeTileAt(tile.x, tile.y);
-          } else if (tile.index === 144) {
+          } 
+          else if (tile.index === 109) {
             const spike = spikeGroup.create(tile.getCenterX(), tile.getCenterY() , "spikeR");
             spike.name = "spikes";
         // The map has spikes rotated in Tiled (z key), so parse out that angle to the correct body

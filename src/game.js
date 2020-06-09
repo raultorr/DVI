@@ -18,24 +18,24 @@ export default class Game extends Phaser.Scene {
         this.load.spritesheet('laserOn', 'assets/sprites/laser/laser-turn-on.png',{ frameWidth: 16, frameHeight:50 });
         this.load.spritesheet('laserOff', 'assets/sprites/laser/laser-turn-off.png',{ frameWidth: 16, frameHeight: 50 });
 
-        this.load.spritesheet('run', 'assets/sprites/runAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
-		this.load.spritesheet('runBoots', 'assets/sprites/runAnimation/runBoots.png',{ frameWidth: 16, frameHeight: 32 });
-		this.load.spritesheet('runWeapon', 'assets/sprites/runAnimation/runWeapon.png',{ frameWidth: 16, frameHeight: 32 });
-        this.load.spritesheet('runWallClimbing', 'assets/sprites/runAnimation/runWallclimbing.png',{ frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('run', 'assets/sprites/playerAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('runBoots', 'assets/sprites/playerAnimation/runBoots.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('runWeapon', 'assets/sprites/playerAnimation/runWeapon.png',{ frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('runWallClimbing', 'assets/sprites/playerAnimation/runWallclimbing.png',{ frameWidth: 16, frameHeight: 32 });
         
-        this.load.spritesheet('jump', 'assets/sprites/runAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
-		this.load.spritesheet('jumpBoots', 'assets/sprites/runAnimation/jumpBoots.png',{ frameWidth: 16, frameHeight: 32 });
-		this.load.spritesheet('jumpWeapon', 'assets/sprites/runAnimation/jumpWeapon.png',{ frameWidth: 16, frameHeight: 32 });
-        this.load.spritesheet('jumpWallClimbing', 'assets/sprites/runAnimation/jumpWallClimbing.png',{ frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('jump', 'assets/sprites/playerAnimation/jump.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('jumpBoots', 'assets/sprites/playerAnimation/jumpBoots.png',{ frameWidth: 16, frameHeight: 32 });
+		this.load.spritesheet('jumpWeapon', 'assets/sprites/playerAnimation/jumpWeapon.png',{ frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('jumpWallClimbing', 'assets/sprites/playerAnimation/jumpWallClimbing.png',{ frameWidth: 16, frameHeight: 32 });
 
 
-        this.load.spritesheet('powerJump', 'assets/sprites/runAnimation/powerJump.png',{ frameWidth: 25, frameHeight: 16 });
+        this.load.spritesheet('powerJump', 'assets/sprites/playerAnimation/powerJump.png',{ frameWidth: 25, frameHeight: 16 });
 
 
-        this.load.spritesheet('crouch', 'assets/sprites/runAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });
-		this.load.spritesheet('crouchBoots', 'assets/sprites/runAnimation/crouchBoots.png',{ frameWidth: 16, frameHeight: 25 });
-		this.load.spritesheet('crouchWeapon', 'assets/sprites/runAnimation/crouchWeapon.png',{ frameWidth: 16, frameHeight: 25 });
-        this.load.spritesheet('crouchWallClimbing', 'assets/sprites/runAnimation/crouchWallClimbing.png',{ frameWidth: 16, frameHeight: 25 });
+        this.load.spritesheet('crouch', 'assets/sprites/playerAnimation/crouch.png',{ frameWidth: 16, frameHeight: 25 });
+		this.load.spritesheet('crouchBoots', 'assets/sprites/playerAnimation/crouchBoots.png',{ frameWidth: 16, frameHeight: 25 });
+		this.load.spritesheet('crouchWeapon', 'assets/sprites/playerAnimation/crouchWeapon.png',{ frameWidth: 16, frameHeight: 25 });
+        this.load.spritesheet('crouchWallClimbing', 'assets/sprites/playerAnimation/crouchWallClimbing.png',{ frameWidth: 16, frameHeight: 25 });
 
         this.load.spritesheet('enemyMove', 'assets/sprites/enemy/Robot.png',{ frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('chaserMove', 'assets/sprites/enemy/Chaser.png',{ frameWidth: 25, frameHeight: 27 });
@@ -43,7 +43,7 @@ export default class Game extends Phaser.Scene {
 		this.load.spritesheet('projectileGreen', 'assets/sprites/enemy/ProjectileGreen.png',{ frameWidth: 3, frameHeight: 1 });
         this.load.spritesheet('consola', 'assets/sprites/consola/consola.png',{ frameWidth: 33, frameHeight: 25 });
 
-        this.load.spritesheet('wallClimbing', 'assets/sprites/runAnimation/wallClimbing.png',{ frameWidth: 16, frameHeight: 32 })
+        this.load.spritesheet('wallClimbing', 'assets/sprites/playerAnimation/wallClimbing.png',{ frameWidth: 16, frameHeight: 32 })
 
         this.load.spritesheet('bootsItem', 'assets/sprites/hud/boots16.png',{ frameWidth: 16, frameHeight: 16 });
         this.load.spritesheet('glovesItem', 'assets/sprites/hud/gloves16.png',{ frameWidth: 16, frameHeight: 16 });

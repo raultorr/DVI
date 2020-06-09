@@ -1,5 +1,5 @@
 import Player from './player.js';
-
+import Item from './item.js';
 export default class Level3 extends Phaser.Scene {
     constructor(scene) {
         super({ key: 'Level3' });
@@ -36,6 +36,7 @@ export default class Level3 extends Phaser.Scene {
        this.consoleD1 = map.findObject("Spawners", obj => obj.name === "cPuerta1");
        this.door1 = map.findObject("Spawners", obj => obj.name === "puerta1");
        this.bridge1 = map.findObject("Spawners", obj => obj.name === "puente1");
+       this.gloves = map.findObject("Spawners", obj => obj.name === "gloves");
 
        this.laser1 = map.findObject("Spawners", obj => obj.name === "laser1");
        this.laser2 = map.findObject("Spawners", obj => obj.name === "laser2");
@@ -48,8 +49,9 @@ export default class Level3 extends Phaser.Scene {
        this.robot2 = map.findObject("Spawners", obj => obj.name === "Robot2");
        this.robot3 = map.findObject("Spawners", obj => obj.name === "Robot3");
 
+       this.end = map.findObject("Spawners", obj => obj.name === "goal");
         //Jugador
-        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y, this.worldLayer, true, true, false);
+        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y, this.worldLayer, true, false, true);
         this.physics.add.collider(this.player, this.worldLayer);
 
 
@@ -91,6 +93,8 @@ export default class Level3 extends Phaser.Scene {
         this.spikeGroup = this.physics.add.staticGroup();
         this.game.putSpikes(this.spikeGroup,this.worldLayer );
 
+          //items
+        this.item = new Item(this, this.gloves.x, this.gloves.y, 2); //el ultimo parametro es para indicar el tipo del item
 
         //Consolas
         this.consoles = this.add.group();
@@ -100,10 +104,11 @@ export default class Level3 extends Phaser.Scene {
         this.game.putConsole(this, this.consoleD1.x, this.consoleD1.y,4, "puerta", 0, this.consoles, this.door1.x, this.door1.y);
 
         //Overlaps
-        /*this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);
+        this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.projectiles,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.chasers,this.game.playerDie,this.game.hitPlayer, this);
-        this.physics.add.overlap( this.player,this.spikeGroup,this.game.playerDie,this.game.hitPlayer, this);*/
+        this.physics.add.overlap( this.player,this.spikeGroup,this.game.playerDie,this.game.hitPlayer, this);
+        this.physics.add.overlap( this.player,this.item,this.game.playerPickItem, this.game.hitPlayer, this);
         
 
         //teclas
@@ -116,9 +121,13 @@ export default class Level3 extends Phaser.Scene {
         this.player.update(this.game);
         this.game.enemyUpdate(this, this.enemy, this.player);
         this.game.laserUpdate(this,this.lasers, this.player);
-        //this.game.goalReach(this.end, this.player);
+        this.game.goalReach(this.end, this.player);
         this.game.enemyChasersUpdate(this, this.chasers, this.player);
         this.game.consoleUpdate(this, this.consoles, this.worldLayer);
+
+        this.player.bullets.getChildren().forEach(function (item) {
+            this.game.enemyUpdate(this, this.enemy, item);
+        }, this);
 
     }  
     checkInteraction(x,y,player)

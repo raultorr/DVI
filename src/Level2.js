@@ -20,16 +20,15 @@ export default class Level2 extends Phaser.Scene {
         const map = this.make.tilemap({ key: "map2" });
         const tileset = map.addTilesetImage("industrial.v1", "tilesMap",16,8,0,0);
         const tileset2 = map.addTilesetImage("Goal", "tilesGoal", 16,8,0,0);
-        const t435951 = map.addTilesetImage("435951", "bgImage", 16,8,0,0);
         const scifi = map.addTilesetImage("scifi", "bgImage2", 16,8,0,0);
         const worldLayerEnemy = map.createStaticLayer("enemyCollisionLayer", tileset , 0 , 0);
         const blackLayout = map.createStaticLayer("Black", [scifi, tileset2], 0, 0);
         const backGround = map.createStaticLayer("BackGround", tileset , 0 , 0);
         const GoalLayer = map.createStaticLayer("GoalLayer", tileset2, 0, 0);
-        const worldLayer = map.createStaticLayer("WorldLayer", tileset , 0 , 0);
+        this.worldLayer = map.createDynamicLayer("WorldLayer", tileset , 0 , 0);
         
         
-        worldLayer.setCollisionByProperty({ collides: true });
+        this.worldLayer.setCollisionByProperty({ collides: true });
         worldLayerEnemy.setCollisionByProperty({ collides: true });
 
 
@@ -59,15 +58,18 @@ export default class Level2 extends Phaser.Scene {
 
 
         //Jugador
-        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y, worldLayer, false, false, true);
-        this.physics.add.collider(this.player, worldLayer);
+        this.player = new Player(this, this.spawnPoint.x, this.spawnPoint.y, this.worldLayer, false, false, true);
+        this.physics.add.collider(this.player, this.worldLayer);
 
 
         //Camara
         
-        this.game.addCamera(this, this.player,  worldLayer);
+        //this.game.addCamera(this, this.player,  this.worldLayer);
         this.cameras.main.setBackgroundColor('#1D212D');
 
+        //Pinchos
+        this.spikeGroup = this.physics.add.staticGroup();
+        this.game.putSpikes(this.spikeGroup,this.worldLayer );
 
         //Enemigos
 
@@ -111,7 +113,7 @@ export default class Level2 extends Phaser.Scene {
         //Overlaps
         this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.projectiles,this.game.playerDie,this.game.hitPlayer, this);
-        this.physics.add.overlap( this.player,this.spikes,this.game.playerDie,this.game.hitPlayer, this);
+        this.physics.add.overlap( this.player,this.spikeGroup,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.chasers,this.game.playerDie,this.game.hitPlayer, this);
         this.physics.add.overlap( this.player,this.item,this.game.playerPickItem, this.game.hitPlayer, this);
 

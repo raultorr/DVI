@@ -9,10 +9,13 @@ export default class Level3 extends Phaser.Scene {
     create() {
 
         this.game = this.scene.get('main');
-
+        this.game.sound.stopAll();
+        this.level1music = this.sound.add('level1music',{loop: true, volume:0.05});
+        this.level1music.play();
 
 
         //Mapa
+        this.backgroundColor = "#4488AA";
         const map = this.make.tilemap({ key: "map3" });
         const tileset = map.addTilesetImage("industrial.v1", "tilesMap");
         const tileset2 = map.addTilesetImage("Goal", "tilesGoal", 16,8,0,0);

@@ -8,6 +8,7 @@ export default class EnemyChaser extends Phaser.GameObjects.Sprite {
         this.render = this.scene.add.graphics();
 
         this.body.colliderWorldBounds = true;
+        this.chaserEffect = this.scene.sound.add('chaserSoundEffect',{loop: false, volume:0.8});
 
 
         this.createEnemyAnimations();
@@ -19,7 +20,7 @@ export default class EnemyChaser extends Phaser.GameObjects.Sprite {
         this.facingR = false;
         this.body.offset.y = 20;
         this.body.offset.x = 20;
-        this.distanceToPlayer = 400;
+        this.distanceToPlayer = 200;
         this.isRunning = false;
         this.body.setSize(25,27);
         this.body.setOffset(0, 0);
@@ -34,11 +35,13 @@ export default class EnemyChaser extends Phaser.GameObjects.Sprite {
             this.facingCorrect(player);
             if(this.facingR)
             {
+                this.chaserEffect.play();
                 this.body.setVelocityX(this.run);
                 this.anims.play('righChaser', true);
             }
             else
             {
+                this.chaserEffect.play();
                 this.body.setVelocityX(-this.run);
                 this.anims.play('leftChaser', true);
             }

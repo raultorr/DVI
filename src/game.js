@@ -10,7 +10,7 @@ export default class Game extends Phaser.Scene {
 
     constructor(configGame) {
         super({ key: 'main' });
-        this.actLevel = 1;
+        this.actLevel = 3;
         this.nameLevel;
         this.killcounter = 0;
     }
@@ -86,6 +86,7 @@ export default class Game extends Phaser.Scene {
         this.load.audio('walkSoundEffect', 'assets/audio/Run raul.ogg');
         this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
         this.load.audio('deathSoundEffect', 'assets/audio/pain1.wav');
+        this.load.audio('chaserSoundEffect', 'assets/audio/goblin.wav');
         this.load.audio('level1music', 'assets/audio/walking the devil.mp3');
         this.load.audio('powerJumpSoundEffect', 'assets/audio/PowerJump.ogg');
 

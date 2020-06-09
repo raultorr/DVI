@@ -22,7 +22,6 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
         this.body.offset.x = 20;
         this.distanceToPlayer = 200;
         this.timeToShoot = 30;
-        this.haveShoot = false;
     }
 
 
@@ -34,12 +33,11 @@ export default class Enemy extends Phaser.GameObjects.Sprite {
             else
                 this.anims.play('staticEnemyLeft', true);
     		this.body.setVelocityX(0);
-            if(this.timeToShoot == 0 && !this.haveShoot)
+            if(this.timeToShoot == 0)
             {
                 //Disparo
                 game.spawnProjectile(this.scene, this.x, this.y, this);
                 this.timeToShoot = 30; 
-                this.haveShoot = true;
             }
             this.timeToShoot = this.timeToShoot -1;
 

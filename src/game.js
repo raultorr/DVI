@@ -12,7 +12,7 @@ export default class Game extends Phaser.Scene {
         super({ key: 'main' });
         this.actLevel = 1;
         this.nameLevel;
-
+        this.killcounter = 0;
     }
     preload() {  
         this.load.spritesheet('laserOn', 'assets/sprites/laser/laser-turn-on.png',{ frameWidth: 16, frameHeight:50 });
@@ -22,6 +22,7 @@ export default class Game extends Phaser.Scene {
         this.load.image("spikeL", "assets/sprites/spikes/spikesL.png");
 
         this.load.spritesheet('run', 'assets/sprites/playerAnimation/run.png',{ frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('dead', 'assets/sprites/playerAnimation/dead.png',{ frameWidth: 32, frameHeight: 15 });
 		this.load.spritesheet('runBoots', 'assets/sprites/playerAnimation/runBoots.png',{ frameWidth: 16, frameHeight: 32 });
 		this.load.spritesheet('runWeapon', 'assets/sprites/playerAnimation/runWeapon.png',{ frameWidth: 16, frameHeight: 32 });
         this.load.spritesheet('runWallClimbing', 'assets/sprites/playerAnimation/runWallclimbing.png',{ frameWidth: 16, frameHeight: 32 });
@@ -63,7 +64,6 @@ export default class Game extends Phaser.Scene {
 
         //maps
         this.load.image("tilesMap", "assets/TileSets/industrial.v1.png");
-        this.load.image("bgImage", "Maps/435951.jpg");
         this.load.image("bgImage2", "Maps/scifi.png");
         this.load.image("tilesGoal", "assets/TileSets/Goal.png");
         this.load.tilemapTiledJSON("map1", "Maps/level1.json");
@@ -77,8 +77,11 @@ export default class Game extends Phaser.Scene {
         //this.load.audio('shootSoundEffect', 'assets/audio/Rifleprimary2.ogg');
         this.load.audio('walkSoundEffect', 'assets/audio/Run raul.ogg');
         this.load.audio('jumpSoundEffect', 'assets/audio/Jump.wav');
+        this.load.audio('deathSoundEffect', 'assets/audio/pain1.wav');
         this.load.audio('level1music', 'assets/audio/walking the devil.mp3');
         this.load.audio('powerJumpSoundEffect', 'assets/audio/PowerJump.ogg');
+
+        
 
     }
     create() {
@@ -243,7 +246,10 @@ export default class Game extends Phaser.Scene {
     }
     playerDie(player)
     {
-        this.game.mapSelector();
+        //this.game.mapSelector();
+
+        //player.kill = true;
+        
         if(player.isDeath)
             this.scene.start(this.game.nameLevel);
     }
@@ -253,23 +259,23 @@ export default class Game extends Phaser.Scene {
         {
             case "laser":
                 if(object.onOff)
-                    player.isDeath = true;
+                    player.kill = true;
                 break;
             case "robot":
-                player.isDeath = true;
+                player.kill = true;
                 break;
             case "projectile":
-                player.isDeath = true;
+                player.kill = true;
                 break;
             case "chaser":
                 if(object.isRunning)
-                    player.isDeath = true;
+                    player.kill = true;
                 break;
             case "spikes":
-                player.isDeath = true;
+                    player.kill = true;
                 break;
             default:
-                player.isDeath = false;
+                player.kill = false;
         }
         
     }

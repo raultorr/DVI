@@ -32,6 +32,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.walkSound = this.scene.sound.add('walkSoundEffect',{loop: false});
 		this.jumpSound = this.scene.sound.add('jumpSoundEffect',{loop: false});
 		this.powerJumpSound = this.scene.sound.add('powerJumpSoundEffect',{loop: false});
+		this.deathSound = this.scene.sound.add('deathSoundEffect',{loop: false});
 
 
 		this.cursors = this.scene.input.keyboard.addKeys('ZERO, ONE, TWO, THREE, W, A, D, S , E, SPACE, SHIFT');
@@ -60,6 +61,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		this.timeToShoot = 0;
 
 		this.body.angle = 90;
+
+		this.kill=false;
+		this.dying=-1;
 
 		/*
 		this.bullets = this.scene.add.group();
@@ -227,7 +231,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		}
 
 
-		if(this.equipped == 3)
+		if(this.equipped == 3 && this.picked3)
 		{
 			if ( this.scene.input.manager.activePointer.isDown && this.timeToShoot == 0) {
 				
@@ -241,7 +245,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 			}
 		}
 
-		if(!this.climbing )
+		if(!this.climbing && !this.kill)
 		{
 			this.body.allowGravity = true;
 			this.normalMovements(game);
@@ -268,7 +272,36 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
 		this.bullets.getChildren().forEach(function (item) {
             item.update();
-        }, this);
+		}, this);
+		
+		if(this.kill){
+			if(this.dying == -1){
+				this.dying = 160;
+				this.walkSound.stop();
+				this.deathSound.play();
+				this.body.y = this.body.y + 10;
+				this.body.setVelocityX(0);
+				this.body.setVelocityY(0);
+			}
+			else if(this.dying == 0){
+				
+				this.body.setVelocityX(0);
+				this.body.setVelocityY(0);
+				this.kill = false;
+				this.dying == -1;
+				this.isDeath = true;
+				game.playerDie(this);
+			}else{
+				this.dying--;
+				this.body.setSize(32, 15);
+				this.body.setOffset(0, 0);
+				if(this.facingR)
+					this.anims.play('rightDead', true);
+				else
+					this.anims.play('leftDead', true);
+			}
+		}
+
     }
 
     normalMovements(game)
@@ -546,6 +579,18 @@ export default class Player extends Phaser.GameObjects.Sprite {
 		}
     }
     createPlayerAnimations() {
+		this.scene.anims.create({
+            key: 'leftDead',
+            frames: [ { key: 'dead', frame: 1 } ],
+            frameRate: 1,
+		});
+
+		this.scene.anims.create({
+            key: 'rightDead',
+            frames: [ { key: 'dead', frame: 0 } ],
+            frameRate: 1,
+		});
+
          this.scene.anims.create({
             key: 'left',
             frames: this.scene.anims.generateFrameNumbers('run', { start: 7, end: 11 }),

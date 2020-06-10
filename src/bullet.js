@@ -2,10 +2,10 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, angle, layer) {
         super(scene, x, y, "projectileGreen");
 
-/*
-        this.minX = 70;
-        this.maxX = 3300;
-*/
+        /*
+                this.minX = 70;
+                this.maxX = 3300;
+        */
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this); //enable body
 
@@ -22,7 +22,7 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
         this.mapBoundaryLeft = -70;
         this.mapBoundaryRight = 3300;
 
-        this.shootEffect = this.scene.sound.add('shootSoundEffect',{loop: false, volume:0.2});
+        this.shootEffect = this.scene.sound.add('shootSoundEffect', { loop: false, volume: 0.2 });
         this.shootEffect.play();
 
         this.scene.physics.add.collider(this, layer);
@@ -30,7 +30,7 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
         this.impact = false;
     }
 
-    createBulletAnimations() { 
+    createBulletAnimations() {
         this.scene.anims.create({
             key: 'projectileGreenFire',
             frames: 1,
@@ -47,25 +47,25 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
         if (this.x < this.mapBoundaryLeft || this.x > this.mapBoundaryRight) //se va del mapa
             this.destroy();
 
-        
-        
 
 
-        if(this.body.onFloor() || this.body.onCeiling()){
+
+
+        if (this.body.onFloor() || this.body.onCeiling()) {
             this.body.setVelocityX(0);
             this.impact = true;
         }
 
-        if(this.body.onWall()){
+        if (this.body.onWall()) {
             this.body.setVelocityY(0);
             this.impact = true;
         }
 
-        if(this.impact)
+        if (this.impact)
             this.temporizador--;
 
-        if(this.temporizador == 0)
+        if (this.temporizador == 0)
             this.destroy();
-        
+
     }
 }

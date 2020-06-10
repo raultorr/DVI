@@ -1,5 +1,5 @@
 export default class Laser extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, enemy,onOff, timeOn, timeOff) {
+    constructor(scene, x, y, enemy, onOff, timeOn, timeOff) {
         super(scene, x, y, "laser");
 
 
@@ -14,22 +14,22 @@ export default class Laser extends Phaser.GameObjects.Sprite {
         this.timeOff = timeOff;
         this.onOff = onOff;
         this.actTime = 0;
-        this.body.setSize(7,35);
+        this.body.setSize(7, 35);
         this.body.setOffset(5, 17);
         this.scaleY = 1;
         this.body.gameObject.width = 10;
     }
 
-    createLaserAnimations() { 
+    createLaserAnimations() {
         this.scene.anims.create({
             key: 'laserOn',
-            frames: [ { key: 'laserOff', frame: 1 } ],
+            frames: [{ key: 'laserOff', frame: 1 }],
             frameRate: 10,
             repeat: -1
         });
         this.scene.anims.create({
             key: 'laserPoweringUp',
-            frames:this.scene.anims.generateFrameNumbers('laserOn', { start: 0, end: 6 }),
+            frames: this.scene.anims.generateFrameNumbers('laserOn', { start: 0, end: 6 }),
             frameRate: 10,
             repeat: -1
         });
@@ -39,9 +39,9 @@ export default class Laser extends Phaser.GameObjects.Sprite {
             frameRate: 10,
             repeat: -1
         });
-          this.scene.anims.create({
+        this.scene.anims.create({
             key: 'laserOff',
-            frames: [ { key: 'laserOff', frame: 6 } ],
+            frames: [{ key: 'laserOff', frame: 6 }],
             frameRate: 10,
             repeat: -1
         });
@@ -49,12 +49,10 @@ export default class Laser extends Phaser.GameObjects.Sprite {
     }
 
     update(t, dt) {
-        
+
         super.update(t, dt);
-        if(!this.onOff)
-        {
-            if(this.actTime == this.timeOff)
-            {
+        if (!this.onOff) {
+            if (this.actTime == this.timeOff) {
                 this.onOff = true;
                 this.actTime = 0;
 
@@ -63,16 +61,14 @@ export default class Laser extends Phaser.GameObjects.Sprite {
 
             this.actTime += 1;
         }
-        else
-        {
-            if(this.actTime == this.timeOn)
-            {
+        else {
+            if (this.actTime == this.timeOn) {
                 this.onOff = false;
                 this.actTime = 0;
                 this.anims.play('laserPoweringDown', true);
             }
             //else if(this.actTime == 0)
-                //this.anims.play('laserPoweringUp', true);
+            //this.anims.play('laserPoweringUp', true);
             this.anims.play('laserOn', true);
             this.actTime += 1;
         }

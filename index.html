@@ -5,19 +5,118 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="assets/favicon.png" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=2.0">
-    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js" integrity="sha256-+Q/z/qVOexByW1Wpv81lTLvntnZQVYppIL1lBdhtIq0=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="src/game.css">
-    
+
     <script src="src/phaser.min.js"></script>
 
     <title>Tyranny</title>
 </head>
 
-<body> 
+<body>
+    <header>
+        <div class="collapse" id="navbarHeader">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-md-7 py-4">
+                        <h4 class="text-white">Info</h4>
+                        <p class="text-muted">Tyranny es un Juego de plataformas en el que te enfrentarás contigo mismo.
+                            ¿Serás capaz de sobrevivir?.</p>
+                    </div>
+                    <div class="col-sm-4 offset-md-1 py-4">
+                        <h4 class="text-white">Siguenos en GitHub</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="github.com/raultorr" class="text-white">Raúl T.</a></li>
+                            <li><a href="github.com/alvant01" class="text-white">Álvaro A.</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navbar navbar-dark box-shadow">
+            <div class="container d-flex justify-content-between">
+                <a href="#" class="navbar-brand d-flex align-items-center">
+                    <h1 class="title">TYRANNY</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+    </header>
 
-    <div>
-        <h1 class="title">Tyranny</h1>
-    </div>
+
+    
+
+    <main role="main">
+
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 style="font-size: 125px;" class="title">TYRANNY</h1>
+                <p>
+                    <a href="#container" class="btn btn-primary my-2">JUGAR</a>
+                    <a href="/game.html" class="btn btn-secondary my-2">FULLSCREEN</a>
+                </p>
+            </div>
+        </section>
+
+
+       
+
+        <div class="album py-5 bg-dark">
+            <div class="container">
+                <div class="row">
+                    <div class="col col-6">
+                        <h2 style="padding-bottom: 20px;" class="light">Controles</h2>
+                        <table class="table table-dark">
+                            <tbody>
+                              <tr>
+                                <td><span class="keycap">A</span></td>
+                                <td><span class="light">Moverse hacia la izquierda</span></td>
+                              </tr>
+                              <tr>
+                                <td><span class="keycap">D</span></td>
+                                <td><span class="light">Moverse hacia la derecha</span></td>
+                              </tr>
+                              <tr>
+                                <td><span class="keycap">S</span></td>
+                                <td><span class="light">Agacharse</span></td>
+                              </tr>
+                              <tr>
+                                <td><span class="keycap">SPACE</span></td>
+                                <td><span class="light">Saltar</span></td>
+                              </tr>
+                              <tr>
+                                <td><span class="keycap"><i class="fas fa-mouse-pointer"></i></span></td>
+                                <td><span class="light">Saltar / Disparar</span></td>
+                              </tr>
+                              <tr>
+                                <td><span class="keycap"><i class="fas fa-arrow-up"></i> MAYUS</span></td>
+                                <td><span class="light">Andar (sin hacer ruido)</span></td>
+                              </tr>
+                              <tr>
+                                <td><span class="keycap">W</span></td>
+                                <td><span class="light">Colgarse (trepando)</span></td>
+                              </tr>
+                              <tr>
+                                <td><span class="keycap">E</span></td>
+                                <td><span class="light">Interactuar</span></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        
+                    </div>
+                    <div class="col col-6">
+                        <h2 class="light">Controles2</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
 
     <div id="container">
         <script type="module">
@@ -26,11 +125,11 @@
             import Level1 from './src/Level1.js';
             import Level2 from './src/Level2.js';
             import Level3 from './src/Level3.js';
-    
+
             var platforms;
             var player;
             var controls;
-    
+
             var config = {
                 type: Phaser.AUTO,
                 width: 1400,
@@ -44,13 +143,31 @@
                     mode: Phaser.Scale.FIT,
                     autoCenter: Phaser.Scale.CENTER_BOTH
                 },
-                scene: [ Menu ,Game, Level1,Level2, Level3 ],
-                physics: { default: 'arcade', arcade: { gravity: { y: 400 }, debug: true } }
+                scene: [Menu, Game, Level1, Level2, Level3],
+                physics: { default: 'arcade', arcade: { gravity: { y: 400 }, debug: false } }
             };
             new Phaser.Game(config);
         </script>
     </div>
     
+
+    <script>
+        //Para prevenir que al pulsar la barra espaciadora se mueva por la pagina
+        document.onkeypress = function (e) {
+            e = e || window.event;
+            var charCode = e.keyCode || e.which;
+            if (charCode === 32) {
+                e.preventDefault();
+                return false;
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

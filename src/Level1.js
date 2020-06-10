@@ -5,12 +5,12 @@ export default class Level1 extends Phaser.Scene {
         super({ key: 'Level1' });
     }
 
-    preload() {}
+    preload() { }
     create() {
 
         this.game = this.scene.get('main');
         this.game.sound.stopAll();
-        this.level1music = this.sound.add('level1music',{loop: true, volume:0.05});
+        this.level1music = this.sound.add('level1music', { loop: true, volume: 0.05 });
         this.level1music.play();
 
 
@@ -18,16 +18,16 @@ export default class Level1 extends Phaser.Scene {
         this.backgroundColor = "#4488AA";
 
         const map = this.make.tilemap({ key: "map1" });
-        const tileset = map.addTilesetImage("industrial.v1", "tilesMap",16,8,0,0);
-        const tileset2 = map.addTilesetImage("Goal", "tilesGoal", 16,8,0,0);
-        const scifi = map.addTilesetImage("scifi", "bgImage2", 16,8,0,0);
-        const worldLayerEnemy = map.createStaticLayer("enemyCollisionLayer", tileset , 0 , 0);
+        const tileset = map.addTilesetImage("industrial.v1", "tilesMap", 16, 8, 0, 0);
+        const tileset2 = map.addTilesetImage("Goal", "tilesGoal", 16, 8, 0, 0);
+        const scifi = map.addTilesetImage("scifi", "bgImage2", 16, 8, 0, 0);
+        const worldLayerEnemy = map.createStaticLayer("enemyCollisionLayer", tileset, 0, 0);
         const blackLayout = map.createStaticLayer("Black", [scifi, tileset2], 0, 0);
-        const backGround = map.createStaticLayer("BackGround", tileset , 0 , 0);
+        const backGround = map.createStaticLayer("BackGround", tileset, 0, 0);
         const GoalLayer = map.createStaticLayer("GoalLayer", tileset2, 0, 0);
-        const worldLayer = map.createStaticLayer("WorldLayer", tileset , 0 , 0);
-        
-        
+        const worldLayer = map.createStaticLayer("WorldLayer", tileset, 0, 0);
+
+
         worldLayer.setCollisionByProperty({ collides: true });
         worldLayerEnemy.setCollisionByProperty({ collides: true });
 
@@ -49,7 +49,7 @@ export default class Level1 extends Phaser.Scene {
         this.end = map.findObject("Spawners", obj => obj.name === "End");
 
 
-        
+
 
 
         //Jugador
@@ -58,8 +58,8 @@ export default class Level1 extends Phaser.Scene {
 
 
         //Camara
-        
-        this.game.addCamera(this, this.player,  worldLayer);
+
+        this.game.addCamera(this, this.player, worldLayer);
         this.cameras.main.setBackgroundColor('#1D212D');
 
 
@@ -74,13 +74,13 @@ export default class Level1 extends Phaser.Scene {
 
         this.physics.add.collider(this.enemy, worldLayerEnemy);
         //this.physics.add.collider(this.enemy, worldLayer);
-        
+
 
 
         //proyectiles
         this.projectiles = this.add.group();
 
-         //items
+        //items
         this.item = new Item(this, 830, 550, 3); //el ultimo parametro es para indicar el tipo del item
 
 
@@ -97,10 +97,10 @@ export default class Level1 extends Phaser.Scene {
 
 
         //Overlaps
-        this.physics.add.overlap( this.player,this.lasers,this.game.playerDie,this.game.hitPlayer, this);
-        this.physics.add.overlap( this.player,this.projectiles,this.game.playerDie,this.game.hitPlayer, this);
-        this.physics.add.overlap( this.player,this.spikes,this.game.playerDie,this.game.hitPlayer, this);
-        this.physics.add.overlap( this.player,this.item,this.game.playerPickItem, this.game.hitPlayer, this);
+        this.physics.add.overlap(this.player, this.lasers, this.game.playerDie, this.game.hitPlayer, this);
+        this.physics.add.overlap(this.player, this.projectiles, this.game.playerDie, this.game.hitPlayer, this);
+        this.physics.add.overlap(this.player, this.spikes, this.game.playerDie, this.game.hitPlayer, this);
+        this.physics.add.overlap(this.player, this.item, this.game.playerPickItem, this.game.hitPlayer, this);
 
         //teclas
 
@@ -112,12 +112,12 @@ export default class Level1 extends Phaser.Scene {
 
         this.player.update(this.game);
         this.game.enemyUpdate(this, this.enemy, this.player);
-        
+
         this.player.bullets.getChildren().forEach(function (item) {
             this.game.enemyUpdate(this, this.enemy, item);
         }, this);
 
-        this.game.laserUpdate(this,this.lasers, this.player);
+        this.game.laserUpdate(this, this.lasers, this.player);
         this.game.goalReach(this.end, this.player);
 
     }

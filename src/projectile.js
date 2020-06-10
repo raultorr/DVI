@@ -2,12 +2,12 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, enemy) {
         super(scene, x, y, "projectile");
 
-/*
-        this.minX = 70;
-        this.maxX = 3300;
-*/
+        /*
+                this.minX = 70;
+                this.maxX = 3300;
+        */
         this.vel = 900;
-        if(!enemy.facingR)
+        if (!enemy.facingR)
             this.vel = -this.vel;
 
         this.scene.add.existing(this);
@@ -24,11 +24,11 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
         this.mapBoundaryLeft = -70;
         this.mapBoundaryRight = 3300;
 
-        this.shootEffect = this.scene.sound.add('shootSoundEffect',{loop: false, volume:0.2});
+        this.shootEffect = this.scene.sound.add('shootSoundEffect', { loop: false, volume: 0.2 });
         this.shootEffect.play();
     }
 
-    createProjectileAnimations() { 
+    createProjectileAnimations() {
         this.scene.anims.create({
             key: 'projectileFire',
             frames: 1,

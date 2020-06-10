@@ -6,6 +6,10 @@ body {
 	padding: 0;
 	background-color: #1d212d;
 }
+
+p{
+  padding-bottom: 2px;
+}
 #container {
 	width: 100%;
 	height: 100%;
@@ -22,12 +26,47 @@ body {
   text-align: center;
   font-family: title;
   color: #ffeb3b;
-  font-size: 100px;
+  font-size: 60px;
   margin-bottom: 0px;
    margin-top: 0px;
   -webkit-animation: glow 1s ease-in-out infinite alternate;
   -moz-animation: glow 1s ease-in-out infinite alternate;
   animation: glow 1s ease-in-out infinite alternate;
+}
+
+.jumbotron{
+  background-image: url("/img/bg.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.btn{
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.light{
+  color:rgb(236, 236, 236)
+}
+
+.keycap{
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+  font-size: 25px;
+  background-color: rgb(22, 22, 22);
+  color:rgb(236, 236, 236)
+}
+
+.btn-primary{
+  background-color: #1d212d;
+  border: 1px solid rgb(224, 211, 30)
+}
+.btn-primary:hover{
+  background-color: rgb(224, 211, 30);
 }
 
 @-webkit-keyframes glow {

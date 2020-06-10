@@ -88,6 +88,7 @@ export default class Game extends Phaser.Scene {
         this.load.audio('deathSoundEffect', 'assets/audio/pain1.wav');
         this.load.audio('chaserSoundEffect', 'assets/audio/goblin.wav');
         this.load.audio('level1music', 'assets/audio/walking the devil.mp3');
+        this.load.audio('menuMusic', 'assets/audio/flags.mp3');
         this.load.audio('powerJumpSoundEffect', 'assets/audio/PowerJump.ogg');
 
 

@@ -71,12 +71,12 @@ export default class Game extends Phaser.Scene {
 
 
         //maps
-        this.load.image("tilesMap", "assets/TileSets/industrial.v1.png");
-        this.load.image("bgImage2", "Maps/scifi.png");
-        this.load.image("tilesGoal", "assets/TileSets/Goal.png");
-        this.load.tilemapTiledJSON("map1", "Maps/level1.json");
-        this.load.tilemapTiledJSON("map2", "Maps/level2.json");
-        this.load.tilemapTiledJSON("map3", "Maps/level3.json");
+        this.load.image("tilesMap", "assets/tileSets/industrial.v1.png");
+        this.load.image("bgImage2", "assets/tileSets/scifi.png");
+        this.load.image("tilesGoal", "assets/tileSets/Goal.png");
+        this.load.tilemapTiledJSON("map1", "maps/level1.json");
+        this.load.tilemapTiledJSON("map2", "maps/level2.json");
+        this.load.tilemapTiledJSON("map3", "maps/level3.json");
 
 
         //Sounds

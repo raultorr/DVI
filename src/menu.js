@@ -6,9 +6,9 @@ export default class Game extends Phaser.Scene {
   }
   preload() {
     //this.load.image("backGround", "assets/backGround.png");
-    this.load.image("play", "assets/Menu/play_button.png");
-    this.load.image("cursor", "assets/Menu/cursor.png");
-    this.load.image("bg", "assets/Menu/tyrannybg.png");
+    this.load.image("play", "assets/menu/play_button.png");
+    this.load.image("cursor", "assets/menu/cursor.png");
+    this.load.image("bg", "assets/menu/tyrannybg.png");
 
     this.load.audio('menuMusic', 'assets/audio/flags.mp3');
   }

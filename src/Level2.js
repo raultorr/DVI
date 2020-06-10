@@ -64,7 +64,7 @@ export default class Level2 extends Phaser.Scene {
 
         //Camara
 
-        //this.game.addCamera(this, this.player,  this.worldLayer);
+        this.game.addCamera(this, this.player,  this.worldLayer);
         this.cameras.main.setBackgroundColor('#1D212D');
 
         //Pinchos

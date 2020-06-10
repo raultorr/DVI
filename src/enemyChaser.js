@@ -33,12 +33,14 @@ export default class EnemyChaser extends Phaser.GameObjects.Sprite {
             this.isRunning = true;
             this.facingCorrect(player);
             if (this.facingR) {
-                this.chaserEffect.play();
+                if (!this.chaserEffect.isPlaying)
+                    this.chaserEffect.play();
                 this.body.setVelocityX(this.run);
                 this.anims.play('righChaser', true);
             }
             else {
-                this.chaserEffect.play();
+                if (!this.chaserEffect.isPlaying)
+                    this.chaserEffect.play();
                 this.body.setVelocityX(-this.run);
                 this.anims.play('leftChaser', true);
             }
